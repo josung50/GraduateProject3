@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -97,5 +98,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /* 로그인 버튼 - 로그인, 회원가입 화면으로 이동*/
+    public void LoginButton(View v){
+        Intent intent = new Intent(MainActivity.this, Login.class);
+        startActivity(intent);
     }
 }
