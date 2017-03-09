@@ -13,22 +13,29 @@ import android.widget.Toast;
  */
 
 public class Login extends AppCompatActivity{
+    private Button OSDLoginButton;
+    private Button FaceBookLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        OSDLoginButton = (Button) findViewById(R.id.OSDLoginButton);
+        FaceBookLoginButton = (Button) findViewById(R.id.FacBookLoginButton);
+        OSDLoginButton.setBackgroundResource(R.drawable.underline_red); // 초기 OSD버튼 클릭 상태
+        FaceBookLoginButton.setBackgroundResource(R.drawable.underline_nothing);
     }
 
     public void onClick(View v) {
-        Button OSDLoginButton = (Button) findViewById(R.id.OSDLoginButton);
-        Button FaceBookLoginButton = (Button) findViewById(R.id.FacBookLoginButton);
         switch (v.getId()) {
             case R.id.OSDLoginButton:
-                OSDLoginButton.setPaintFlags(OSDLoginButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                OSDLoginButton.setBackgroundResource(R.drawable.underline_red);
+                FaceBookLoginButton.setBackgroundResource(R.drawable.underline_nothing);
                 Toast.makeText(getApplicationContext(), "클릭", Toast.LENGTH_LONG).show();
                 break;
             case R.id.FacBookLoginButton:
+                OSDLoginButton.setBackgroundResource(R.drawable.underline_nothing);
+                FaceBookLoginButton.setBackgroundResource(R.drawable.underline_red);
                 break;
             case R.id.CloseButton:
                 finish();

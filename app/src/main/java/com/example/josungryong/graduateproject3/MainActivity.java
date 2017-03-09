@@ -1,9 +1,12 @@
 package com.example.josungryong.graduateproject3;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,15 +16,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.app.FragmentTransaction;
+import android.widget.Toast;
+
+import static android.R.attr.fragment;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Button ProjectButton; private Button DesignButton; private Button DesignerButton;
+
+    // fragment //
+    private Fragment fr = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        // 탭 버튼 //
+        ProjectButton = (Button) findViewById(R.id.ProjectButton);
+        DesignButton = (Button) findViewById(R.id.DesignButton);
+        DesignerButton = (Button) findViewById(R.id.DesignerButton);
+
+        // fragment //
+        /*
+        if(findViewById(R.id.fragment_container) != null) {
+            if(savedInstanceState != null) return;
+
+            MainFragment MF = new MainFragment();
+            MF.setArguments(getIntent().getExtras());
+            getFragmentManager().beginTransaction().add(R.id.fragment_container,MF).commit();
+        }*/
+        fr = new MainFragment();
+        selectFragment(fr);
+
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -104,5 +136,31 @@ public class MainActivity extends AppCompatActivity
     public void LoginButton(View v){
         Intent intent = new Intent(MainActivity.this, Login.class);
         startActivity(intent);
+    }
+
+    /* 디자인 , 프로젝트 , 디자이너 탭에 따른 Fragment 이동 */
+    public void TabClick(View v) {
+        switch (v.getId()) {
+            case R.id.DesignButton:
+                fr = new DesignFragment();
+                selectFragment(fr);
+                break;
+            case R.id.ProjectButton:
+                fr = new ProjectFragment();
+                selectFragment(fr);
+                break;
+            case R.id.DesignerButton:
+                fr = new DesignerFragment();
+                selectFragment(fr);
+                break;
+        }
+    }
+
+    // fragment 교체 //
+    public void selectFragment(Fragment fr) {
+        FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fr);
+        fragmentTransaction.commit();
     }
 }
