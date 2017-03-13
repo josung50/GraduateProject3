@@ -20,6 +20,7 @@ import android.widget.Button;
 import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
 import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
+import com.example.josungryong.graduateproject3.MyPage.MyPage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
 
 
@@ -114,17 +115,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_login) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_alram) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_mypage) {
+            Intent intent = new Intent(MainActivity.this, MyPage.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_group) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_likedesign) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_correct) {
 
         }
 
