@@ -10,107 +10,129 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:weightSum="1">
+        android:layout_height="match_parent">
 
-
-        <TextView
-            android:text="디자인"
-            android:textSize="30sp"
-            android:gravity="center_horizontal"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/textView1" />
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:text="디자인"
+                android:textSize="30sp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/design_all"
+                android:onClick="DesignClick"/>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="패션"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_passion"
+                    android:onClick="DesignClick"/>
+                <TextView
+                    android:text="제품"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_product"
+                    android:onClick="DesignClick"/>
+                <TextView
+                    android:text="커뮤니케이션"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="25dp"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_cumutication"
+                    android:onClick="DesignClick"/>
+                <TextView
+                    android:text="공예"
+                    android:layout_marginLeft="175dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_craft"
+                    android:onClick="DesignClick"/>
+                <TextView
+                    android:text="공간"
+                    android:layout_marginLeft="216dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_space"
+                    android:onClick="DesignClick"/>
+                <TextView
+                    android:text="엔터테인먼트"
+                    android:layout_marginLeft="255dp"
+                    android:layout_marginTop="25dp"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_entertainment"
+                    android:onClick="DesignClick"/>
+                <TextView
+                    android:text="새분야"
+                    android:gravity="right"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_new"
+                    android:onClick="DesignClick"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:text="패션"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="23dp"
-                android:textSize="13sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2" />
-            <TextView
-                android:text="제품"
-                android:layout_marginLeft="55dp"
-                android:layout_marginTop="23dp"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView3" />
-            <TextView
-                android:text="커뮤니케이션"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="25dp"
-                android:textSize="10sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView4" />
-            <TextView
-                android:text="공예"
-                android:layout_marginLeft="175dp"
-                android:layout_marginTop="23dp"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView5" />
-            <TextView
-                android:text="공간"
-                android:layout_marginLeft="216dp"
-                android:layout_marginTop="23dp"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView6" />
-            <TextView
-                android:text="엔터테인먼트"
-                android:layout_marginLeft="255dp"
-                android:layout_marginTop="25dp"
-                android:textSize="10sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView7" />
-            <TextView
-                android:text="새분야"
-                android:gravity="right"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="23dp"
-                android:textSize="13sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView8" />
+            android:layout_height="wrap_content">
 
+
+            <Button
+                android:text="등록"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/design_write"
+                android:layout_alignParentRight="true"
+                android:onClick="DesignClick"/>
+
+            <TextView
+                android:text="최신순"
+                android:textSize="17dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/design_latest"
+                android:onClick="DesignClick"/>
 
         </RelativeLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            android:id="@+id/recyclerViewDesign"/>
+
     </LinearLayout>
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="120dp">
-
-
-        <Button
-            android:text="등록"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button4"
-            android:layout_alignParentRight="true"/>
-
-        <TextView
-            android:text="최신순"
-            android:textSize="17dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView12" />
-
-    </RelativeLayout>
 </FrameLayout>
