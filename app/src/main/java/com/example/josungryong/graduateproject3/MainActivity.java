@@ -1,6 +1,5 @@
 package com.example.josungryong.graduateproject3;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,10 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.app.FragmentTransaction;
-import android.widget.Toast;
 
-import static android.R.attr.fragment;
+import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
+import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
+import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
+import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
 
 
 public class MainActivity extends AppCompatActivity
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity
             MF.setArguments(getIntent().getExtras());
             getFragmentManager().beginTransaction().add(R.id.fragment_container,MF).commit();
         }*/
+
         fr = new MainFragment();
         selectFragment(fr);
 
