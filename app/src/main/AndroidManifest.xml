@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.josungryong.graduateproject3">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -23,10 +24,14 @@
             android:name=".Login"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity
             android:name=".MyPage.MyPage"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <activity android:name=".Project_Fragment.ProjectInfo"></activity>
+        <activity android:name=".TestServer"></activity>
     </application>
 
 </manifest>

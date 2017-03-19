@@ -24,6 +24,8 @@ public class Login extends AppCompatActivity{
         FaceBookLoginButton = (Button) findViewById(R.id.FacBookLoginButton);
         OSDLoginButton.setBackgroundResource(R.drawable.underline_red); // 초기 OSD버튼 클릭 상태
         FaceBookLoginButton.setBackgroundResource(R.drawable.underline_nothing);
+
+
     }
 
     public void onClick(View v) {

@@ -12,13 +12,11 @@ public class WordItemData {
     public String meaning;
     public ImageView imageview;
     public String URI;
-    public int testimage;
 
     // 화면에 표시될 문자열 초기화
-    public WordItemData(String title, String meaning, String URI, int testimage) {
-        this.title = title;
-        this.meaning = meaning;
-        this.URI = URI;
-        this.testimage = testimage;
+    public WordItemData(String title, String meaning, String URI) {
+        this.title = title; // 제목
+        this.meaning = meaning; // 작품 설명
+        this.URI = URI; // 이미지 path
     }
 }

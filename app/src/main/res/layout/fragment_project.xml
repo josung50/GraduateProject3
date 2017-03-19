@@ -1,7 +1,138 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:text="프로젝트"
+                android:textSize="30sp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/Project_all"
+                android:onClick="ProjectClick"/>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="패션"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_passion"
+                    android:onClick="ProjectClick"/>
+                <TextView
+                    android:text="제품"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_product"
+                    android:onClick="ProjectClick"/>
+                <TextView
+                    android:text="커뮤니케이션"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="25dp"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_cumutication"
+                    android:onClick="ProjectClick"/>
+                <TextView
+                    android:text="공예"
+                    android:layout_marginLeft="175dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_craft"
+                    android:onClick="ProjectClick"/>
+                <TextView
+                    android:text="공간"
+                    android:layout_marginLeft="216dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_space"
+                    android:onClick="ProjectClick"/>
+                <TextView
+                    android:text="엔터테인먼트"
+                    android:layout_marginLeft="255dp"
+                    android:layout_marginTop="25dp"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_entertainment"
+                    android:onClick="ProjectClick"/>
+                <TextView
+                    android:text="새분야"
+                    android:gravity="right"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="13sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Project_new"
+                    android:onClick="ProjectClick"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:text="등록"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Project_write"
+                android:layout_alignParentRight="true"
+                android:onClick="ProjectClick"/>
+
+            <TextView
+                android:text="최신순"
+                android:textSize="17dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Project_latest"
+                android:onClick="ProjectClick"/>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            android:id="@+id/recyclerViewProject"/>
+
+    </LinearLayout>
 
 </FrameLayout>

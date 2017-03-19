@@ -1,7 +1,10 @@
 package com.example.josungryong.graduateproject3.Design_Fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.StrictMode;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +15,12 @@ import android.widget.TextView;
 
 import com.example.josungryong.graduateproject3.R;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +57,7 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.titleText.setText(list.get(itemposition).title);
         holder.meaningText.setText(list.get(itemposition).meaning);
         holder.URI=list.get(itemposition).URI;
-        holder.imageView.setImageResource(list.get(itemposition).testimage);
+        holder.imageView.setImageBitmap(getPic(holder.URI));
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
@@ -74,5 +81,35 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
             meaningText = (TextView) view.findViewById(R.id.meaningText_design_cardview);
             imageView = (ImageView) view.findViewById(R.id.imageView_design_cardview);
         }
+    }
+
+    // URL을 통해 이미지를 서버로 부터 불러온다. //
+    public Bitmap getPic(String imagePath) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        HttpURLConnection connection = null;
+        String imageURL;
+        imageURL = "http://113.198.210.237:80/"+imagePath;
+        Log.e("이미지", imageURL);
+        try {
+            URL url = new URL(imageURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+
+            BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+            Bitmap myBitmap = BitmapFactory.decodeStream(bis);
+
+            Log.e("이미지", "성공" + myBitmap);
+            return myBitmap;
+        } catch (IOException e) {
+            Log.e("이미지" , "실패");
+            e.printStackTrace();
+            return null;
+        }finally{
+            Log.e("이미지","커밋성공");
+            if(connection!=null)connection.disconnect();
+        }//
     }
 }
