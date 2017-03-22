@@ -55,8 +55,10 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         // 각 위치에 문자열 세팅
         int itemposition = position;
         holder.titleText.setText(list.get(itemposition).title);
-        holder.meaningText.setText(list.get(itemposition).meaning);
+        //holder.meaningText.setText(list.get(itemposition).meaning);
         holder.URI=list.get(itemposition).URI;
+        holder.resisterText.setText(list.get(itemposition).resister);
+        holder.viewText.setText(list.get(itemposition).view);
         holder.imageView.setImageBitmap(getPic(holder.URI));
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
@@ -71,15 +73,19 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
     // ViewHolder는 하나의 View를 보존하는 역할을 한다
     public class Holder extends RecyclerView.ViewHolder{
         public TextView titleText;
-        public TextView meaningText;
+        //public TextView meaningText;
+        public TextView resisterText;
+        public TextView viewText;
         ImageView imageView;
         public String URI;
 
         public Holder(View view){
             super(view);
             titleText = (TextView) view.findViewById(R.id.title_design_cardview);
-            meaningText = (TextView) view.findViewById(R.id.meaningText_design_cardview);
+            //meaningText = (TextView) view.findViewById(R.id.meaningText_design_cardview);
             imageView = (ImageView) view.findViewById(R.id.imageView_design_cardview);
+            resisterText = (TextView) view.findViewById(R.id.resisterater_design_cardview);
+            viewText = (TextView) view.findViewById(R.id.view_design_cardview);
         }
     }
 

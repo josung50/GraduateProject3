@@ -10,13 +10,17 @@ import java.util.ArrayList;
 public class WordItemData {
     public String title;
     public String meaning;
+    public String resister;
+    public String view;
     public ImageView imageview;
     public String URI;
 
     // 화면에 표시될 문자열 초기화
-    public WordItemData(String title, String meaning, String URI) {
+    public WordItemData(String title, String meaning, String URI, String resister, String view) {
         this.title = title; // 제목
-        this.meaning = meaning; // 작품 설명
-        this.URI = URI; // 이미지 path
+        this.meaning = meaning; // 상세내용
+        this.URI = URI; // 섬네일 주소
+        this.resister = resister; // 제작자 혹은 등록자
+        this.view = view; // 조회수
     }
 }

@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.josungryong.graduateproject3.Login;
 import com.example.josungryong.graduateproject3.R;
 
 import org.w3c.dom.Text;
@@ -44,22 +43,30 @@ public class DesignFragment extends Fragment {
     private ArrayList<ItemDataDesign> list = new ArrayList<>();
 
     // DB 관련 변수 //
-    public static String[] listDB; // DB의 결과를 받아오는 변수
-    public static String[] temp; // listDB를 <br> 단위로 끊어서 받음
-    public static String query; // 서버로 보낼 쿼리
+    private static String[] listDB; // DB의 결과를 받아오는 변수
+    private static String[] temp; // listDB를 <br> 단위로 끊어서 받음
+    private static String CODE; // 서버로 보낼 쿼리
 
     private ViewGroup rootView;
-    private Fragment fg;
 
     // 탭 //
     private TextView design_all;
+    private TextView design_passion;
+    private TextView design_commucation;
+    private TextView design_craft;
+    private TextView design_space;
+    private TextView design_entertainment;
+    private TextView design_new;
+    private TextView design_product;
     private Button design_write;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fg = this;
-        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_design, container, false);
 
+        CODE="CODE=";
+        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_design, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewDesign);
         recyclerView.setHasFixedSize(true);
         adapter = new DesignViewAdapter(getActivity(), list);
@@ -67,11 +74,74 @@ public class DesignFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        Log.e("Frag", "MainFragment:"+recyclerView.getAdapter().getItemCount());
-
         // 탭 //
         design_all = (TextView) rootView.findViewById(R.id.design_all);
+        design_passion = (TextView) rootView.findViewById(R.id.design_passion);
+        design_product = (TextView) rootView.findViewById(R.id.design_product);
+        design_commucation = (TextView) rootView.findViewById(R.id.design_commucation);
+        design_craft = (TextView) rootView.findViewById(R.id.design_craft);
+        design_space = (TextView) rootView.findViewById(R.id.design_space);
+        design_entertainment = (TextView) rootView.findViewById(R.id.design_entertainment);
+        design_new = (TextView) rootView.findViewById(R.id.design_new);
         design_write = (Button) rootView.findViewById(R.id.design_write);
+
+        design_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        design_passion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=001";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        design_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=002";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        design_commucation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=003";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        design_craft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=004";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        design_space.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=005";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        design_entertainment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=006";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+        // 자연 추가하기..
+        design_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CODE = "CODE=008";
+                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
         design_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -83,62 +153,17 @@ public class DesignFragment extends Fragment {
         return rootView;
     }
 
-
-    /*
-    public void fg.DesignClick (View v) {
-        switch (this.getId()) {
-            case R.id.design_all: // 디자인 전체
-                query = "CODE=ALL"; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                query = "NONE";
-                break;
-            case R.id.design_passion: // 패션
-                query = "PASSION"; // 쿼리 보내고
-                Toast.makeText(getActivity(),"success",Toast.LENGTH_LONG).show();
-                //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            case R.id.design_product: // 제품
-                query = null; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            case R.id.design_cumutication: // 커뮤니케이션
-                query = null; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            case R.id.design_craft: // 공예
-                query = null; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            case R.id.design_space: // 공간
-                query = null; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            case R.id.design_entertainment: // 엔터테인먼트
-                query = null; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                break;
-            case R.id.design_new: // 새분야
-                break;
-            case R.id.design_latest: // 최신순
-                break;
-            case R.id.design_write: // 등록
-                Intent intent = new Intent(getActivity(), DesignWrite.class);
-                startActivity(intent);
-                break;
-        }
-    }
-    */
     // PHP 검색 쿼리 보내는 class
     public class HttpTask extends AsyncTask<String,Void,String> {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try{
-                String urlPath = "http://58.142.149.131/grad/Design_DB.php";
+                String urlPath = "http://58.142.149.131/grad/cate_design_list.php";
                 Log.i("urlPat" , "value:" + urlPath);
 
-                // 내가 보낼 데이터 (쿼리, query는 전역변수, switch 에서 정해준다.)
-                String data = query;
+                // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
+                String data = CODE;
 
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
@@ -162,17 +187,17 @@ public class DesignFragment extends Fragment {
                 }
 
                 CheckNull = sb.toString();
-                //Log.d("디버깅쿼리3", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+                Log.d("testquerydesign", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
 
                 if(sb.toString() != "") {
                     listDB = sb.toString().split("<br>");
                     //Log.d("listDB??" , "listDB:"+listDB);
-                    /* 데이터 로그용
-                    for (int i = 0; i < listDB.length; i++) {
-                        temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
-                                                //  0         1        2        3           4
-                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
-                    }*/
+
+                    for (int i = 1; i < listDB.length; i++) {
+                        temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
+                                                //  0         1        2        3
+                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
+                    }
                     return sb.toString();
                 }
                 else {
@@ -193,13 +218,16 @@ public class DesignFragment extends Fragment {
         //ui는 여기서 변경
         protected void onPostExecute(String value){
 
-            // 추가작업.. 익셉션 처리
+            // 추가작업.. 익셉션 처리해 줄것
             Log.i("ListDB.length.Design", "value:" + listDB.length);
+            //list = createContactsList(10);
             list = createContactsList(listDB.length);
             adapter = new DesignViewAdapter(getActivity(), list);
             linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(adapter);
+
+            CODE = null;
             super.onPostExecute(value);
         }
 
@@ -219,10 +247,10 @@ public class DesignFragment extends Fragment {
     public ArrayList<ItemDataDesign> createContactsList(int numContacts) {
         ArrayList<ItemDataDesign> contacts = new ArrayList<ItemDataDesign>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
-                                    //      0   1       2               3           4
-            Log.i("tempsize" , "value:" + temp.length + "//" + temp[0] + " " + temp[1] + " ");
-            contacts.add(new ItemDataDesign(temp[4], temp[0], temp[2]));
+            temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 제작자 <br>
+                                    //     0   1       2               3
+            Log.i("listDBinfo" , "value:" + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
+            contacts.add(new ItemDataDesign(temp[0],temp[2], temp[3] , temp[1]));
         }
         return contacts;
     }

@@ -25,40 +25,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/design_all"
-                android:clickable="true"
-                android:onClick="DesignClick"/>
+                android:clickable="true"/>
 
             <RelativeLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:text="패션"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="23dp"
-                    android:textSize="13sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/design_passion"
-                    android:onClick="DesignClick"/>
-                <TextView
-                    android:text="제품"
-                    android:layout_marginLeft="55dp"
-                    android:layout_marginTop="23dp"
-                    android:textSize="13sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/design_product"
-                    android:onClick="DesignClick"/>
-                <TextView
-                    android:text="커뮤니케이션"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginTop="25dp"
-                    android:textSize="10sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/design_cumutication"
-                    android:onClick="DesignClick"/>
+
                 <TextView
                     android:text="공예"
                     android:layout_marginLeft="175dp"
@@ -67,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/design_craft"
-                    android:onClick="DesignClick"/>
+                    android:clickable="true"/>
                 <TextView
                     android:text="공간"
                     android:layout_marginLeft="216dp"
@@ -76,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/design_space"
-                    android:onClick="DesignClick"/>
+                    android:clickable="true"/>
                 <TextView
                     android:text="엔터테인먼트"
                     android:layout_marginLeft="255dp"
@@ -85,17 +58,54 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/design_entertainment"
-                    android:onClick="DesignClick"/>
+                    android:clickable="true"/>
+
                 <TextView
                     android:text="새분야"
                     android:gravity="right"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="23dp"
                     android:textSize="13sp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/design_new"
-                    android:onClick="DesignClick"/>
+                    android:clickable="true"
+                    android:layout_alignTop="@+id/design_entertainment"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:text="커뮤니케이션"
+                    android:layout_marginLeft="100dp"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_commucation"
+                    android:clickable="true"
+                    android:layout_alignBaseline="@+id/design_entertainment"
+                    android:layout_alignBottom="@+id/design_entertainment"
+                    android:layout_toEndOf="@+id/design_product"
+                    android:layout_marginStart="35dp" />
+
+                <TextView
+                    android:text="패션"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_passion"
+                    android:clickable="true"
+                    android:layout_alignBottom="@+id/design_commucation"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:text="제품"
+                    android:layout_marginLeft="55dp"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/design_product"
+                    android:clickable="true"
+                    android:layout_marginStart="33dp"
+                    android:layout_alignBaseline="@+id/design_craft"
+                    android:layout_alignBottom="@+id/design_craft"
+                    android:layout_toEndOf="@+id/design_passion" />
 
 
             </RelativeLayout>

@@ -54,11 +54,12 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
     public void onBindViewHolder(Holder holder, int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
-
-        holder.titleText.setText(list.get(itemposition).title);
-        holder.meaningText.setText(list.get(itemposition).meaning);
-        holder.URI=list.get(itemposition).URI;
-        holder.imageView.setImageBitmap(getPic(holder.URI));
+        holder.titleText.setText(list.get(itemposition).title); // 제목
+        holder.meaningText.setText(list.get(itemposition).meaning); // 상세 내용
+        holder.URI=list.get(itemposition).URI; // 섬네일 주소
+        holder.resisterText.setText(list.get(itemposition).resister); // 제작자 , 등록자
+        holder.viewText.setText(list.get(itemposition).view); // 조회수
+        holder.imageView.setImageBitmap(getPic(holder.URI)); // 섬네일 셋팅
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
@@ -73,14 +74,18 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
     public class Holder extends RecyclerView.ViewHolder{
         public TextView titleText;
         public TextView meaningText;
+        public TextView resisterText;
+        public TextView viewText;
         ImageView imageView;
         public String URI;
 
         public Holder(View view){
             super(view);
-            titleText = (TextView) view.findViewById(R.id.title);
-            meaningText = (TextView) view.findViewById(R.id.meaningText);
-            imageView = (ImageView) view.findViewById(R.id.imageView);
+            titleText = (TextView) view.findViewById(R.id.title_main_cardview);
+            meaningText = (TextView) view.findViewById(R.id.meaningText_main_cardview);
+            imageView = (ImageView) view.findViewById(R.id.imageView_main_cardview);
+            resisterText = (TextView) view.findViewById(R.id.resisterater_main_cardview);
+            viewText = (TextView) view.findViewById(R.id.view_main_cardview);
         }
     }
 

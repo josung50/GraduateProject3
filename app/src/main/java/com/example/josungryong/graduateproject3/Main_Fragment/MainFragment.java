@@ -46,8 +46,8 @@ public class MainFragment extends Fragment {
     public ArrayList<WordItemData> contacts = new ArrayList<WordItemData>();
 
     // DB 관련 변수 //
-    public static String[] listDB; // DB의 결과를 받아오는 변수
-    public static String[] temp; // listDB를 <br> 단위로 끊어서 받음
+    private static String[] listDB; // DB의 결과를 받아오는 변수
+    private static String[] temp; // listDB를 <br> 단위로 끊어서 받음
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +56,7 @@ public class MainFragment extends Fragment {
 
         new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+
         //list = contacts;
         //list = createContactsList(listDB);
         recyclerView.setHasFixedSize(true);
@@ -74,7 +75,7 @@ public class MainFragment extends Fragment {
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try{
-                String urlPath = "http://58.142.149.131/grad/transfer_test.php";
+                String urlPath = "http://58.142.149.131/grad/all_design_list.php";
                 Log.i("urlPat" , "value:" + urlPath);
 
                 // 내가 보낼 데이터 (쿼리)
@@ -167,7 +168,7 @@ public class MainFragment extends Fragment {
             temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
                                     //      0   1       2               3           4
             Log.i("tempsize" , "value:" + temp.length + "//" + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
-            contacts.add(new WordItemData(temp[4], temp[0], temp[2]));
+            contacts.add(new WordItemData(temp[0], temp[3], temp[2], temp[4] , temp[1]));
         }
         return contacts;
     }
