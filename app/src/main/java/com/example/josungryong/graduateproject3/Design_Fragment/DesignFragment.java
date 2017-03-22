@@ -1,18 +1,27 @@
 package com.example.josungryong.graduateproject3.Design_Fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.josungryong.graduateproject3.Login;
 import com.example.josungryong.graduateproject3.R;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,14 +48,19 @@ public class DesignFragment extends Fragment {
     public static String[] temp; // listDB를 <br> 단위로 끊어서 받음
     public static String query; // 서버로 보낼 쿼리
 
+    private ViewGroup rootView;
+    private Fragment fg;
+
+    // 탭 //
+    private TextView design_all;
+    private Button design_write;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_design, container, false);
+        fg = this;
+        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_design, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewDesign);
-
-        list = createContactsList(5);
         recyclerView.setHasFixedSize(true);
         adapter = new DesignViewAdapter(getActivity(), list);
         linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -54,18 +68,34 @@ public class DesignFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         Log.e("Frag", "MainFragment:"+recyclerView.getAdapter().getItemCount());
+
+        // 탭 //
+        design_all = (TextView) rootView.findViewById(R.id.design_all);
+        design_write = (Button) rootView.findViewById(R.id.design_write);
+        design_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Intent intent = new Intent(getActivity(), DesignWrite.class);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 
-    public void DesignClick(View v) {
-        switch (v.getId()) {
+
+    /*
+    public void fg.DesignClick (View v) {
+        switch (this.getId()) {
             case R.id.design_all: // 디자인 전체
-                query = null; // 쿼리 보내고
+                query = "CODE=ALL"; // 쿼리 보내고
                 new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                query = "NONE";
                 break;
             case R.id.design_passion: // 패션
-                query = null; // 쿼리 보내고
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                query = "PASSION"; // 쿼리 보내고
+                Toast.makeText(getActivity(),"success",Toast.LENGTH_LONG).show();
+                //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
             case R.id.design_product: // 제품
                 query = null; // 쿼리 보내고
@@ -92,23 +122,23 @@ public class DesignFragment extends Fragment {
             case R.id.design_latest: // 최신순
                 break;
             case R.id.design_write: // 등록
+                Intent intent = new Intent(getActivity(), DesignWrite.class);
+                startActivity(intent);
                 break;
         }
     }
-
+    */
     // PHP 검색 쿼리 보내는 class
     public class HttpTask extends AsyncTask<String,Void,String> {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try{
-                String urlPath = "http://58.142.149.131/grad/transfer_test.php";
+                String urlPath = "http://58.142.149.131/grad/Design_DB.php";
                 Log.i("urlPat" , "value:" + urlPath);
 
                 // 내가 보낼 데이터 (쿼리, query는 전역변수, switch 에서 정해준다.)
                 String data = query;
-                //String data = "lat=" + latitude;
-                //data += "&lng=" + longitude;
 
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
@@ -118,8 +148,8 @@ public class DesignFragment extends Fragment {
                 //추가 할 내용 - 서버 on/off 검사
 
                 // 문자열 전송
-                //wr.write(data);
-                //wr.flush();
+                wr.write(data);
+                wr.flush();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -129,14 +159,12 @@ public class DesignFragment extends Fragment {
 
                 while((line = reader.readLine()) != null) {
                     sb.append(line);
-                    break;
                 }
 
                 CheckNull = sb.toString();
                 //Log.d("디버깅쿼리3", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
 
                 if(sb.toString() != "") {
-                    //Log.d("디버깅123", "sb.toString:"+sb.toString());
                     listDB = sb.toString().split("<br>");
                     //Log.d("listDB??" , "listDB:"+listDB);
                     /* 데이터 로그용
@@ -167,11 +195,6 @@ public class DesignFragment extends Fragment {
 
             // 추가작업.. 익셉션 처리
             Log.i("ListDB.length.Design", "value:" + listDB.length);
-            if(listDB == null)
-            {
-                Toast.makeText(getActivity(),"데이터가 없습니다." , Toast.LENGTH_LONG).show();
-            }
-
             list = createContactsList(listDB.length);
             adapter = new DesignViewAdapter(getActivity(), list);
             linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);

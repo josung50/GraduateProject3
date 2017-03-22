@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.josungryong.graduateproject3.DesignFragment">
+    tools:context="com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/design_all"
+                android:clickable="true"
                 android:onClick="DesignClick"/>
 
             <RelativeLayout

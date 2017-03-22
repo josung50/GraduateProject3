@@ -78,7 +78,7 @@ public class MainFragment extends Fragment {
                 Log.i("urlPat" , "value:" + urlPath);
 
                 // 내가 보낼 데이터 (쿼리)
-                String data = null;
+                //String data = "";
                 //String data = "lat=" + latitude;
                 //data += "&lng=" + longitude;
 
@@ -97,21 +97,19 @@ public class MainFragment extends Fragment {
 
                 StringBuilder sb = new StringBuilder();
                 String CheckNull = "0";
-                String line = null;
+                String line;
 
                 while((line = reader.readLine()) != null) {
                     sb.append(line);
-                    break;
                 }
 
                 CheckNull = sb.toString();
-                Log.d("디버깅쿼리3", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+                Log.d("testquery", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
 
                 if(sb.toString() != "") {
                     Log.d("디버깅123", "sb.toString:"+sb.toString());
                     listDB = sb.toString().split("<br>");
                     Log.d("listDB??" , "listDB:"+listDB);
-
 
                     /* 데이터 로그용
                     for (int i = 0; i < listDB.length; i++) {
@@ -141,10 +139,6 @@ public class MainFragment extends Fragment {
 
             // 추가작업.. 익셉션 처리
             Log.i("ListDB.length", "value:" + listDB.length);
-            if(listDB == null)
-            {
-                Toast.makeText(getActivity(),"데이터가 없습니다." , Toast.LENGTH_LONG).show();
-            }
 
             list = createContactsList(listDB.length);
             adapter = new MainViewAdapter(getActivity(), list);
@@ -172,7 +166,7 @@ public class MainFragment extends Fragment {
         for (int i = 1; i < numContacts; i++) {
             temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
                                     //      0   1       2               3           4
-            Log.i("tempsize" , "value:" + temp.length + "//" + temp[0] + " " + temp[1] + " ");
+            Log.i("tempsize" , "value:" + temp.length + "//" + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
             contacts.add(new WordItemData(temp[4], temp[0], temp[2]));
         }
         return contacts;

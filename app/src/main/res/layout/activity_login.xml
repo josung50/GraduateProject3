@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorButtonNormal">
+    android:background="#c3f9f3a8">
 
-    <ImageView
-        app:srcCompat="@mipmap/ic_launcher"
-        android:id="@+id/Logo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Open Design"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="43dp" />
 
     <Button
         android:layout_width="50dp"
@@ -22,77 +27,83 @@
         android:onClick="onClick"
         android:background="@android:drawable/ic_delete" />
 
+
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_below="@+id/Logo"
-        android:layout_alignParentStart="true"
-        android:layout_height="70dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:id="@+id/ID_OSD"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/linearLayout5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@android:color/background_light"
+            android:hint="id" />
+
+        <EditText
+            android:id="@+id/Password_OSD"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/ID_OSD"
+            android:layout_alignStart="@+id/ID_OSD"
+            android:layout_below="@+id/ID_OSD"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="17dp"
+            android:background="@android:color/background_light"
+            android:hint="password" />
 
         <Button
-            android:text="OSD"
-            android:layout_height="50dp"
-            android:id="@+id/OSDLoginButton"
-            android:onClick="onClick"
-            android:layout_below="@+id/Logo"
-            android:layout_toStartOf="@+id/FacBookLoginButton"
-            android:layout_width="0dp"
-            android:layout_weight="50"
-            android:background="@drawable/button_sytle" />
-
-        <Button
-            android:text="FaceBook"
-            android:layout_height="50dp"
-            android:id="@+id/FacBookLoginButton"
-            android:onClick="onClick"
-            android:layout_width="0dip"
-            android:layout_marginEnd="0dp"
-            android:layout_alignBaseline="@+id/OSDLoginButton"
-            android:layout_alignBottom="@+id/OSDLoginButton"
+            android:id="@+id/Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_weight="50"
-            android:background="@drawable/button_sytle" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/Password_OSD"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#fbe6c234"
+            android:text="로그인" />
+
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dp">
 
-        <EditText
-            android:id="@+id/ID_OSD"
-            android:hint="OSD 아이디"
-            android:background="@android:color/background_light"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/linearLayout5"
-            android:layout_centerHorizontal="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:id="@+id/Password_OSD"
-            android:hint="비밀번호"
-            android:background="@android:color/background_light"
-            android:layout_below="@+id/ID_OSD"
-            android:layout_alignEnd="@+id/ID_OSD"
-            android:layout_marginTop="17dp"
-            android:layout_alignStart="@+id/ID_OSD"
-            android:layout_height="30dp" />
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentStart="true">
 
         <Button
-            android:text="로그인"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Login"
-            android:background="@android:color/darker_gray"
-            android:layout_below="@+id/Password_OSD"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="18dp"
-            android:layout_alignParentEnd="true" />
+            android:id="@+id/join"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/join" />
+
+        <Button
+            android:id="@+id/FacBookLoginButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/face"
+            android:onClick="onClick" />
+
     </LinearLayout>
 
 </RelativeLayout>

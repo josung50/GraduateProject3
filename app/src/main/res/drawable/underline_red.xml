@@ -5,7 +5,12 @@
     android:insetLeft="-2dp"
     android:insetRight="-2dp">
 
-    <shape android:shape="rectangle">
-        <stroke android:width="2dp" android:color="#FF0000"/>
-    </shape>
+    <Button
+        android:id="@+id/FacBookLoginButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/face"
+        android:onClick="onClick" />
 </inset>
