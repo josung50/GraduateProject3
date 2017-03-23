@@ -159,7 +159,7 @@ public class DesignFragment extends Fragment {
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try{
-                String urlPath = "http://58.142.149.131/grad/cate_design_list.php";
+                String urlPath = "http://58.142.149.131/grad/Grad_design_list_cate.php";
                 Log.i("urlPat" , "value:" + urlPath);
 
                 // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)

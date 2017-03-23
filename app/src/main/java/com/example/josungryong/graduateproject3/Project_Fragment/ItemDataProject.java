@@ -7,17 +7,19 @@ import android.widget.ImageView;
  */
 
 public class ItemDataProject {
-    public String title;
-    public String meaning;
-    public ImageView imageview;
-    public String URI;
-    public int testimage;
+    public String title; // 프로젝트 이름
+    public String master; // 프로젝트 생성자
+    public String membernumber; // 멤버 수
+    public String filenumber; // 파일 수
+    public ImageView imageview; // 프로젝트 섬네일
+    public String URI; // 프로젝트 섬네일 경로
 
     // 화면에 표시될 문자열 초기화
-    public ItemDataProject(String title, String meaning, String URI, int testimage) {
-        this.title = title;
-        this.meaning = meaning;
+    public ItemDataProject(String URI, String title, String master, String membernumber, String filenumber) {
         this.URI = URI;
-        this.testimage = testimage;
+        this.title = title;
+        this.master = master;
+        this.membernumber = membernumber;
+        this.filenumber = filenumber;
     }
 }

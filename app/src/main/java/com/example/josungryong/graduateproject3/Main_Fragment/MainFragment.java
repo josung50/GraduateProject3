@@ -75,7 +75,7 @@ public class MainFragment extends Fragment {
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try{
-                String urlPath = "http://58.142.149.131/grad/all_design_list.php";
+                String urlPath = "http://58.142.149.131/grad/Grad_main.php";
                 Log.i("urlPat" , "value:" + urlPath);
 
                 // 내가 보낼 데이터 (쿼리)

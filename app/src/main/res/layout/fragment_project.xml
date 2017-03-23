@@ -24,8 +24,8 @@
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/Project_all"
-                android:onClick="ProjectClick"/>
+                android:id="@+id/project_all"
+                android:clickable="true"/>
 
             <RelativeLayout
                 android:orientation="horizontal"
@@ -36,10 +36,10 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="23dp"
                     android:textSize="13sp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_passion"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_fassion"
+                    android:clickable="true"/>
                 <TextView
                     android:text="제품"
                     android:layout_marginLeft="55dp"
@@ -47,8 +47,8 @@
                     android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_product"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_product"
+                    android:clickable="true"/>
                 <TextView
                     android:text="커뮤니케이션"
                     android:layout_marginLeft="100dp"
@@ -56,8 +56,8 @@
                     android:textSize="10sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_cumutication"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_communication"
+                    android:clickable="true"/>
                 <TextView
                     android:text="공예"
                     android:layout_marginLeft="175dp"
@@ -65,8 +65,8 @@
                     android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_craft"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_craft"
+                    android:clickable="true"/>
                 <TextView
                     android:text="공간"
                     android:layout_marginLeft="216dp"
@@ -74,8 +74,8 @@
                     android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_space"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_space"
+                    android:clickable="true"/>
                 <TextView
                     android:text="엔터테인먼트"
                     android:layout_marginLeft="255dp"
@@ -83,18 +83,20 @@
                     android:textSize="10sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_entertainment"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_entertainment"
+                    android:clickable="true"/>
+
                 <TextView
                     android:text="새분야"
                     android:gravity="right"
                     android:layout_marginRight="8dp"
-                    android:layout_marginTop="23dp"
                     android:textSize="13sp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Project_new"
-                    android:onClick="ProjectClick"/>
+                    android:id="@+id/project_new"
+                    android:clickable="true"
+                    android:layout_alignBottom="@+id/project_entertainment"
+                    android:layout_alignParentEnd="true" />
 
 
             </RelativeLayout>
@@ -111,9 +113,9 @@
                 android:text="등록"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/Project_write"
+                android:id="@+id/project_write"
                 android:layout_alignParentRight="true"
-                android:onClick="ProjectClick"/>
+                android:clickable="true"/>
 
             <TextView
                 android:text="최신순"
@@ -122,8 +124,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/Project_latest"
-                android:onClick="ProjectClick"/>
+                android:id="@+id/project_latest"
+                android:clickable="true"/>
 
         </RelativeLayout>
 
