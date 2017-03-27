@@ -47,13 +47,6 @@ public class ProjectFragment extends Fragment {
 
     // 탭 //
     private TextView project_all;
-    private TextView project_fassion;
-    private TextView project_commucation;
-    private TextView project_craft;
-    private TextView project_space;
-    private TextView project_entertainment;
-    private TextView project_new;
-    private TextView project_product;
     private Button project_write;
 
     @Override
@@ -66,7 +59,6 @@ public class ProjectFragment extends Fragment {
         rootView = (ViewGroup)inflater.inflate(R.layout.fragment_project, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewProject);
 
-        list = createContactsList(5);
         recyclerView.setHasFixedSize(true);
         adapter = new ProjectViewAdapter(getActivity(), list);
         linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -77,68 +69,12 @@ public class ProjectFragment extends Fragment {
 
         // 탭 //
         project_all = (TextView) rootView.findViewById(R.id.project_all);
-        project_fassion = (TextView) rootView.findViewById(R.id.project_fassion);
-        project_product = (TextView) rootView.findViewById(R.id.project_product);
-        project_commucation = (TextView) rootView.findViewById(R.id.project_communication);
-        project_craft = (TextView) rootView.findViewById(R.id.project_craft);
-        project_space = (TextView) rootView.findViewById(R.id.project_space);
-        project_entertainment = (TextView) rootView.findViewById(R.id.project_entertainment);
-        project_new = (TextView) rootView.findViewById(R.id.project_new);
         project_write = (Button) rootView.findViewById(R.id.project_write);
 
         project_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CODE = "CODE=";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_fassion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=001";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_product.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=002";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_commucation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=003";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_craft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=004";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_space.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=005";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_entertainment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=006";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        project_new.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=008";
                 new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         });
@@ -159,7 +95,7 @@ public class ProjectFragment extends Fragment {
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try{
-                String urlPath = "http://58.142.149.131/grad/Grad_design_list_cate.php";
+                String urlPath = "http://58.142.149.131/grad/Grad_project_list.php";
                 Log.i("urlPat" , "value:" + urlPath);
 
                 // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
@@ -187,16 +123,16 @@ public class ProjectFragment extends Fragment {
                 }
 
                 CheckNull = sb.toString();
-                Log.d("testquerydesign", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+                Log.d("testqueryproject", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
 
                 if(sb.toString() != "") {
                     listDB = sb.toString().split("<br>");
                     //Log.d("listDB??" , "listDB:"+listDB);
 
                     for (int i = 1; i < listDB.length; i++) {
-                        temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
-                        //  0         1        2        3
-                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
+                        temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ<br>
+                                                //          0         1                     2        3          4       5
+                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5]);
                     }
                     return sb.toString();
                 }
@@ -247,10 +183,10 @@ public class ProjectFragment extends Fragment {
     public ArrayList<ItemDataProject> createContactsList(int numContacts) {
         ArrayList<ItemDataProject> contacts = new ArrayList<ItemDataProject>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 썸네일경로 / 멤버 수 // 파일 수 <br>
-                                    //     0                    1           2               3           4
+            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 썸네일경로 / 멤버 수 // 파일 수 / 고유 seq <BR>
+                                    //     0                    1           2               3           4       5
             Log.i("listDBinfoProject" , "value:" + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
-            contacts.add(new ItemDataProject(temp[2],temp[0], temp[1] , temp[3] , temp[4])); // 썸네일 경로 , 프로젝트 이름, 프로젝즈 제작자 , 멤버 수 , 파일 수 순
+            contacts.add(new ItemDataProject(temp[2],temp[0], temp[1] , temp[3] , temp[4] , temp[5])); // 썸네일 경로 , 프로젝트 이름, 프로젝즈 제작자 , 멤버 수 , 파일 수 순 // 고유 seq는 변수에만 저장
         }
         return contacts;
     }

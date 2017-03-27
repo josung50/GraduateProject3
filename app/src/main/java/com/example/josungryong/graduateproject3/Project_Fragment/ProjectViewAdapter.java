@@ -52,7 +52,7 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
     *
     * */
     @Override
-    public void onBindViewHolder(Holder holder, final int position) {
+    public void onBindViewHolder(final Holder holder, final int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
         holder.titleText.setText(list.get(itemposition).title);
@@ -61,12 +61,14 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
         holder.filenumberText.setText(list.get(itemposition).filenumber);
         holder.URI=list.get(itemposition).URI;
         holder.imageView.setImageBitmap(getPic(holder.URI));
+        holder.projectseq=list.get(itemposition).projectseq;
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "test"+position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), ProjectInfo.class);
+                intent.putExtra("PROJ_SEQ" , holder.projectseq);
                 v.getContext().startActivity(intent);
             }
         });
@@ -86,6 +88,7 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
         public TextView membernumberText;
         public TextView filenumberText;
         public String URI;
+        public String projectseq;
         ImageView imageView;
 
         public Holder(View view){

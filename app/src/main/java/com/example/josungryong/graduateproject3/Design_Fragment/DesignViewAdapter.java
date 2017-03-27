@@ -1,6 +1,7 @@
 package com.example.josungryong.graduateproject3.Design_Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -61,6 +62,14 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.viewText.setText(list.get(itemposition).view);
         holder.imageView.setImageBitmap(getPic(holder.URI));
 
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(context, "test"+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), DesignInfo.class);
+                v.getContext().startActivity(intent);
+            }
+        });
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
 

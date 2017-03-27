@@ -13,13 +13,15 @@ public class ItemDataProject {
     public String filenumber; // 파일 수
     public ImageView imageview; // 프로젝트 섬네일
     public String URI; // 프로젝트 섬네일 경로
+    public String projectseq;
 
     // 화면에 표시될 문자열 초기화
-    public ItemDataProject(String URI, String title, String master, String membernumber, String filenumber) {
+    public ItemDataProject(String URI, String title, String master, String membernumber, String filenumber, String projectseq) {
         this.URI = URI;
         this.title = title;
         this.master = master;
         this.membernumber = membernumber;
         this.filenumber = filenumber;
+        this.projectseq = projectseq;
     }
 }
