@@ -7,19 +7,21 @@ import android.widget.ImageView;
  */
 
 public class ItemDataDesign {
-    public String title;
-    //public String meaning;
-    public String resister;
-    public String view;
+    public String title; // 제목
+    public String resister; // 디자인 올린사람 이름
+    public String view; // 조회수
     public ImageView imageview;
+    public String designseq; // 디자인 seq
+    public String resisterseq; // 디자인 올린사람 seq
     public String URI;
 
     // 화면에 표시될 문자열 초기화
-    public ItemDataDesign(String title, String URI, String resister, String view) {
+    public ItemDataDesign(String designseq, String resisterseq, String title, String URI, String resister, String view) {
         this.title = title;
-        //this.meaning = meaning;
         this.URI = URI;
         this.resister = resister;
         this.view = view;
+        this.designseq = designseq;
+        this.resisterseq = resisterseq;
     }
 }

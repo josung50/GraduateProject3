@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
 import com.example.josungryong.graduateproject3.R;
 
 import java.io.BufferedReader;
@@ -123,16 +122,15 @@ public class ProjectFragment extends Fragment {
                 }
 
                 CheckNull = sb.toString();
-                Log.d("testqueryproject", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
 
                 if(sb.toString() != "") {
                     listDB = sb.toString().split("<br>");
                     //Log.d("listDB??" , "listDB:"+listDB);
 
                     for (int i = 1; i < listDB.length; i++) {
-                        temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ<br>
-                                                //          0         1                     2        3          4       5
-                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5]);
+                        temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ / 그룹 멤버 전원 SEQ<br>
+                                                //          0         1                     2        3          4       5                   6
+                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5] + " " + temp[6]);
                     }
                     return sb.toString();
                 }
@@ -183,10 +181,9 @@ public class ProjectFragment extends Fragment {
     public ArrayList<ItemDataProject> createContactsList(int numContacts) {
         ArrayList<ItemDataProject> contacts = new ArrayList<ItemDataProject>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 썸네일경로 / 멤버 수 // 파일 수 / 고유 seq <BR>
-                                    //     0                    1           2               3           4       5
-            Log.i("listDBinfoProject" , "value:" + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
-            contacts.add(new ItemDataProject(temp[2],temp[0], temp[1] , temp[3] , temp[4] , temp[5])); // 썸네일 경로 , 프로젝트 이름, 프로젝즈 제작자 , 멤버 수 , 파일 수 순 // 고유 seq는 변수에만 저장
+            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 썸네일경로 / 멤버 수 // 파일 수 / 고유 seq  / 멤버들의 전원 SEQ<BR>
+                                    //     0                    1           2               3           4       5           6
+            contacts.add(new ItemDataProject(temp[2],temp[0], temp[1] , temp[3] , temp[4] , temp[5] , temp[6])); // 썸네일 경로 , 프로젝트 이름, 프로젝즈 제작자 , 멤버 수 , 파일 수 순 // 고유 seq(프로젝트) 는 변수에만 저장 추가적으로 그룹 멤버들의 SEQ
         }
         return contacts;
     }

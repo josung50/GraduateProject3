@@ -72,7 +72,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:background="#fbe6c234"
-            android:text="로그인" />
+            android:text="로그인"
+            android:onClick="onClick"/>
 
 
     </LinearLayout>
@@ -99,7 +100,6 @@
             android:id="@+id/FacBookLoginButton"
             android:layout_width="70dp"
             android:layout_height="70dp"
-
             android:layout_marginLeft="30dp"
             android:background="@drawable/face"
             android:onClick="onClick" />

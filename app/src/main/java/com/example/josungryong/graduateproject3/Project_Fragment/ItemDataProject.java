@@ -14,14 +14,16 @@ public class ItemDataProject {
     public ImageView imageview; // 프로젝트 섬네일
     public String URI; // 프로젝트 섬네일 경로
     public String projectseq;
+    public String memberSeqGroup; // 멤버 전원의 seq를 담는 스트링
 
     // 화면에 표시될 문자열 초기화
-    public ItemDataProject(String URI, String title, String master, String membernumber, String filenumber, String projectseq) {
+    public ItemDataProject(String URI, String title, String master, String membernumber, String filenumber, String projectseq , String memberSeqGroup) {
         this.URI = URI;
         this.title = title;
         this.master = master;
         this.membernumber = membernumber;
         this.filenumber = filenumber;
         this.projectseq = projectseq;
+        this.memberSeqGroup = memberSeqGroup;
     }
 }

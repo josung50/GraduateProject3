@@ -1,12 +1,17 @@
 package com.example.josungryong.graduateproject3;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
 import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
@@ -24,11 +32,24 @@ import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
 import com.example.josungryong.graduateproject3.MyPage.MyPage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import static com.example.josungryong.graduateproject3.Login.preferences;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button ProjectButton; private Button DesignButton; private Button DesignerButton;
+    ImageView imgurl;
+    TextView nickname;
+    TextView selfinfo;
+
+    // 로그인 여부(success,failed) # 멤버SEQ # 멤버닉네임 # 프로필URL # 자기소개 # ID # PASSWORD
+    //      0                            1           2           3           4      5        6
+    // LOGIN # MEMBERSEQ # MEMBERNICK # IMGURL # SELFINFO # ID # PASSWORD
 
     // fragment //
     private Fragment fr = null;
@@ -49,15 +70,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,9 +79,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*
-        Intent intent = new Intent(this, TestServer.class);
-        startActivity(intent);*/
+        Log.i("MainCOOKIE" , "Value : " + preferences.getString("MEMBERSEQ","") + " " + preferences.getString("ID","") + " " + preferences.getString("LOGIN","") + " " + preferences.getString("IMGURL",""));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -86,6 +101,16 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        nickname = (TextView) findViewById(R.id.nickname);
+        selfinfo = (TextView) findViewById(R.id.selfinfo);
+        imgurl = (ImageView) findViewById(R.id.profileimage);
+
+        nickname.setText(preferences.getString("MEMBERNICK",""));
+        selfinfo.setText(preferences.getString("SELFINFO",""));
+        imgurl.setImageBitmap(getPic(preferences.getString("IMGURL","")));
+        Log.i("URLINFO" , "Value : " + "http://113.198.210.237:80/" + preferences.getString("IMGURL",""));
+
         return true;
     }
 
@@ -95,12 +120,10 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         /*if (id == R.id.action_settings) {
             return true;
         }*/
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -110,7 +133,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_login) {
+        if (id == R.id.nav_logout) {
+            preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+            finish();
             // Handle the camera action
         } else if (id == R.id.nav_alram) {
 
@@ -129,12 +159,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /* 로그인 버튼 - 로그인, 회원가입 화면으로 이동*/
-    public void LoginButton(View v){
-        Intent intent = new Intent(MainActivity.this, Login.class);
-        startActivity(intent);
     }
 
     /* 디자인 , 프로젝트 , 디자이너 탭에 따른 Fragment 이동 */
@@ -161,5 +185,35 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fr);
         fragmentTransaction.commit();
+    }
+
+    // URL을 통해 이미지를 서버로 부터 불러온다. //
+    public Bitmap getPic(String imagePath) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        HttpURLConnection connection = null;
+        String imageURL;
+        imageURL = "http://113.198.210.237:80/"+imagePath;
+        Log.e("이미지", imageURL);
+        try {
+            URL url = new URL(imageURL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+
+            BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+            Bitmap myBitmap = BitmapFactory.decodeStream(bis);
+
+            Log.e("이미지", "성공" + myBitmap);
+            return myBitmap;
+        } catch (IOException e) {
+            Log.e("이미지" , "실패");
+            e.printStackTrace();
+            return null;
+        }finally{
+            Log.e("이미지","커밋성공");
+            if(connection!=null)connection.disconnect();
+        }//
     }
 }

@@ -52,7 +52,7 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
     *
     * */
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(final Holder holder, int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
         holder.titleText.setText(list.get(itemposition).title);
@@ -60,13 +60,16 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.URI=list.get(itemposition).URI;
         holder.resisterText.setText(list.get(itemposition).resister);
         holder.viewText.setText(list.get(itemposition).view);
+        holder.resisterseq = list.get(itemposition).resisterseq;
+        holder.designseq = list.get(itemposition).designseq;
         holder.imageView.setImageBitmap(getPic(holder.URI));
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "test"+position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), DesignInfo.class);
+                intent.putExtra("DESIGN_WORK_SEQ" , holder.designseq);
+                intent.putExtra("RESISTER_SEQ", holder.resisterseq);
                 v.getContext().startActivity(intent);
             }
         });
@@ -85,13 +88,14 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         //public TextView meaningText;
         public TextView resisterText;
         public TextView viewText;
+        public String designseq;
+        public String resisterseq;
         ImageView imageView;
         public String URI;
 
         public Holder(View view){
             super(view);
             titleText = (TextView) view.findViewById(R.id.title_design_cardview);
-            //meaningText = (TextView) view.findViewById(R.id.meaningText_design_cardview);
             imageView = (ImageView) view.findViewById(R.id.imageView_design_cardview);
             resisterText = (TextView) view.findViewById(R.id.resisterater_design_cardview);
             viewText = (TextView) view.findViewById(R.id.view_design_cardview);

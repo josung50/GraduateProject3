@@ -62,6 +62,8 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
         holder.URI=list.get(itemposition).URI;
         holder.imageView.setImageBitmap(getPic(holder.URI));
         holder.projectseq=list.get(itemposition).projectseq;
+        holder.memberSeqGroup=list.get(itemposition).memberSeqGroup;
+        Log.i("testValue" , "Value : " + holder.memberSeqGroup);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +71,8 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
                 //Toast.makeText(context, "test"+position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), ProjectInfo.class);
                 intent.putExtra("PROJ_SEQ" , holder.projectseq);
+                intent.putExtra("MEMBER_SEQ_GROUP" , holder.memberSeqGroup);
+                Log.i("Member_Seq_Group" , "Value : " + holder.memberSeqGroup);
                 v.getContext().startActivity(intent);
             }
         });
@@ -89,6 +93,7 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
         public TextView filenumberText;
         public String URI;
         public String projectseq;
+        public String memberSeqGroup;
         ImageView imageView;
 
         public Holder(View view){

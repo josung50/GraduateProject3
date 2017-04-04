@@ -3,4 +3,58 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_title" />
+
+    <TextView
+        android:text="View"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_view" />
+
+    <TextView
+        android:text="Content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_content" />
+
+    <TextView
+        android:text="Resist Time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_resisttime" />
+
+    <TextView
+        android:text="Tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_tag" />
+
+    <TextView
+        android:text="Resister Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_resistername" />
+
+    <TextView
+        android:text="Number of like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_likenumber" />
+
+    <TextView
+        android:text="Number of Comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designinfo_commentnumber" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerViewDesignInfo">
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>
