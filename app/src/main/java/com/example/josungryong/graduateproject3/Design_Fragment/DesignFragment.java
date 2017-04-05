@@ -242,7 +242,7 @@ public class DesignFragment extends Fragment {
         String[] temp2 = temp123.split("#");
         return temp2;
     }
-
+    //commit
     // 카드에 데이터를 넣어준다.. 어뎁터에 list에 contacts를 복사해서 붙이는 것
     public ArrayList<ItemDataDesign> createContactsList(int numContacts) {
         ArrayList<ItemDataDesign> contacts = new ArrayList<ItemDataDesign>();

@@ -182,6 +182,7 @@ public class DesignInfo extends AppCompatActivity{
                 DesignInfo_resistername.setText(listDesignInfoDB[8]);
                 DesignInfo_likenumber.setText(listDesignInfoDB[9]);
                 DesignInfo_commentnumber.setText(listDesignInfoDB[10]);
+                // commit
 
                 // 추가작업.. 익셉션 처리해 줄것
                 list = createContactsList(listDesignSEQandURI.length);
