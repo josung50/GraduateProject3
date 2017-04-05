@@ -31,7 +31,9 @@
         </activity>
 
         <activity android:name=".Project_Fragment.ProjectInfo"></activity> // 프로젝트 상세페이지
-        <activity android:name=".Design_Fragment.DesignInfo"></activity> // 디자인 상세페이지
+        <activity android:name=".Design_Fragment.DesignInfo"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity> // 디자인 상세페이지
         <activity android:name=".TestServer"></activity>
         <activity android:name=".Design_Fragment.DesignWrite"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

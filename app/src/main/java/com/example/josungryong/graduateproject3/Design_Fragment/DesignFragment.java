@@ -194,8 +194,8 @@ public class DesignFragment extends Fragment {
                     //Log.d("listDB??" , "listDB:"+listDB);
 
                     for (int i = 1; i < listDB.length; i++) {
-                        temp = split(listDB[i]); // 디자인카드 SEQ /제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
-                                                //          0         1        2        3           4
+                        temp = split(listDB[i]); // 제작자seq / 디자인카드 SEQ /제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
+                                                //          0         1        2        3           4           5
                         Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
                     }
                     return sb.toString();
@@ -247,9 +247,9 @@ public class DesignFragment extends Fragment {
     public ArrayList<ItemDataDesign> createContactsList(int numContacts) {
         ArrayList<ItemDataDesign> contacts = new ArrayList<ItemDataDesign>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 제목 / 조회수 / 썸네일경로 / 제작자 <br>
-                                    //     0   1       2               3
-            contacts.add(new ItemDataDesign(temp[1],temp[3], temp[4] , temp[2]));
+            temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
+                                    //          0         1             2        3           4           5
+            contacts.add(new ItemDataDesign(temp[1],temp[0],temp[2],temp[4],temp[5],temp[3]));
         }
         return contacts;
     }

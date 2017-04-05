@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.R;
 
@@ -63,11 +65,11 @@ public class DesignInfo extends AppCompatActivity{
 
         // 디자인SEQ와 올린사람 SEQ를 가져온다.
         Intent intent = getIntent();
-        DESING_WORK_SEQ = "DESIGN_WORK_SEQ" + intent.getStringExtra("DESIGN_WORK_SEQ");
+        DESING_WORK_SEQ = intent.getStringExtra("DESIGN_WORK_SEQ");
         RESISTER_SEQ = intent.getStringExtra("RESISTER_SEQ");
 
         // 이미지 출력
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewProjectInfo);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDesignInfo);
         recyclerView.setHasFixedSize(true);
         adapterCardview = new DesignInfoViewAdapter(this,list);
         linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
@@ -88,14 +90,6 @@ public class DesignInfo extends AppCompatActivity{
         DesignInfo_likenumber = (TextView) findViewById(R.id.designinfo_likenumber);
         DesignInfo_commentnumber = (TextView) findViewById(R.id.designinfo_commentnumber);
 
-        DesignInfo_title.setText(listDesignInfoDB[1]);
-        DesignInfo_view.setText(listDesignInfoDB[3]);
-        DesignInfo_content.setText(listDesignInfoDB[4]);
-        DesignInfo_resisttime.setText(listDesignInfoDB[5]);
-        DesignInfo_tag.setText(listDesignInfoDB[6]);
-        DesignInfo_resistername.setText(listDesignInfoDB[8]);
-        DesignInfo_likenumber.setText(listDesignInfoDB[9]);
-        DesignInfo_commentnumber.setText(listDesignInfoDB[10]);
     }
 
     // PHP 디자인에 해당하는 파일 불러오는 통신 class
@@ -105,11 +99,11 @@ public class DesignInfo extends AppCompatActivity{
             // TODO Auto-generated method stub
             try {
 
-                String urlPath = "http://58.142.149.131/grad/Grad_project_list_subject_card.php";
+                String urlPath = "http://58.142.149.131/grad/Grad_design_card.php";
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
                 String data = "DESIGN_WORK_SEQ=" + DESING_WORK_SEQ ;
-
+                Log.i("workvalue" , "value : " + data);
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -130,14 +124,23 @@ public class DesignInfo extends AppCompatActivity{
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
-
+                Log.i("readvalue" , "value : " + sb.toString());
                 CheckNull = sb.toString();
 
                 if (sb.toString() != "") {
-                    listDesignInfoDB = sb.toString().split("#");
+                    listDesignInfoDB = sb.toString().split("a!PJP"); // 태그에서 #이 있을 수 있으므로 split을 a!PJP로 한다.
+                    Log.i("listDesignInfoDB", "Value : " + sb.toString());
                     // 디자인 카드 SEQ # 제목 # 썸네일 경로 # 조회수 # 상세설명 # 등록시간 # 태그 # 제작자 seq # 제작자 이름 # 좋아요 수 # 댓글 수 # 이미지 SEQ & 이미지 URI들
                     //          0          1        2           3           4       5         6        7            8           9           10          11
-                    listDesignSEQandURI = split(listDesignInfoDB[11], "::"); // seq & uri
+                    Log.i("splitvalue" , "value : " + listDesignInfoDB[0] + " " + listDesignInfoDB[1] + " " + listDesignInfoDB[2] + " " + listDesignInfoDB[3] + " " + listDesignInfoDB[4] + " " + listDesignInfoDB[5] + " " + listDesignInfoDB[6] + " " + listDesignInfoDB[7] + " " + listDesignInfoDB[8] + " " + listDesignInfoDB[9] + " " + listDesignInfoDB[10]);
+                    Log.i("listlength" , "value : " + listDesignInfoDB.length);
+                    Log.i("listvalue2" , "value : " + listDesignInfoDB[4]);
+                    if(listDesignInfoDB.length < 12) { // SEQ & URI 가 비었을 때를 체크
+                        listDesignSEQandURI = null;
+                    }
+                    else {
+                        listDesignSEQandURI = split(listDesignInfoDB[11], "::"); // seq & uri
+                    }
                     return sb.toString();
                 } else {
                     return null;
@@ -157,16 +160,36 @@ public class DesignInfo extends AppCompatActivity{
         //ui는 여기서 변경
         protected void onPostExecute(String value) { // 스피너 불러오기
             // 리사이클 뷰 셋팅 , 어뎁터에 내용 추가가
-            list = createContactsList(listDesignSEQandURI.length);
-            adapterCardview = new DesignInfoViewAdapter(getApplicationContext(), list);
+            if(listDesignInfoDB.length < 12) { // SEQ & URI 가 비었을 때를 체크
+                DesignInfo_title.setText(listDesignInfoDB[1]);
+                DesignInfo_view.setText(listDesignInfoDB[3]);
+                DesignInfo_content.setText(listDesignInfoDB[4]);
+                DesignInfo_resisttime.setText(listDesignInfoDB[5]);
+                DesignInfo_tag.setText(listDesignInfoDB[6]);
+                DesignInfo_resistername.setText(listDesignInfoDB[8]);
+                DesignInfo_likenumber.setText(listDesignInfoDB[9]);
+                DesignInfo_commentnumber.setText(listDesignInfoDB[10]);
+            }
+            else {
+                list = createContactsList(listDesignSEQandURI.length);
+                adapterCardview = new DesignInfoViewAdapter(getApplicationContext(), list);
 
-            // 추가작업.. 익셉션 처리해 줄것
-            list = createContactsList(listDesignSEQandURI.length);
-            adapterCardview = new DesignInfoViewAdapter(getApplicationContext(), list);
-            linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(adapterCardview);
+                DesignInfo_title.setText(listDesignInfoDB[1]);
+                DesignInfo_view.setText(listDesignInfoDB[3]);
+                DesignInfo_content.setText(listDesignInfoDB[4]);
+                DesignInfo_resisttime.setText(listDesignInfoDB[5]);
+                DesignInfo_tag.setText(listDesignInfoDB[6]);
+                DesignInfo_resistername.setText(listDesignInfoDB[8]);
+                DesignInfo_likenumber.setText(listDesignInfoDB[9]);
+                DesignInfo_commentnumber.setText(listDesignInfoDB[10]);
 
+                // 추가작업.. 익셉션 처리해 줄것
+                list = createContactsList(listDesignSEQandURI.length);
+                adapterCardview = new DesignInfoViewAdapter(getApplicationContext(), list);
+                linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapterCardview);
+            }
             super.onPostExecute(value);
         }
 
