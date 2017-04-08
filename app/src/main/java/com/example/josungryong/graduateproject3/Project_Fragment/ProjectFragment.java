@@ -147,6 +147,12 @@ public class ProjectFragment extends Fragment {
             return null;
         }
 
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getActivity(),"로딩중",Toast.LENGTH_LONG).show();
+            super.onPreExecute();
+        }
+
         //asyonTask 3번째 인자와 일치 매개변수값 -> doInBackground 리턴값이 전달됨
         //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
         //ui는 여기서 변경

@@ -44,11 +44,18 @@
                     android:layout_alignStart="@+id/cardView"
                     android:layout_width="100dp" />
 
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/view" />
+
                 <TextView
                     android:text="TextView"
                     android:layout_height="wrap_content"
                     android:id="@+id/view_design_cardview"
                     android:layout_width="100dp" />
+
 
             </LinearLayout>
 

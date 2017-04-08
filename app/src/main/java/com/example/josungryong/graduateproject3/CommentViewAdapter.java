@@ -1,7 +1,6 @@
-package com.example.josungryong.graduateproject3.Project_Fragment;
+package com.example.josungryong.graduateproject3;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.StrictMode;
@@ -12,11 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.josungryong.graduateproject3.R;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -26,14 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by josungryong on 2017-03-12.
+ * Created by josungryong on 2017-04-07.
  */
 
-public class ProjectInfoViewAdapter extends RecyclerView.Adapter<ProjectInfoViewAdapter.Holder> {
+public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.Holder> {
     private Context context;
-    private List<ItemDataProjectInfo> list = new ArrayList<>();
+    private List<ItemDataComment> list = new ArrayList<>();
 
-    public ProjectInfoViewAdapter(Context context, List<ItemDataProjectInfo> list) {
+    public CommentViewAdapter(Context context, List<ItemDataComment> list) {
         this.context = context;
         this.list = list;
     }
@@ -42,7 +36,7 @@ public class ProjectInfoViewAdapter extends RecyclerView.Adapter<ProjectInfoView
     // row layout을 화면에 뿌려주고 holder에 연결
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_projectinfo_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment_cardview, parent, false);
         Holder holder = new Holder(view);
         return holder;
     }
@@ -52,29 +46,30 @@ public class ProjectInfoViewAdapter extends RecyclerView.Adapter<ProjectInfoView
     *
     * */
     @Override
-    public void onBindViewHolder(final Holder holder, final int position) {
+    public void onBindViewHolder(final Holder holder, int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
-        holder.titleText.setText(list.get(itemposition).title);
-        holder.masterText.setText(list.get(itemposition).master);
-        holder.commentnumberText.setText(list.get(itemposition).commentnumber);
-        holder.likenumberText.setText(list.get(itemposition).likenumber);
-        holder.URI=list.get(itemposition).URI;
-        holder.imageView.setImageBitmap(getPic(holder.URI));
-        holder.projectinfoseq=list.get(itemposition).projectinfoseq;
-        holder.workseq=list.get(itemposition).workseq;
-        holder.memberseq=list.get(itemposition).memberseq;
+        //holder.meaningText.setText(list.get(itemposition).meaning);
+        holder.URI=list.get(itemposition).URI; // 프로필 사진 uri
+        holder.resister.setText(list.get(itemposition).resister); // 댓글 등록자
+        holder.content.setText(list.get(itemposition).content); // 댓글 내용
+        holder.resisterseq = list.get(itemposition).resisterseq; // 등록자 seq
+        holder.commentseq = list.get(itemposition).commentseq; // 댓글 seq
+        holder.resisttime.setText(list.get(itemposition).resisttime); // 댓글 등록 시간
+        holder.imageView.setImageBitmap(getPic(holder.URI)); // 이미지 붙이기
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "test"+position, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(v.getContext(), ProjectInfo2.class);
-                intent.putExtra("PROJECT_WORK_SEQ" , holder.workseq);
+                /*
+                Intent intent = new Intent(v.getContext(), DesignInfo.class);
+                intent.putExtra("DESIGN_WORK_SEQ" , holder.designseq);
+                intent.putExtra("RESISTER_SEQ", holder.resisterseq);
                 v.getContext().startActivity(intent);
+                */
             }
         });
-        //Log.e("StudyApp", "onBindViewHolder" + itemposition);
+        Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
 
     // 몇개의 데이터를 리스트로 뿌려줘야하는지 반드시 정의해줘야한다
@@ -85,23 +80,21 @@ public class ProjectInfoViewAdapter extends RecyclerView.Adapter<ProjectInfoView
 
     // ViewHolder는 하나의 View를 보존하는 역할을 한다
     public class Holder extends RecyclerView.ViewHolder{
-        public TextView titleText; // 제목
-        public TextView masterText; // 올린 사람
-        public TextView commentnumberText; // 댓글 수
-        public TextView likenumberText; // 좋아요 수
-        public String URI; // 이미지 URL
-        public String projectinfoseq; // 프로젝트 seq
-        public String workseq; // 워크 seq
-        public String memberseq;
+        public TextView resister;
+        public TextView content;
+        public String resisterseq;
+        public String commentseq;
+        public TextView resisttime;
         ImageView imageView;
+        public String URI;
 
         public Holder(View view){
             super(view);
-            titleText = (TextView) view.findViewById(R.id.title_projectinfo_cardview);
-            masterText = (TextView) view.findViewById(R.id.masteruser_projectinfo_cardview);
-            commentnumberText = (TextView) view.findViewById(R.id.commentnumber_projectinfo_cardview);
-            likenumberText = (TextView) view.findViewById(R.id.likenumber_projectinfo_cardview);
-            imageView = (ImageView) view.findViewById(R.id.imageView_projectinfo_cardview);
+            resister = (TextView) view.findViewById(R.id.comment_resister);
+            resisttime = (TextView) view.findViewById(R.id.comment_resisttime);
+            content = (TextView) view.findViewById(R.id.comment_content);
+            resisttime = (TextView) view.findViewById(R.id.comment_resisttime);
+            imageView = (ImageView) view.findViewById(R.id.comment_profileimg);
         }
     }
 

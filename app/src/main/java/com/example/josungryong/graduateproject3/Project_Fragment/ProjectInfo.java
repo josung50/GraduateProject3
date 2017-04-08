@@ -456,7 +456,7 @@ public class ProjectInfo extends AppCompatActivity {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
-
+                Log.i("testvalue", "value : " + sb.toString());
                 CheckNull = sb.toString();
 
                 if (sb.toString() != "") {
@@ -480,16 +480,6 @@ public class ProjectInfo extends AppCompatActivity {
         //ui는 여기서 변경
         protected void onPostExecute(String value) { // 스피너 불러오기
 
-            // 리사이클 뷰 셋팅 , 어뎁터에 내용 추가가
-            list = createContactsList(listSubjectInfoDB.length);
-            adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
-
-            for (int i = 1; i < listSubjectInfoDB.length; i++) {
-                // 내용 구현
-
-            }
-            // 추가작업.. 익셉션 처리해 줄것
-            //list = createContactsList(10);
             list = createContactsList(listSubjectInfoDB.length);
             adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
             linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
@@ -516,7 +506,7 @@ public class ProjectInfo extends AppCompatActivity {
         ArrayList<ItemDataProjectInfo> contacts = new ArrayList<ItemDataProjectInfo>();
         for (int i = 1; i < numContacts; i++) {
             SubjectInfotemp = split(listSubjectInfoDB[i]); // 제작자(올린사람) / 사진경로 / 제목 / work_seq / member_seq(올린사람) / 댓글 수 / 좋아요 수
-                                                             //     0                    1        2        3           4       5            6
+                                                             //     0                    1        2        3           4                  5            6
             contacts.add(new ItemDataProjectInfo(SubjectInfotemp[1],SubjectInfotemp[2],SubjectInfotemp[0],SubjectInfotemp[5],SubjectInfotemp[6],PROJ_SEQ,SubjectInfotemp[3],SubjectInfotemp[4])); // 썸네일 URL / 제목 / 올린 사람 / 코멘트 수 / 좋아요 수 / 프로젝트 seq / 워크 seq / 멤버_seq
         }
         return contacts;

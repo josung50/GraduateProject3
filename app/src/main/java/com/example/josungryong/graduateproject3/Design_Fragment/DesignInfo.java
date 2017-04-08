@@ -54,15 +54,6 @@ public class DesignInfo extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designinfo);
 
-        DesignInfo_title = (TextView) findViewById(R.id.designinfo_title);
-        DesignInfo_view = (TextView) findViewById(R.id.designinfo_view);
-        DesignInfo_content = (TextView) findViewById(R.id.designinfo_content);
-        DesignInfo_resisttime = (TextView) findViewById(R.id.designinfo_resisttime);
-        DesignInfo_tag = (TextView) findViewById(R.id.designinfo_tag);
-        DesignInfo_resistername = (TextView) findViewById(R.id.designinfo_resistername);
-        DesignInfo_likenumber = (TextView) findViewById(R.id.designinfo_likenumber);
-        DesignInfo_commentnumber = (TextView) findViewById(R.id.designinfo_commentnumber);
-
         // 디자인SEQ와 올린사람 SEQ를 가져온다.
         Intent intent = getIntent();
         DESING_WORK_SEQ = intent.getStringExtra("DESIGN_WORK_SEQ");

@@ -22,7 +22,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
@@ -30,13 +31,21 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".Project_Fragment.ProjectInfo"></activity> // 프로젝트 상세페이지
+        <activity android:name=".Project_Fragment.ProjectInfo"
+            android:theme="@style/AppTheme.NoActionBar"></activity> // 프로젝트 상세페이지
         <activity android:name=".Design_Fragment.DesignInfo"
             android:theme="@style/AppTheme.NoActionBar">
         </activity> // 디자인 상세페이지
+
+        <activity android:name=".Project_Fragment.ProjectInfo2"
+            android:theme="@style/AppTheme.NoActionBar"></activity> // 프로젝트 상세 상세 페이지
+
         <activity android:name=".TestServer"></activity>
-        <activity android:name=".Design_Fragment.DesignWrite"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+        <activity android:name=".Design_Fragment.DesignWrite"
+            android:theme="@style/AppTheme.NoActionBar"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".Comment"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
