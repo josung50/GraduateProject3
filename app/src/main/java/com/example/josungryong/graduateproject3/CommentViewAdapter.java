@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.josungryong.graduateproject3.Login.preferences;
 
 /**
  * Created by josungryong on 2017-04-07.
@@ -58,6 +61,11 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         holder.resisttime.setText(list.get(itemposition).resisttime); // 댓글 등록 시간
         holder.imageView.setImageBitmap(getPic(holder.URI)); // 이미지 붙이기
 
+        // 댓글 작성자 이면 삭제버튼 보이기
+        if(preferences.getString("MEMBERSEQ","").equals(holder.resisterseq)) {
+            holder.deleteButton.setVisibility(View.VISIBLE);
+        }
+
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +95,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         public TextView resisttime;
         ImageView imageView;
         public String URI;
+        public Button deleteButton;
 
         public Holder(View view){
             super(view);
@@ -95,6 +104,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
             content = (TextView) view.findViewById(R.id.comment_content);
             resisttime = (TextView) view.findViewById(R.id.comment_resisttime);
             imageView = (ImageView) view.findViewById(R.id.comment_profileimg);
+            deleteButton = (Button) view.findViewById(R.id.comment_delete);
         }
     }
 

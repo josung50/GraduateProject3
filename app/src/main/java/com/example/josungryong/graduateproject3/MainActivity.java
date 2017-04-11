@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity
         DesignButton = (Button) findViewById(R.id.DesignButton);
         DesignerButton = (Button) findViewById(R.id.DesignerButton);
 
+        DesignButton.setTextSize(15);
+        ProjectButton.setTextSize(15);
+        DesignerButton.setTextSize(15);
+
         fr = new MainFragment();
         selectFragment(fr);
 
@@ -166,14 +170,23 @@ public class MainActivity extends AppCompatActivity
     public void TabClick(View v) {
         switch (v.getId()) {
             case R.id.DesignButton:
+                DesignButton.setTextSize(22);
+                ProjectButton.setTextSize(15);
+                DesignerButton.setTextSize(15);
                 fr = new DesignFragment();
                 selectFragment(fr);
                 break;
             case R.id.ProjectButton:
+                DesignButton.setTextSize(15);
+                ProjectButton.setTextSize(22);
+                DesignerButton.setTextSize(15);
                 fr = new ProjectFragment();
                 selectFragment(fr);
                 break;
             case R.id.DesignerButton:
+                DesignButton.setTextSize(15);
+                ProjectButton.setTextSize(15);
+                DesignerButton.setTextSize(22);
                 fr = new DesignerFragment();
                 selectFragment(fr);
                 break;

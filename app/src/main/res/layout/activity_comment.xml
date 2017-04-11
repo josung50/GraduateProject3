@@ -29,11 +29,28 @@
         android:layout_height="wrap_content"
         android:id="@+id/recyclerViewComment"/>
 
-    <EditText
-        android:hint="댓글을 입력해주세요."
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/comment_editcomment" />
+        android:layout_height="match_parent">
+
+        <EditText
+            android:hint="댓글을 입력해주세요."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/comment_editcomment"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="전송"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_submit"
+            android:layout_weight="1"
+            android:background="@drawable/ic_menu_send"
+            android:onClick="submit"/>
+    </LinearLayout>
+
 </LinearLayout>

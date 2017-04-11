@@ -4,29 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c3f9f3a8">
+    android:background="#fdf2efdf">
 
-    <TextView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:text="Open Design"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="43dp" />
 
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView8"
+        android:layout_weight="0.33"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/CloseButton"
-        android:onClick="onClick"
-        android:background="@android:drawable/ic_delete" />
-
+        android:src="@drawable/loginaccount"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -34,36 +23,42 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:weightSum="1"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true">
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/imageView8"
+        android:layout_alignParentStart="true"
+        android:gravity="center">
+
 
         <EditText
             android:id="@+id/ID_OSD"
-            android:layout_width="match_parent"
+            android:layout_width="292dp"
             android:layout_height="40dp"
             android:layout_below="@+id/linearLayout5"
             android:layout_centerHorizontal="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
             android:background="@android:color/background_light"
-            android:hint="id" />
+            android:hint="Email"
+            android:textStyle="italic"
+            android:drawableRight="@drawable/email"
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/Password_OSD"
-            android:layout_width="match_parent"
+            android:layout_width="290dp"
             android:layout_height="40dp"
             android:layout_alignEnd="@+id/ID_OSD"
             android:layout_alignStart="@+id/ID_OSD"
             android:layout_below="@+id/ID_OSD"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="17dp"
             android:background="@android:color/background_light"
-            android:hint="password" />
+            android:hint="password"
+            android:textStyle="italic"
+            android:drawableRight="@drawable/lock"
+            android:inputType="textPassword"
+            />
 
         <Button
             android:id="@+id/Login"
-            android:layout_width="match_parent"
+            android:layout_width="291dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
@@ -71,8 +66,12 @@
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:background="#fbe6c234"
-            android:text="로그인"
+            android:layout_marginLeft="30px"
+            android:background="#fbf4b435"
+            android:text="login"
+            android:textColor="@color/color_white"
+
+            android:textStyle="italic"
             android:onClick="onClick"/>
 
 
@@ -81,28 +80,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="23dp"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/join"
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="100dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/join" />
+            android:background="@drawable/logi"
+            android:layout_weight="0.18" />
 
         <Button
             android:id="@+id/FacBookLoginButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="81dp"
+            android:layout_height="85dp"
             android:layout_marginLeft="30dp"
-            android:background="@drawable/face"
-            android:onClick="onClick" />
+            android:background="@drawable/facelog"
+            android:onClick="onClick"
+            android:layout_weight="0.09" />
 
     </LinearLayout>
 

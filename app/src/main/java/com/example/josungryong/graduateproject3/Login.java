@@ -76,10 +76,6 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "페이스북로그인클릭", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.CloseButton: // 닫기 버튼
-                finish();
-                break;
-
             case R.id.join: // 회원가입
                 JoinButton = (Button) findViewById(R.id.join);
                 break;

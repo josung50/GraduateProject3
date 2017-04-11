@@ -52,13 +52,16 @@ public class Comment extends AppCompatActivity {
     private String commentnumber;
     private String query;
 
+    private String content;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_comment);
 
+        comment_editcomment = (EditText) findViewById(R.id.comment_editcomment);
+
         Intent intent = getIntent();
         WHERE = intent.getStringExtra("WHERE");
-
         if(WHERE.equals("PROJECTINFO2")) {
             PROJECT_WORK_SEQ = intent.getStringExtra("PROJECT_WORK_SEQ");
             likenumber = intent.getStringExtra("PROJECTINFO2_likenumber");
@@ -74,7 +77,6 @@ public class Comment extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterCardview);
         new HttpTaskCommentShow().execute();
-
         super.onCreate(savedInstanceState);
     }
 
@@ -87,7 +89,7 @@ public class Comment extends AppCompatActivity {
             try {
 
                 if(WHERE.equals("PROJECTINFO2")) {
-                    urlPath = "http://58.142.149.131/grad/Grad_project_work_comment.php";
+                    urlPath = "http://58.142.149.131/grad/Grad_work_comment.php";
                 }
                 else if(WHERE.equals("DESIGNINFO")) {
                     urlPath = "null";
@@ -157,12 +159,6 @@ public class Comment extends AppCompatActivity {
                 likenumber_view.setText(likenumber);
                 commentnumber_view.setText(commentnumber);
 
-                // 댓글 작성자 이면 삭제버튼 보이기
-                comment_delete = (Button) findViewById(R.id.comment_delete);
-                preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
-                if(preferences.getString("MEMBERSEQ","").equals(listCommentDB[1])) {
-                    comment_delete.setVisibility(View.VISIBLE);
-                }
             }
 
             super.onPostExecute(value);
@@ -192,5 +188,91 @@ public class Comment extends AppCompatActivity {
             contacts.add(new ItemDataComment(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]));
         }
         return contacts;
+    }
+
+    // 댓글 전송
+    public void submit(View v) {
+        content = comment_editcomment.getText().toString();
+        new HttpTaskCommentSubmit().execute();
+    }
+
+    // PHP 디자인에 해당하는 파일 불러오는 통신 class
+    public class HttpTaskCommentSubmit extends AsyncTask<String, Void, String> {
+        SharedPreferences preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
+        String urlPath ;
+        /* Bitmap bitmap , String image는 전역변수 */
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            try {
+
+                if(WHERE.equals("PROJECTINFO2")) {
+                    urlPath = "http://58.142.149.131/grad/Grad_project_work_comment.php";
+                }
+                else if(WHERE.equals("DESIGNINFO")) {
+                    urlPath = "null";
+                }
+
+                // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
+                //String data = "PROJECT_WORK_SEQ=" + PROJECT_WORK_SEQ ;
+
+                URL url = new URL(urlPath);
+                Log.i("urlPathis" , "value : " + url);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                //추가 할 내용 - 서버 on/off 검사
+
+                // 문자열 전송
+                String data;
+                Intent intent = getIntent();
+                preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
+                data = "REGI_PROJECT_WORK_SEQ=" + intent.getStringExtra("PROJECT_WORK_SEQ");
+                data +="&REGI_PCOMMENT=" + content;
+                data +="&REGI_MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
+                Log.i("queryvalue" , "value : " + data);
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String CheckNull = "0";
+                String line = null;
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                Log.i("commentreadvalue" , "value : " + sb.toString());
+                CheckNull = sb.toString();
+
+                if (sb.toString() != "") {
+                    //listCommentDB = sb.toString().split("<br>"); // <br> comment seq # member seq # 작성자 이름 # 프로필 사진 uri # 내용 # 등록시간
+                    //        0               1              2               3            4       5
+                }
+                return sb.toString();
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //오류시 null 반환
+            return null;
+        }
+
+        //asyonTask 3번째 인자와 일치 매개변수값 -> doInBackground 리턴값이 전달됨
+        //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
+        //ui는 여기서 변경
+        protected void onPostExecute(String value) {
+            // 리사이클 뷰 셋팅 , 어뎁터에 내용 추가가
+
+            super.onPostExecute(value);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }
