@@ -125,7 +125,12 @@ public class Comment extends AppCompatActivity {
                 if (sb.toString() != "") {
                     listCommentDB = sb.toString().split("<br>"); // <br> comment seq # member seq # 작성자 이름 # 프로필 사진 uri # 내용 # 등록시간
                                                                     //        0               1              2               3            4       5
+
+                    // 개행 문자 변환 (readline은 \n을 기준을 데이터를 받아오기 때문에 개행이 따로 없다.)
+                    for(int i=1; i<listCommentDB.length ; i++) {
+                        listCommentDB[i] = listCommentDB[i].replace("ReAdLiNe","\n");
                     }
+                }
                     return sb.toString();
 
             } catch (UnsupportedEncodingException e) {
@@ -156,8 +161,8 @@ public class Comment extends AppCompatActivity {
                 likenumber_view = (TextView) findViewById(R.id.comment_likenumber);
                 commentnumber_view = (TextView) findViewById(R.id.comment_commentnumber);
 
-                likenumber_view.setText(likenumber);
-                commentnumber_view.setText(commentnumber);
+                likenumber_view.setText("좋아요 : " + likenumber);
+                commentnumber_view.setText("댓글 : " + commentnumber);
 
             }
 
@@ -192,8 +197,14 @@ public class Comment extends AppCompatActivity {
 
     // 댓글 전송
     public void submit(View v) {
-        content = comment_editcomment.getText().toString();
+        if(comment_editcomment.getText().toString() == null || comment_editcomment.getText().toString().replace(" ","").equals("") ||
+                comment_editcomment.getText().toString().replace("\n","").equals("")) {
+            Toast.makeText(this,"내용이 없습니다.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        content = comment_editcomment.getText().toString().replace("\n","ReAdLiNe"); // readline에서 개행을 기준으로 받기 때문에 새로운 문자로 바꿔준다.
         new HttpTaskCommentSubmit().execute();
+        comment_editcomment.setText("");
     }
 
     // PHP 디자인에 해당하는 파일 불러오는 통신 class
@@ -206,7 +217,7 @@ public class Comment extends AppCompatActivity {
             try {
 
                 if(WHERE.equals("PROJECTINFO2")) {
-                    urlPath = "http://58.142.149.131/grad/Grad_project_work_comment.php";
+                    urlPath = "http://58.142.149.131/grad/Grad_work_comment.php";
                 }
                 else if(WHERE.equals("DESIGNINFO")) {
                     urlPath = "null";
@@ -247,8 +258,6 @@ public class Comment extends AppCompatActivity {
                 CheckNull = sb.toString();
 
                 if (sb.toString() != "") {
-                    //listCommentDB = sb.toString().split("<br>"); // <br> comment seq # member seq # 작성자 이름 # 프로필 사진 uri # 내용 # 등록시간
-                    //        0               1              2               3            4       5
                 }
                 return sb.toString();
 
@@ -266,7 +275,7 @@ public class Comment extends AppCompatActivity {
         //ui는 여기서 변경
         protected void onPostExecute(String value) {
             // 리사이클 뷰 셋팅 , 어뎁터에 내용 추가가
-
+            new HttpTaskCommentShow().execute();
             super.onPostExecute(value);
         }
 

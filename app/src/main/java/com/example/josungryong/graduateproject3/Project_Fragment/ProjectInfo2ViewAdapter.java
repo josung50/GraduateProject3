@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.josungryong.graduateproject3.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -53,7 +54,9 @@ public class ProjectInfo2ViewAdapter extends RecyclerView.Adapter<ProjectInfo2Vi
         int itemposition = position;
         holder.URI=list.get(itemposition).URI;
         holder.SEQ=list.get(itemposition).SEQ;
-        holder.imageView.setImageBitmap(getPic(holder.URI));
+
+        //holder.imageView.setImageBitmap(getPic(holder.URI));
+        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
     }
 
     // 몇개의 데이터를 리스트로 뿌려줘야하는지 반드시 정의해줘야한다

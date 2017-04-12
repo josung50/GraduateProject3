@@ -278,7 +278,7 @@ public class ProjectInfo extends AppCompatActivity {
         client.disconnect();
     }
 
-    // PHP 검색 쿼리 보내는 class
+    // PHP 검색 쿼리 보내는 class (주제를 보여준다.)
     public class HttpTaskSubject extends AsyncTask<String, Void, String> {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
@@ -352,6 +352,7 @@ public class ProjectInfo extends AppCompatActivity {
     }
 
     // PHP DB insert 쿼리를 보내는 class (주제추가)
+    // 주제 추가 인서트 통신
     public class HttpTaskSubjectAdd extends AsyncTask<String, Void, String> {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {

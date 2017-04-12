@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.R;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -60,7 +61,10 @@ public class ProjectInfoViewAdapter extends RecyclerView.Adapter<ProjectInfoView
         holder.commentnumberText.setText(list.get(itemposition).commentnumber);
         holder.likenumberText.setText(list.get(itemposition).likenumber);
         holder.URI=list.get(itemposition).URI;
-        holder.imageView.setImageBitmap(getPic(holder.URI));
+
+        //holder.imageView.setImageBitmap(getPic(holder.URI));
+        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+
         holder.projectinfoseq=list.get(itemposition).projectinfoseq;
         holder.workseq=list.get(itemposition).workseq;
         holder.memberseq=list.get(itemposition).memberseq;

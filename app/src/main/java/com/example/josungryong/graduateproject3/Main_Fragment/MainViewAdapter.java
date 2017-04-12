@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.josungryong.graduateproject3.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -59,7 +60,9 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
         holder.URI=list.get(itemposition).URI; // 섬네일 주소
         holder.resisterText.setText(list.get(itemposition).resister); // 제작자 , 등록자
         holder.viewText.setText(list.get(itemposition).view); // 조회수
-        holder.imageView.setImageBitmap(getPic(holder.URI)); // 섬네일 셋팅
+
+        //holder.imageView.setImageBitmap(getPic(holder.URI)); // 섬네일 셋팅
+        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }

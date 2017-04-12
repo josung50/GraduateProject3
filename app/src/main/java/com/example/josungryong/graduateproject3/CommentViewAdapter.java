@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -59,7 +61,9 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         holder.resisterseq = list.get(itemposition).resisterseq; // 등록자 seq
         holder.commentseq = list.get(itemposition).commentseq; // 댓글 seq
         holder.resisttime.setText(list.get(itemposition).resisttime); // 댓글 등록 시간
-        holder.imageView.setImageBitmap(getPic(holder.URI)); // 이미지 붙이기
+        //holder.imageView.setImageBitmap(getPic(holder.URI)); // 이미지 붙이기
+
+        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
 
         // 댓글 작성자 이면 삭제버튼 보이기
         if(preferences.getString("MEMBERSEQ","").equals(holder.resisterseq)) {

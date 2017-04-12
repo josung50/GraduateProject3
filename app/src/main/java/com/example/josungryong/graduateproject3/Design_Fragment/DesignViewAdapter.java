@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.josungryong.graduateproject3.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -62,7 +63,9 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.viewText.setText(list.get(itemposition).view);
         holder.resisterseq = list.get(itemposition).resisterseq;
         holder.designseq = list.get(itemposition).designseq;
-        holder.imageView.setImageBitmap(getPic(holder.URI));
+
+        //holder.imageView.setImageBitmap(getPic(holder.URI));
+        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
