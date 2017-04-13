@@ -8,150 +8,177 @@
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="75dp"
+            android:background="@color/background"
+            android:orientation="vertical">
 
             <TextView
-                android:text="디자인"
-                android:textSize="30sp"
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
                 android:id="@+id/design_all"
-                android:clickable="true"
-                android:layout_height="45dp" />
-
-            <RelativeLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="44dp">
+                android:layout_height="38dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:gravity="center_horizontal"
+                android:text="디자인"
+                android:textColor="@color/color_brawn"
+                android:textSize="20sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/background"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:text="새분야"
-                    android:gravity="right"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/design_new"
-                    android:clickable="true"
-                    android:layout_marginEnd="17dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:text="패션"
-                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/design_entertainment"
+                    android:layout_weight="13"
+                    android:clickable="true"
+                    android:text="새분야"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
                     android:id="@+id/design_passion"
-                    android:clickable="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true" />
-
-                <TextView
-                    android:text="제품"
-                    android:layout_marginLeft="55dp"
-                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_weight="13"
+                    android:clickable="true"
+                    android:text="패션"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
                     android:id="@+id/design_product"
-                    android:clickable="true"
-                    android:layout_marginStart="29dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/design_passion" />
-
-                <TextView
-                    android:text="커뮤니케이션"
-                    android:layout_marginLeft="100dp"
-                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/design_passion"
+                    android:layout_weight="13"
+                    android:clickable="true"
+                    android:text="제품"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
                     android:id="@+id/design_commucation"
-                    android:clickable="true"
-                    android:layout_marginStart="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/design_product"
                     android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/design_product" />
+                    android:layout_toEndOf="@+id/design_product"
+                    android:layout_weight="13"
+                    android:clickable="true"
+                    android:text="커뮤니케이션"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
                 <TextView
-                    android:text="공예"
-                    android:layout_marginLeft="210dp"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/design_craft"
-                    android:clickable="true"
-
-                    android:layout_marginStart="11dp"
-                    android:layout_alignBaseline="@+id/design_commucation"
-                    android:layout_alignBottom="@+id/design_commucation"
-                    android:layout_alignStart="@+id/design_entertainment" />
-
-                <TextView
-                    android:text="엔터테인먼트"
-                    android:layout_marginLeft="255dp"
-                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/design_entertainment"
+                    android:layout_toEndOf="@+id/design_commucation"
+                    android:layout_weight="13"
+                    android:clickable="true"
+                    android:text="공예"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
                     android:id="@+id/design_entertainment"
-                    android:clickable="true"
-                    android:layout_marginStart="18dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toEndOf="@+id/design_space" />
-
-                <TextView
-                    android:text="공간"
-                    android:layout_marginLeft="216dp"
-                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/design_space"
+                    android:layout_alignBottom="@+id/design_space"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/design_new"
+                    android:layout_weight="13"
                     android:clickable="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" />
+                    android:text="엔터테인먼트"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/design_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/design_craft"
+                    android:layout_weight="13"
+                    android:clickable="true"
+                    android:text="공간"
+                    android:textColor="@color/color_brawn"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
         <RelativeLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:orientation="vertical">
 
 
             <Button
-                android:text="등록"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/design_write"
-                android:layout_alignParentRight="true"
-                android:onClick="DesignClick"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:onClick="DesignClick"
+                android:text="등록"
+                android:textColor="@color/color_brawn"
+                android:textStyle="italic"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:textSize="17dp"
+                android:layout_alignBottom="@+id/design_latest" />
 
             <TextView
-                android:text="최신순"
-                android:textSize="17dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="8dp"
+                android:id="@+id/design_latest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/design_latest"
-                android:onClick="DesignClick"/>
+                android:layout_marginLeft="30dp"
+                android:onClick="DesignClick"
+                android:text="최신순"
+                android:textColor="@color/color_brawn"
+                android:textSize="17dp"
+                android:textStyle="italic"
+                android:layout_alignParentTop="true" />
+
+
+
 
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewDesign"
             android:layout_width="match_parent"
-            android:layout_height="409dp"
+            android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            android:id="@+id/recyclerViewDesign"/>
+            android:background="@color/background"/>
 
     </LinearLayout>
 

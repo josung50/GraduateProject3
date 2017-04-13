@@ -4,5 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
     <color name="color_white">#ffffff</color>
-    <color name="color_orange">#ffc042</color>
+    <color name="color_orange">#eaac2e</color>
+    <color name="color_brawn">#b9851d</color>
+    <color name="color_gray">#cfcecd</color>
+    <color name="background">#fdf2eed9</color>
+    <color name="stroke">#b9851d</color>
 </resources>

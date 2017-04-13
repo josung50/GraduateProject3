@@ -25,14 +25,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/project_all"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:background="@color/background"
+                android:textColor="@color/color_brawn"/>
 
         </LinearLayout>
 
         <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/background">
 
 
             <Button
@@ -41,7 +44,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/project_write"
                 android:layout_alignParentRight="true"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textColor="@color/color_brawn"
+                android:background="@color/background"/>
 
             <TextView
                 android:text="최신순"
@@ -51,7 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/project_latest"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textColor="@color/color_brawn"/>
 
         </RelativeLayout>
 
