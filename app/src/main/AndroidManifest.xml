@@ -9,10 +9,12 @@
         android:label="OSD"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Login"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar">
+
+            <activity
+                android:name=".Login"
+                android:label=""
+                android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,6 +31,14 @@
             android:name=".MyPage.MyPage"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".join1"></activity>
+
+        <activity
+            android:name=".join2"></activity>
+        <activity
+            android:name=".join3"></activity>
+        <activity
+            android:name=".join4"></activity>
 
         <activity android:name=".Project_Fragment.ProjectInfo"></activity> // 프로젝트 상세페이지
         <activity android:name=".Design_Fragment.DesignInfo"

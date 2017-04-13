@@ -52,6 +52,8 @@ public class Login extends AppCompatActivity {
     private Button JoinButton;
     private Button login;
 
+
+
     public static SharedPreferences preferences; // 로그인 정보를 담는다. (로그인 유지)
 
     @Override
@@ -61,6 +63,7 @@ public class Login extends AppCompatActivity {
 
         FaceBookLoginButton = (Button) findViewById(R.id.FacBookLoginButton);
         login = (Button) findViewById(R.id.Login);
+        JoinButton = (Button) findViewById(R.id.Join);
 
         preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
         if(preferences.getString("LOGIN","").equals("success")) {
@@ -80,8 +83,9 @@ public class Login extends AppCompatActivity {
                 finish();
                 break;
 
-            case R.id.join: // 회원가입
-                JoinButton = (Button) findViewById(R.id.join);
+            case R.id.Join: // 회원가입
+                Intent intent = new Intent(Login.this,join1.class);
+                startActivity(intent);
                 break;
 
             case R.id.Login:
@@ -98,7 +102,7 @@ public class Login extends AppCompatActivity {
     }
 
     // PHP 검색 쿼리 보내는 class
-    public class HttpTaskLogin extends AsyncTask<String,Void,String> {
+    public class HttpTaskLogin extends AsyncTask <String,Void,String> {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
@@ -178,6 +182,7 @@ public class Login extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 // 로그인 여부(success,failed) # 멤버SEQ # 멤버닉네임 # 프로필URL # 자기소개 # ID # PASSWORD
                 //      0                            1           2           3           4      5        6
+
                 // LOGIN # MEMBERSEQ # MEMBERNICK # IMGURL # SELFINFO # ID # PASSWORD
                 editor.putString("LOGIN" , "success");
                 editor.putString("MEMBERSEQ", resultLogin[1]);
