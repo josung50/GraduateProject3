@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -68,6 +69,12 @@ public class Comment extends AppCompatActivity {
             commentnumber = intent.getStringExtra("PROJECTINFO2_commnetnumber");
             query = "PROJECT_WORK_SEQ=" + PROJECT_WORK_SEQ;
         }
+        else if(WHERE.equals("DESIGNINFO")) {
+                DESIGN_WORK_SEQ = intent.getStringExtra("DESIGN_WORK_SEQ");
+                likenumber = intent.getStringExtra("DESIGN_likenumber");
+                commentnumber = intent.getStringExtra("DESIGN_commnetnumber");
+                query = "DESIGN_WORK_SEQ=" + DESIGN_WORK_SEQ;
+            }
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewComment);
@@ -92,7 +99,7 @@ public class Comment extends AppCompatActivity {
                     urlPath = "http://58.142.149.131/grad/Grad_work_comment.php";
                 }
                 else if(WHERE.equals("DESIGNINFO")) {
-                    urlPath = "null";
+                    urlPath = "http://58.142.149.131/grad/Grad_work_comment.php";
                 }
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
@@ -216,11 +223,22 @@ public class Comment extends AppCompatActivity {
             // TODO Auto-generated method stub
             try {
 
+                String data = null;
+                Intent intent = getIntent();
+
                 if(WHERE.equals("PROJECTINFO2")) {
                     urlPath = "http://58.142.149.131/grad/Grad_work_comment.php";
+                    preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
+                    data = "REGI_PROJECT_WORK_SEQ=" + intent.getStringExtra("PROJECT_WORK_SEQ");
+                    data +="&REGI_PCOMMENT=" + content;
+                    data +="&REGI_MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
                 }
                 else if(WHERE.equals("DESIGNINFO")) {
-                    urlPath = "null";
+                    urlPath = "http://58.142.149.131/grad/Grad_work_comment.php";
+                    preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
+                    data = "REGI_DESIGN_WORK_SEQ=" + intent.getStringExtra("DESIGN_WORK_SEQ");
+                    data +="&REGI_DCOMMENT=" + content;
+                    data +="&REGI_D_MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
                 }
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
@@ -234,13 +252,6 @@ public class Comment extends AppCompatActivity {
 
                 //추가 할 내용 - 서버 on/off 검사
 
-                // 문자열 전송
-                String data;
-                Intent intent = getIntent();
-                preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
-                data = "REGI_PROJECT_WORK_SEQ=" + intent.getStringExtra("PROJECT_WORK_SEQ");
-                data +="&REGI_PCOMMENT=" + content;
-                data +="&REGI_MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
                 Log.i("queryvalue" , "value : " + data);
                 wr.write(data);
                 wr.flush();

@@ -55,8 +55,16 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
     public void onBindViewHolder(Holder holder, int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
-        holder.titleText.setText(list.get(itemposition).title); // 제목
-        holder.meaningText.setText(list.get(itemposition).meaning); // 상세 내용
+        if(list.get(itemposition).title.toString().length()>=15) {
+            String temp;
+            temp = list.get(itemposition).title.toString().substring(0,12) + "...";
+            holder.titleText.setText(temp);
+
+        }
+        else {
+            holder.titleText.setText(list.get(itemposition).title);
+        }
+        //holder.meaningText.setText(list.get(itemposition).meaning); // 상세 내용
         holder.URI=list.get(itemposition).URI; // 섬네일 주소
         holder.resisterText.setText(list.get(itemposition).resister); // 제작자 , 등록자
         holder.viewText.setText(list.get(itemposition).view); // 조회수
@@ -76,7 +84,7 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
     // ViewHolder는 하나의 View를 보존하는 역할을 한다
     public class Holder extends RecyclerView.ViewHolder{
         public TextView titleText;
-        public TextView meaningText;
+        //public TextView meaningText;
         public TextView resisterText;
         public TextView viewText;
         ImageView imageView;
@@ -85,7 +93,7 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
         public Holder(View view){
             super(view);
             titleText = (TextView) view.findViewById(R.id.title_main_cardview);
-            meaningText = (TextView) view.findViewById(R.id.meaningText_main_cardview);
+            //meaningText = (TextView) view.findViewById(R.id.meaningText_main_cardview);
             imageView = (ImageView) view.findViewById(R.id.imageView_main_cardview);
             resisterText = (TextView) view.findViewById(R.id.resisterater_main_cardview);
             viewText = (TextView) view.findViewById(R.id.view_main_cardview);

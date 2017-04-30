@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button4"
+            android:layout_gravity="left"
+            android:layout_weight="20"
+            android:background="@android:drawable/ic_media_rew" />
+
+        <TextView
+            android:text="새 게시물"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:elevation="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="60"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_gravity="right"
+            android:layout_weight="20"
+            android:gravity="right"
+            android:background="@android:drawable/ic_menu_send" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/layout_border_all"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/designwrite2_profileimg"
+            android:layout_gravity="center" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/designwrite2_edittext"
+            android:hint="설명추가..."
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/textView"
+        android:layout_marginBottom="10dp"
+        android:hint="태그" />
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@drawable/layout_border_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerViewDesignWrite2"/>
+</LinearLayout>

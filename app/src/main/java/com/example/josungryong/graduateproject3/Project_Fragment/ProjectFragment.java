@@ -45,7 +45,6 @@ public class ProjectFragment extends Fragment {
     private ViewGroup rootView;
 
     // 탭 //
-    private TextView project_all;
     private Button project_write;
 
     @Override
@@ -67,16 +66,8 @@ public class ProjectFragment extends Fragment {
         Log.e("Frag", "ProjectFragment:"+recyclerView.getAdapter().getItemCount());
 
         // 탭 //
-        project_all = (TextView) rootView.findViewById(R.id.project_all);
         project_write = (Button) rootView.findViewById(R.id.project_write);
 
-        project_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
         project_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -149,7 +140,7 @@ public class ProjectFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getActivity(),"로딩중",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(),"로딩중",Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
 

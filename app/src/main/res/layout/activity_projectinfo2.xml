@@ -31,9 +31,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewProjectInfo2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerViewProjectInfo2"
         android:layout_weight="0.99" />
 
     <TextView
@@ -49,10 +49,9 @@
 
         <Button
             android:text="like"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:id="@+id/projectinfo2_like"
-            android:layout_width="0dp"
-            android:layout_weight="25"
+            android:layout_width="43dp"
             android:background="@drawable/like_before"
             android:onClick="onClick"/>
 

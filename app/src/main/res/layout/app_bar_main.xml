@@ -15,22 +15,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#fdf2efdf">
+            android:background="@color/background">
 
             <include layout="@layout/content_main" />
 
-            <Button
-                android:id="@+id/button8"
+            <ImageView
+                android:id="@+id/search"
                 app:layout_anchorGravity="top|right"
                 android:layout_gravity="bottom|left"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_search_black_24dp"
+                android:src="@drawable/search_bar"
                 android:layout_width="50dp"
                 android:layout_height="40dp" />
 
             <EditText
                 android:layout_height="wrap_content"
-                android:id="@+id/textView6"
+                android:id="@+id/textsearch"
                 android:textColorHint="@color/color_orange"
                 android:layout_gravity="center_vertical|left"
                 android:hint="Search"
@@ -57,7 +57,7 @@
                 android:textStyle="italic"
                 android:textColor="@color/color_orange"
                 android:background="#00ff0000"
-                android:onClick="TabClick"/>
+                android:onClick="TabClick" />
 
             <Button
                 android:text="Designer"

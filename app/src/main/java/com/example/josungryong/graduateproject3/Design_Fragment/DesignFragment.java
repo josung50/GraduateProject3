@@ -1,12 +1,14 @@
 package com.example.josungryong.graduateproject3.Design_Fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -145,8 +147,28 @@ public class DesignFragment extends Fragment {
         design_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Intent intent = new Intent(getActivity(), DesignWrite.class);
-                startActivity(intent);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                //alert.setView(name);
+                alert.setTitle("어디서 디자인을 가져올까?");
+                alert.setPositiveButton("카메라", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alert.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.setNegativeButton("갤러리", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(), DesignWrite.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
             }
         });
 

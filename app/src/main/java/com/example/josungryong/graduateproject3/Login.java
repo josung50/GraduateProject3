@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -76,8 +77,10 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "페이스북로그인클릭", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.join: // 회원가입
-                JoinButton = (Button) findViewById(R.id.join);
+            case R.id.Join: // 회원가입
+                JoinButton = (Button) findViewById(R.id.Join);
+                Intent intent = new Intent(Login.this, join1.class);
+                startActivity(intent);
                 break;
 
             case R.id.Login:

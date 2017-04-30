@@ -29,7 +29,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/title_design_cardview"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:maxLength="18"/>
 
             <LinearLayout
                 android:orientation="horizontal"

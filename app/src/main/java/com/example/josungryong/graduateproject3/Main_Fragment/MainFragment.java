@@ -55,10 +55,8 @@ public class MainFragment extends Fragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_main, container, false);
 
         new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
-        //list = contacts;
-        //list = createContactsList(listDB);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         Log.i("list55" , "time");
         adapter = new MainViewAdapter(getActivity(), list);

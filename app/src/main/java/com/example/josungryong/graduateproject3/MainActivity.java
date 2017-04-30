@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +30,7 @@ import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragme
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
 import com.example.josungryong.graduateproject3.MyPage.MyPage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
+import com.ramotion.foldingcell.FoldingCell;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -43,6 +42,7 @@ import static com.example.josungryong.graduateproject3.Login.preferences;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static Bitmap Main_profileimg;
     private Button ProjectButton; private Button DesignButton; private Button DesignerButton;
     ImageView imgurl;
     TextView nickname;
@@ -55,11 +55,29 @@ public class MainActivity extends AppCompatActivity
     // fragment //
     private Fragment fr = null;
 
+    // 0:메인 1:디자인 2:프로젝트 3:디자이너
+    int positionFR_current = 0;
+    int positionFR_after = -999;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //Intent intent = new Intent(MainActivity.this, TestServer.class);
+        //startActivity(intent);
+
+        /*
+        final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
+
+        fc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fc.toggle(false);
+            }
+        });
+        */
 
         // 탭 버튼 //
         ProjectButton = (Button) findViewById(R.id.ProjectButton);
@@ -85,6 +103,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Log.i("MainCOOKIE" , "Value : " + preferences.getString("MEMBERSEQ","") + " " + preferences.getString("ID","") + " " + preferences.getString("LOGIN","") + " " + preferences.getString("IMGURL",""));
+        DesignButton.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                Toast.makeText(v.getContext(),"드래그됨",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -113,7 +138,8 @@ public class MainActivity extends AppCompatActivity
 
         nickname.setText(preferences.getString("MEMBERNICK",""));
         selfinfo.setText(preferences.getString("SELFINFO",""));
-        imgurl.setImageBitmap(getPic(preferences.getString("IMGURL","")));
+        Main_profileimg = getPic(preferences.getString("IMGURL",""));
+        imgurl.setImageBitmap(Main_profileimg);
         Log.i("URLINFO" , "Value : " + "http://113.198.210.237:80/" + preferences.getString("IMGURL",""));
 
         return true;
@@ -173,32 +199,68 @@ public class MainActivity extends AppCompatActivity
                 DesignButton.setTextSize(22);
                 ProjectButton.setTextSize(15);
                 DesignerButton.setTextSize(15);
+                positionFR_after = 1;
                 fr = new DesignFragment();
                 selectFragment(fr);
+                positionFR_current = 1;
                 break;
             case R.id.ProjectButton:
                 DesignButton.setTextSize(15);
                 ProjectButton.setTextSize(22);
                 DesignerButton.setTextSize(15);
+                positionFR_after = 2;
                 fr = new ProjectFragment();
                 selectFragment(fr);
+                positionFR_current = 2;
                 break;
             case R.id.DesignerButton:
                 DesignButton.setTextSize(15);
                 ProjectButton.setTextSize(15);
                 DesignerButton.setTextSize(22);
+                positionFR_after = 3;
                 fr = new DesignerFragment();
                 selectFragment(fr);
+                positionFR_current = 3;
                 break;
         }
     }
 
     // fragment 교체 //
     public void selectFragment(Fragment fr) {
+        int currentPosition = 0;
+
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+        switch (leftORrightFR(positionFR_current , positionFR_after)){
+            case 0: // 메인으로 이동
+                break;
+            case 1: // 왼쪽으로 이동
+                Log.i("positionvalue" , "value : " + positionFR_current + " " + positionFR_after);
+                fragmentTransaction.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right , R.anim.anim_slide_out_right , R.anim.anim_slide_in_left);
+
+                break;
+            case 2: // 오른쪽으로 이동
+                Log.i("positionvalue" , "value : " + positionFR_current + " " + positionFR_after);
+                fragmentTransaction.setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left , R.anim.anim_slide_out_left , R.anim.anim_slide_in_right);
+                break;
+            case -1: // 메인에서 이동
+                break;
+        }
         fragmentTransaction.replace(R.id.fragment_container, fr);
         fragmentTransaction.commit();
+    }
+    // fragment 교체 애니메이션을 위한 현재 프레그먼트 찾기 //
+    public int leftORrightFR(int current_position , int after_position ) {
+        if(current_position > after_position) { // 왼쪽 이동
+            return 1;
+        }
+        else if(current_position < after_position) // 오른쪽 이동
+            return 2;
+        else if(after_position == 0) {
+            return 0; // 메인 이동
+        }
+        else return -1; // 메인에서 이동
     }
 
     // URL을 통해 이미지를 서버로 부터 불러온다. //

@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3.Project_Fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;

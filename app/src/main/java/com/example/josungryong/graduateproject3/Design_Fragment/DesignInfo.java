@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3.Design_Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.josungryong.graduateproject3.Comment;
 import com.example.josungryong.graduateproject3.R;
 
 import org.w3c.dom.Text;
@@ -28,9 +31,9 @@ import java.util.ArrayList;
  * Created by josungryong on 2017-03-23.
  */
 
-public class DesignInfo extends AppCompatActivity{
+public class DesignInfo extends Activity {
 
-    private String DESING_WORK_SEQ;
+    private String DESIGN_WORK_SEQ;
     private String RESISTER_SEQ;
 
     private RecyclerView recyclerView;
@@ -49,6 +52,8 @@ public class DesignInfo extends AppCompatActivity{
     private TextView DesignInfo_likenumber; // 좋아요 수
     private TextView DesignInfo_commentnumber; // 코멘트 수
 
+    private Intent intent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +61,7 @@ public class DesignInfo extends AppCompatActivity{
 
         // 디자인SEQ와 올린사람 SEQ를 가져온다.
         Intent intent = getIntent();
-        DESING_WORK_SEQ = intent.getStringExtra("DESIGN_WORK_SEQ");
+        DESIGN_WORK_SEQ = intent.getStringExtra("DESIGN_WORK_SEQ");
         RESISTER_SEQ = intent.getStringExtra("RESISTER_SEQ");
 
         // 이미지 출력
@@ -80,7 +85,6 @@ public class DesignInfo extends AppCompatActivity{
         DesignInfo_resistername = (TextView) findViewById(R.id.designinfo_resistername);
         DesignInfo_likenumber = (TextView) findViewById(R.id.designinfo_likenumber);
         DesignInfo_commentnumber = (TextView) findViewById(R.id.designinfo_commentnumber);
-
     }
 
     // PHP 디자인에 해당하는 파일 불러오는 통신 class
@@ -93,7 +97,7 @@ public class DesignInfo extends AppCompatActivity{
                 String urlPath = "http://58.142.149.131/grad/Grad_design_card.php";
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
-                String data = "DESIGN_WORK_SEQ=" + DESING_WORK_SEQ ;
+                String data = "DESIGN_WORK_SEQ=" + DESIGN_WORK_SEQ ;
                 Log.i("workvalue" , "value : " + data);
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
@@ -207,5 +211,17 @@ public class DesignInfo extends AppCompatActivity{
             contacts.add(new ItemDataDesignInfo(tempSeqUri[0] , tempSeqUri[1])); // seq , uri
         }
         return contacts;
+    }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.designinfo_commentnumber:
+                intent = new Intent(DesignInfo.this, Comment.class);
+                intent.putExtra("WHERE","DESIGNINFO");
+                intent.putExtra("DESIGN_WORK_SEQ" , DESIGN_WORK_SEQ);
+                //Log.i("extravalue" , "value : " + putextra_commentnumber + putextra_likenumber);
+                startActivity(intent);
+                break;
+        }
     }
 }

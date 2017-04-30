@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.example.josungryong.graduateproject3.Main_Fragment.WordItemData;
+import com.ramotion.foldingcell.FoldingCell;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
 
 /**
  * Created by josungryong on 2017-03-15.
@@ -28,8 +31,17 @@ public class TestServer extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_testserver);
-        new HttpTask().execute();
+        setContentView(R.layout.test_layout);
+
+        final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
+
+        fc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fc.toggle(false);
+            }
+        });
+        //new HttpTask().execute();
     }
 
     // PHP 검색 쿼리 보내는 class

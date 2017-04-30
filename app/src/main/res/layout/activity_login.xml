@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fdf2efdf">
+    android:background="#fdf2eed9">
 
 
     <ImageView
@@ -88,12 +88,13 @@
         android:layout_alignParentStart="true">
 
         <Button
-            android:id="@+id/join"
+            android:id="@+id/Join"
             android:layout_width="70dp"
             android:layout_height="100dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/logi"
-            android:layout_weight="0.18" />
+            android:layout_weight="0.18"
+            android:onClick="onClick"/>
 
         <Button
             android:id="@+id/FacBookLoginButton"

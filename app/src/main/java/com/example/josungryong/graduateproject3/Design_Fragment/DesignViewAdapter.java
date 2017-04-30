@@ -56,7 +56,15 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
     public void onBindViewHolder(final Holder holder, int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
-        holder.titleText.setText(list.get(itemposition).title);
+        if(list.get(itemposition).title.toString().length()>=15) {
+            String temp;
+            temp = list.get(itemposition).title.toString().substring(0,12) + "...";
+            holder.titleText.setText(temp);
+            Log.i("textvalue" , "in" + list.get(itemposition).title.length());
+        }
+        else {
+            holder.titleText.setText(list.get(itemposition).title);
+        }
         //holder.meaningText.setText(list.get(itemposition).meaning);
         holder.URI=list.get(itemposition).URI;
         holder.resisterText.setText(list.get(itemposition).resister);
@@ -65,7 +73,7 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.designseq = list.get(itemposition).designseq;
 
         //holder.imageView.setImageBitmap(getPic(holder.URI));
-        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).fit().into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,35 +111,5 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
             resisterText = (TextView) view.findViewById(R.id.resisterater_design_cardview);
             viewText = (TextView) view.findViewById(R.id.view_design_cardview);
         }
-    }
-
-    // URL을 통해 이미지를 서버로 부터 불러온다. //
-    public Bitmap getPic(String imagePath) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        HttpURLConnection connection = null;
-        String imageURL;
-        imageURL = "http://113.198.210.237:80/"+imagePath;
-        Log.e("이미지", imageURL);
-        try {
-            URL url = new URL(imageURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-
-            BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-            Bitmap myBitmap = BitmapFactory.decodeStream(bis);
-
-            Log.e("이미지", "성공" + myBitmap);
-            return myBitmap;
-        } catch (IOException e) {
-            Log.e("이미지" , "실패");
-            e.printStackTrace();
-            return null;
-        }finally{
-            Log.e("이미지","커밋성공");
-            if(connection!=null)connection.disconnect();
-        }//
     }
 }
