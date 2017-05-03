@@ -12,129 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="@color/background"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/design_all"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:clickable="true"
-                android:gravity="center_horizontal"
-                android:text="디자인"
-                android:textColor="@color/color_brawn"
-                android:textSize="20sp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:background="@color/background"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/design_new"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@+id/design_entertainment"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="새분야"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/design_passion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="패션"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/design_product"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/design_passion"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="제품"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/design_commucation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/design_product"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/design_product"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="커뮤니케이션"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/design_craft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/design_entertainment"
-                    android:layout_toEndOf="@+id/design_commucation"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="공예"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/design_entertainment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/design_space"
-                    android:layout_alignParentTop="true"
-                    android:layout_toStartOf="@+id/design_new"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="엔터테인먼트"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/design_space"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/design_craft"
-                    android:layout_weight="13"
-                    android:clickable="true"
-                    android:text="공간"
-                    android:textColor="@color/color_brawn"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,43 +19,17 @@
             android:orientation="vertical">
 
 
-            <Button
-                android:id="@+id/design_write"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewDesign"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/background"
-                android:onClick="DesignClick"
-                android:text="등록"
-                android:textColor="@color/color_brawn"
-                android:textStyle="italic"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:textSize="17dp"
-                android:layout_alignBottom="@+id/design_latest" />
+                app:layoutManager="LinearLayoutManager"
+                android:background="@color/background">
 
-            <TextView
-                android:id="@+id/design_latest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:onClick="DesignClick"
-                android:text="최신순"
-                android:textColor="@color/color_brawn"
-                android:textSize="17dp"
-                android:textStyle="italic"
-                android:layout_alignParentTop="true" />
-
-
+            </android.support.v7.widget.RecyclerView>
 
 
         </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewDesign"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            android:background="@color/background"/>
 
     </LinearLayout>
 

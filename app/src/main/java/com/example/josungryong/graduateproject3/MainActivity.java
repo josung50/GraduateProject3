@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
@@ -20,12 +22,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
+import com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite;
 import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
 import com.example.josungryong.graduateproject3.MyPage.MyPage;
@@ -44,6 +49,11 @@ public class MainActivity extends AppCompatActivity
 
     public static Bitmap Main_profileimg;
     private Button ProjectButton; private Button DesignButton; private Button DesignerButton;
+
+    public static Spinner DesignSpinner; public static Spinner DesignerSpinner;
+    public ArrayAdapter<CharSequence> Design_Spinner_Adapter;
+    public ArrayAdapter<CharSequence> Designer_Spinner_Adapter;
+
     ImageView imgurl;
     TextView nickname;
     TextView selfinfo;
@@ -84,6 +94,21 @@ public class MainActivity extends AppCompatActivity
         DesignButton = (Button) findViewById(R.id.DesignButton);
         DesignerButton = (Button) findViewById(R.id.DesignerButton);
 
+        DesignSpinner = (Spinner) findViewById(R.id.DesignSpinner);
+        DesignSpinner.setPrompt("분야 선택");
+        Design_Spinner_Adapter = ArrayAdapter.createFromResource(this,R.array.design_spinner,R.layout.spinner_tab_item);
+        Design_Spinner_Adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        DesignSpinner.setAdapter(Design_Spinner_Adapter);
+        DesignSpinner.setVisibility(View.INVISIBLE);
+
+        DesignerSpinner = (Spinner) findViewById(R.id.DesignerSpinner);
+        DesignerSpinner.setPrompt("분야 선택");
+        Designer_Spinner_Adapter = ArrayAdapter.createFromResource(this,R.array.design_spinner,R.layout.spinner_tab_item);
+        Designer_Spinner_Adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        DesignerSpinner.setAdapter(Designer_Spinner_Adapter);
+        DesignerSpinner.setVisibility(View.INVISIBLE);
+
+
         DesignButton.setTextSize(15);
         ProjectButton.setTextSize(15);
         DesignerButton.setTextSize(15);
@@ -91,7 +116,8 @@ public class MainActivity extends AppCompatActivity
         fr = new MainFragment();
         selectFragment(fr);
 
-        setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.iroman1);
+        setSupportActionBar(toolbar); // 액션바 대신 툴바 적용
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,13 +129,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Log.i("MainCOOKIE" , "Value : " + preferences.getString("MEMBERSEQ","") + " " + preferences.getString("ID","") + " " + preferences.getString("LOGIN","") + " " + preferences.getString("IMGURL",""));
-        DesignButton.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                Toast.makeText(v.getContext(),"드래그됨",Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
     }
 
     @Override
@@ -152,9 +171,32 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }*/
+        switch(id) {
+            case R.id.design_write_nav:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                //alert.setView(name);
+                alert.setTitle("어디서 디자인을 가져올까?");
+                alert.setPositiveButton("카메라", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alert.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.setNegativeButton("갤러리", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(), DesignWrite.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.show();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -163,7 +205,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_logout) {
             preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -196,27 +237,32 @@ public class MainActivity extends AppCompatActivity
     public void TabClick(View v) {
         switch (v.getId()) {
             case R.id.DesignButton:
-                DesignButton.setTextSize(22);
-                ProjectButton.setTextSize(15);
-                DesignerButton.setTextSize(15);
+                DesignButton.setVisibility(View.INVISIBLE);
+                DesignSpinner.setVisibility(View.VISIBLE);
+                DesignerButton.setVisibility(View.VISIBLE);
+                DesignerSpinner.setVisibility(View.INVISIBLE);
                 positionFR_after = 1;
                 fr = new DesignFragment();
                 selectFragment(fr);
                 positionFR_current = 1;
                 break;
             case R.id.ProjectButton:
-                DesignButton.setTextSize(15);
                 ProjectButton.setTextSize(22);
-                DesignerButton.setTextSize(15);
+                DesignButton.setVisibility(View.VISIBLE);
+                DesignSpinner.setVisibility(View.INVISIBLE);
+                DesignerButton.setVisibility(View.VISIBLE);
+                DesignerSpinner.setVisibility(View.INVISIBLE);
                 positionFR_after = 2;
                 fr = new ProjectFragment();
                 selectFragment(fr);
                 positionFR_current = 2;
                 break;
             case R.id.DesignerButton:
-                DesignButton.setTextSize(15);
                 ProjectButton.setTextSize(15);
-                DesignerButton.setTextSize(22);
+                DesignButton.setVisibility(View.VISIBLE);
+                DesignSpinner.setVisibility(View.INVISIBLE);
+                DesignerButton.setVisibility(View.INVISIBLE);
+                DesignerSpinner.setVisibility(View.VISIBLE);
                 positionFR_after = 3;
                 fr = new DesignerFragment();
                 selectFragment(fr);

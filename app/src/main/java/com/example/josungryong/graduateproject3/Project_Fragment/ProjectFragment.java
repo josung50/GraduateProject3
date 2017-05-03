@@ -65,15 +65,6 @@ public class ProjectFragment extends Fragment {
 
         Log.e("Frag", "ProjectFragment:"+recyclerView.getAdapter().getItemCount());
 
-        // 탭 //
-        project_write = (Button) rootView.findViewById(R.id.project_write);
-
-        project_write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-            }
-        });
-
         return rootView;
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_main, container, false);

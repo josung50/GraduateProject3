@@ -3,8 +3,10 @@ package com.example.josungryong.graduateproject3.Design_Fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +18,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +37,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+
+import static com.example.josungryong.graduateproject3.MainActivity.DesignSpinner;
 
 
 /**
@@ -52,6 +59,8 @@ public class DesignFragment extends Fragment {
     private ViewGroup rootView;
 
     // 탭 //
+    /*
+    private Spinner design_spinner;
     private TextView design_all;
     private TextView design_passion;
     private TextView design_commucation;
@@ -61,12 +70,12 @@ public class DesignFragment extends Fragment {
     private TextView design_new;
     private TextView design_product;
     private Button design_write;
+    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        CODE="CODE=";
-        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //CODE="CODE=";
+        //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         rootView = (ViewGroup)inflater.inflate(R.layout.fragment_design, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewDesign);
@@ -76,7 +85,70 @@ public class DesignFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
+        DesignSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 0:전체 1:패션 2:제품 3:커뮤니케이션 4:공예 5:엔터테인먼트 6:공간 7:새분야
+                switch (position) {
+                    case 0: // 전체
+                        CODE="CODE=";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 1: // 패션
+                        CODE = "CODE=001";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 2: // 제품
+                        CODE = "CODE=002";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 3: // 커뮤니케이션
+                        CODE = "CODE=003";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 4: // 공예
+                        CODE = "CODE=004";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 5: // 엔터테인먼트
+                        CODE = "CODE=005";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 6: // 공강
+                        CODE = "CODE=006";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                    case 7: // 새분야
+                        CODE = "CODE=007";
+                        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         // 탭 //
+        /*
+        design_spinner = (Spinner) rootView.findViewById(R.id.design_spinner);
+        ArrayAdapter<CharSequence> adapter_spinner = ArrayAdapter.createFromResource(getContext(), R.array.design_spinner,android.R.layout.simple_spinner_dropdown_item);
+        adapter_spinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        design_spinner.setAdapter(adapter_spinner);
+        design_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         design_all = (TextView) rootView.findViewById(R.id.design_all);
         design_passion = (TextView) rootView.findViewById(R.id.design_passion);
         design_product = (TextView) rootView.findViewById(R.id.design_product);
@@ -171,6 +243,7 @@ public class DesignFragment extends Fragment {
                 alert.show();
             }
         });
+        */
 
         return rootView;
     }

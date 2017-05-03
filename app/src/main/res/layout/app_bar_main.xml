@@ -14,36 +14,17 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:background="@color/background">
+            android:background="@color/background"
+            android:layout_height="100dp">
 
             <include layout="@layout/content_main" />
-
-            <ImageView
-                android:id="@+id/search"
-                app:layout_anchorGravity="top|right"
-                android:layout_gravity="bottom|left"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/search_bar"
-                android:layout_width="50dp"
-                android:layout_height="40dp" />
-
-            <EditText
-                android:layout_height="wrap_content"
-                android:id="@+id/textsearch"
-                android:textColorHint="@color/color_orange"
-                android:layout_gravity="center_vertical|left"
-                android:hint="Search"
-                android:layout_width="290dp"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/toolbar" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:background="@android:color/transparent"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:layout_height="50dp"
-                android:layout_width="50dp" />
+                android:layout_width="match_parent" />
 
             <Button
                 android:text="Project"
@@ -77,7 +58,6 @@
                 android:text="Design"
                 android:id="@+id/DesignButton"
                 tools:layout_anchorGravity="top|bottom"
-                android:autoText="false"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
@@ -85,7 +65,23 @@
                 android:textStyle="italic"
                 android:textColor="@color/color_orange"
                 android:background="#00ff0000"
-                android:onClick="TabClick"/>
+                android:onClick="TabClick"
+                android:autoText="false" />
+
+            <Spinner
+                android:layout_width="110dp"
+                android:id="@+id/DesignSpinner"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:gravity="right|start" />
+
+            <Spinner
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:id="@+id/DesignerSpinner"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 
@@ -97,18 +93,6 @@
             android:layout_below="@+id/relativeLayout"
             android:layout_alignParentStart="true">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                app:srcCompat="@android:drawable/ic_input_add"
-                app:backgroundTint="@android:color/white"
-                android:layout_marginLeft="@dimen/fab_margin"
-                android:layout_marginRight="@dimen/fab_margin"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="395dp" />
         </RelativeLayout>
     </LinearLayout>
 

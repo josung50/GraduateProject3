@@ -12,44 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background">
-
-
-            <Button
-                android:text="등록"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/project_write"
-                android:layout_alignParentRight="true"
-                android:clickable="true"
-                android:textColor="@color/color_brawn"
-                android:background="@color/background"/>
-
-            <TextView
-                android:text="최신순"
-                android:textSize="17dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/project_latest"
-                android:clickable="true"
-                android:textColor="@color/color_brawn"/>
-
-        </RelativeLayout>
-
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
