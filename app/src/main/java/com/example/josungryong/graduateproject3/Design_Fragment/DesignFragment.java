@@ -74,6 +74,11 @@ public class DesignFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        DesignSpinner.setSelection(0);
+        CODE="CODE=";
+        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         //CODE="CODE=";
         //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
