@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.OutputStreamWriter;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.net.URL;
 import java.io.InputStreamReader;
@@ -24,12 +25,16 @@ import java.io.InputStreamReader;
  */
 
 public class join1 extends AppCompatActivity {
+
+
     EditText pass;//패스워드 입력
     EditText pass_confirm;//패스워드 확인
     EditText id;//id
     EditText id1;
-    String id_Result="1";
+    String id_Result="1";//1
     String id_mark="1";//id중복체크 마크:1
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +56,23 @@ public class join1 extends AppCompatActivity {
     public void id_check(View v){//id 중복체크 버튼
 
 
-String id_check=id1.getText().toString();//id check
+        String id_check=id1.getText().toString();//id check
 
 
 
-
-Log.i("checkcheck","wmf"+id1);
-
-
-ID_CHECK(id_check,id_mark);
+        ID_CHECK(id_check,id_mark);
 
     }
+
+
 
 
 
     public void next(View v){//다음버튼 누르면 실행
 
 
-        //id 중복체크
 
         String id_join= id.getText().toString();// id 입력받기
-
-
-
-
-
         String PW = pass.getText().toString();//비밀번호 스트링 받기(입력)
         String PW_confirm=pass_confirm.getText().toString();//비밀번호 확인란 스트링 받기
 
@@ -85,6 +82,14 @@ ID_CHECK(id_check,id_mark);
         if(id_join.length()==0)//id 입력하지 않을 경우
         {
             Toast.makeText(getApplicationContext(),"id를 입력해주세요!.",Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+//id 이메일 형식 체크
+
+        if(!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$",id_join)){
+            Toast.makeText(getApplicationContext(),"이메일 형식의 id를 입력해주세요",Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -117,24 +122,30 @@ ID_CHECK(id_check,id_mark);
         }
 
 
-        if(id_Result.equals("0"))//id 중복체크- id 없으면 (마크0)
-        {
-          //  insertToDatabase(id_join,PW);
+        if(id_Result.equals("0") && Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", id_join))//id 중복체크- id 없으면 (마크0)
 
-            Intent intent = new Intent(join1.this, join2.class);
+        {
+
+
+            Intent intent = new Intent(join1.this, join2.class);// 모든 조건이 만족되면 다음 액티비티로 넘어감
+            intent.putExtra("name",id_join); // 아이디(중복체크 다된 아이디)를 다음 액티비티로 넘김.
+            intent.putExtra("pw",PW);//비번을 다음 액티비티로 넘김
             startActivity(intent);
+
         }
 
         else if(!id_Result.equals("0")){
             Toast.makeText(getApplicationContext(),"id 중복체크를 해주세요!",Toast.LENGTH_SHORT).show();
 
             return;
+
         }
 
+        //Intent intent = new Intent(this, join2.class);//데이터 다음 액티비티로 넘기기
+        //intent.putExtra("name",id_join);
 
-       //Intent intent = new Intent(join1.this, join2.class);
 
-     //  startActivity(intent);
+
     }
 
 
@@ -192,7 +203,7 @@ ID_CHECK(id_check,id_mark);
                         sb.append(line);
                         break;
                     }
-                   return sb.toString();
+                    return sb.toString();
 
                 }
                 catch(Exception e){
@@ -209,17 +220,69 @@ ID_CHECK(id_check,id_mark);
     }
 
 
-
-
-
-
     private void ID_CHECK(String id,String mark){//id보내주는 함수
 
+        id1= (EditText) findViewById(R.id.id);
+        final String id_join=id1.getText().toString();
         class idcheck extends AsyncTask<String, Void, String>{
 
             ProgressDialog loading;
 
 
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    String JOIN_ID = (String) params[0];//넘어가는 변수
+                    String MARK = (String) params[1];// 중복체크 마크 1
+
+
+                    //  if(!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", JOIN_ID))
+
+                    String link = "http://58.142.149.131/grad/Grad_Join.php";
+                    String data = "";
+
+                    if (!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", JOIN_ID)) {
+                        id_Result="2";
+                        return id_Result;
+                    }
+                    else {
+                        data = URLEncoder.encode("JOIN_ID", "UTF-8") + "=" + URLEncoder.encode(JOIN_ID, "UTF-8");
+                        data += "&" + URLEncoder.encode("MARK", "UTF-8") + "=" + URLEncoder.encode(MARK, "UTF-8");
+                    }
+
+
+
+                    URL url = new URL(link);
+                    URLConnection conn = url.openConnection();
+
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    wr.write(data);
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+
+                    // Read Server Response
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+
+                    id_Result = sb.toString();
+
+                    return id_Result;
+
+
+                }
+                catch(Exception e){
+                    return new String("Exception: " + e.getMessage());
+                }
+
+            }
 
             @Override
             protected void onPreExecute() {
@@ -236,62 +299,20 @@ ID_CHECK(id_check,id_mark);
                 {
                     s= "사용가능한 ID 입니다." ;
                 }
-                if(!id_Result.equals("0"))
+                else if(id_Result.equals("1"))
                 {
                     s= "이미 존재하는 ID 입니다" ;
                 }
+
+                else if (id_Result.equals("2"))
+                {
+
+                    s="올바른 이메일형식이 아닙니다.";
+                }
+
                 Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             }
 
-            @Override
-            protected String doInBackground(String... params) {
-
-                try{
-                    String JOIN_ID = (String)params[0];//넘어가는 변수
-                    String MARK=(String)params[1];// 중복체크 마크 1
-
-                    String link="http://58.142.149.131/grad/Grad_Join.php";
-                    String data  = URLEncoder.encode("JOIN_ID", "UTF-8") + "=" + URLEncoder.encode(JOIN_ID, "UTF-8");
-                    data += "&" + URLEncoder.encode("MARK", "UTF-8") + "=" + URLEncoder.encode(MARK, "UTF-8");
-
-
-                    URL url = new URL(link);
-                    URLConnection conn = url.openConnection();
-
-                    conn.setDoOutput(true);
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
-                    wr.write( data );
-                    wr.flush();
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-
-                    // Read Server Response
-                    while((line = reader.readLine()) != null)
-                    {
-                        sb.append(line);
-                        break;
-                    }
-                    id_Result=sb.toString();
-
-
-
-
-                    return id_Result;
-
-
-                //    Toast.makeText(join1.this, "전송 후 결과 받음",0).show();
-
-
-                }
-                catch(Exception e){
-                    return new String("Exception: " + e.getMessage());
-                }
-
-            }
         }
 
         idcheck task = new idcheck();
@@ -299,6 +320,3 @@ ID_CHECK(id_check,id_mark);
 
     }
 }
-
-
-

@@ -181,7 +181,7 @@ public class DesignerFragment extends Fragment {
             //list = createContactsList(10);
             list = createContactsList(listDB.length);
             adapter = new DesignerViewAdapter(getActivity(), list);
-            linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(adapter);
 
@@ -207,6 +207,7 @@ public class DesignerFragment extends Fragment {
         for (int i = 1; i < numContacts; i++) {
             temp = split(listDB[i] , "a!PJP"); // 순서대로 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 자기소개 내용 , 분야 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수 , SEQ&URI::(uriset)
                                                 //          0                   1               2                       3               4           5               6       7               8
+            Log.i("testquerydesigner2" , "value : " + temp[8]);
             contacts.add(new ItemDataDesigner(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6],temp[7],temp[8]));
         }
         return contacts;

@@ -18,6 +18,7 @@ public class ItemDataDesigner {
     public String viewCount;
     public String likeCount;
     public String URIset;
+    public ImageView imageView;
 
 
     // 화면에 표시될 문자열 초기화
@@ -30,5 +31,6 @@ public class ItemDataDesigner {
         this.uploadCount = uploadCount;
         this.viewCount = viewCount;
         this.likeCount = likeCount;
+        this.URIset = URIset;
     }
 }
