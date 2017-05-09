@@ -35,7 +35,6 @@ public class join2 extends AppCompatActivity {
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
 
-
     private Uri mImageCaptureUri;
     private ImageView iv_UserPhoto;
     private int id_view;
@@ -66,11 +65,6 @@ public class join2 extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("name");//join1에서 넘어온 아이디 받기(넘어온데이터 저장)
         password=intent.getStringExtra("pw");//join1에서 넘어온 비번 받기
-
-
-
-
-
     }
 
     /**
@@ -93,7 +87,6 @@ public class join2 extends AppCompatActivity {
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,33 +96,28 @@ public class join2 extends AppCompatActivity {
 
         switch (requestCode) {
             case PICK_FROM_ALBUM: {
-                // 이후의 처리가 카메라와 같으므로 일단  break없이 진행합니다.
-                // 실제 코드에서는 좀더 합리적인 방법을 선택하시기 바랍니다.
                 mImageCaptureUri = data.getData();
                 Log.i("imgvalue" , "value : " + mImageCaptureUri);
                 Picasso.with(this).load(mImageCaptureUri).into(iv_UserPhoto);
                 Log.d("SmartWheel", mImageCaptureUri.getPath().toString());
-            }
-
-            case PICK_FROM_CAMERA: {
-                Picasso.with(this).load(data.getData()).into(iv_UserPhoto);
                 break;
             }
 
+            case PICK_FROM_CAMERA: {
+                mImageCaptureUri = data.getData();
+                Picasso.with(this).load(data.getData()).into(iv_UserPhoto);
+                break;
+            }
         }
-
     }
 
     public void nickname(View v){
-
         String u_name= user_nickname.getText().toString();
         nickname_check(u_name,nick_mark);
-
     }
 
 
     public void next2(View v){
-
         Bitmap profile= BitmapFactory.decodeResource(getResources(),R.id.profile);
 
         if(user_nickname.length()==0)//닉네임 입력하지 않을 경우
@@ -140,25 +128,19 @@ public class join2 extends AppCompatActivity {
         }
 
         if(nick_Result.equals("0")){
-
             Intent intent = new Intent(join2.this, join3.class);
             // Intent intent = new Intent(join1.this, join2.class);// 모든 조건이 만족되면 다음 액티비티로 넘어감
             intent.putExtra("name",id); // 아이디(중복체크 다된 아이디)를 다음 액티비티로 넘김.
             intent.putExtra("pw",password);//비번을 다음 액티비티로 넘김
-            intent.putExtra("uri",mImageCaptureUri);
+            Log.i("mimageCaptureUri", "value : " + mImageCaptureUri.toString());
+            intent.putExtra("uri",mImageCaptureUri.toString());
             startActivity(intent);
         }
         else if(!nick_Result.equals("0")){
             Toast.makeText(getApplicationContext(),"닉네임 중복체크를 해주세요!",Toast.LENGTH_SHORT).show();
 
             return;
-
         }
-
-
-
-
-
     }
     public void onClick(View v) {
         id_view = v.getId();
@@ -172,7 +154,6 @@ public class join2 extends AppCompatActivity {
             //      SignUpPhotoActivity.this.startActivity(mainIntent);
             //      SignUpPhotoActivity.this.finish();
             //      Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-
         }
         else if(v.getId() == R.id.profile_button) {
             DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
@@ -187,7 +168,6 @@ public class join2 extends AppCompatActivity {
                     doTakeAlbumAction();
                 }
             };
-
             DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -202,46 +182,31 @@ public class join2 extends AppCompatActivity {
                     .setNegativeButton("앨범선택", albumListener)
                     .show();
         }
-
     }
 
-
-
     private void nickname_check(String nickname,String nick_mark){//id보내주는 함수
-
         class idcheck extends AsyncTask<String, Void, String> {
-
             ProgressDialog loading;
 
-
-
             @Override
-
             protected void onPreExecute() {
                 super.onPreExecute();
                 loading = ProgressDialog.show(join2.this, "Please Wait", null, true, true);
             }
 
             @Override
-
             protected void onPostExecute(String s) {
-
                 super.onPostExecute(s);
                 loading.dismiss();
 
                 if(nick_Result.equals("0"))
-
                 {
                     s= "사용가능한 닉네임 입니다." ;
                 }
-
-                if(!nick_Result.equals("0"))
-
+                else if(!nick_Result.equals("0"))
                 {
                     s= "이미 존재하는 닉네임 입니다" ;
-
                 }
-
                 Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             }
 
@@ -253,12 +218,8 @@ public class join2 extends AppCompatActivity {
                     String MARK=(String)params[1];//닉네임 중복체크 마크 :2
 
                     String link="http://58.142.149.131/grad/Grad_Join.php";
-
                     String data  = URLEncoder.encode("U_NAME", "UTF-8") + "=" + URLEncoder.encode(U_NAME, "UTF-8");
-
                     data += "&" + URLEncoder.encode("MARK", "UTF-8") + "=" + URLEncoder.encode(MARK, "UTF-8");
-
-
 
                     URL url = new URL(link);
                     URLConnection conn = url.openConnection();
@@ -283,16 +244,12 @@ public class join2 extends AppCompatActivity {
                     nick_Result=sb.toString();
 
                     return nick_Result;
-
-
                 }
                 catch(Exception e){
                     return new String("Exception: " + e.getMessage());
                 }
-
             }
         }
-
 
         idcheck task = new idcheck();
         task.execute(nickname,nick_mark);

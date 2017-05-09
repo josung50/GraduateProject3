@@ -2,11 +2,15 @@ package com.example.josungryong.graduateproject3;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +19,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -122,28 +129,27 @@ public class join3 extends AppCompatActivity {
         //Spinner02초기화
         section2 = (Spinner)findViewById(R.id.section2);
         populateSubSpinners(R.array.depth1);
-
         section1.setOnItemSelectedListener(spinSelectedlistener);
-
-
-
-
         residence= (Spinner) findViewById(R.id.residence);
         residenceSpinners();
 
-
-
+        ImageView imgview=(ImageView) findViewById(R.id.img);
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");//join2에서 넘어온 아이디 받기(넘어온데이터 저장)
         String pw=intent.getStringExtra("pw");//join2에서 넘어온 비번 받기
-
+        String uri = intent.getStringExtra("uri");
+        imgview.setImageURI(Uri.parse(intent.getStringExtra("uri")));
+        Log.i("urivalue" , "value : " + uri);
         //  Bitmap profile=(Bitmap)intent.getExtras().get("uri");
-        ImageView imgview=(ImageView) findViewById(R.id.img);
+        /* uri를 file path로 변경
+        Cursor c = getContentResolver().query(Uri.parse(uri),null,null,null,null);
+        c.moveToNext();
+        String path = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+        Uri FilePath = Uri.fromFile(new File(path)); */
+        //Bitmap profile= BitmapFactory.decodeFile(intent.getStringExtra("uri"));
 
-        Bitmap profile= BitmapFactory.decodeFile(intent.getStringExtra("uri"));
 
-
-        imgview.setImageBitmap(profile);
+        //imgview.setImageBitmap(profile);
 
         id=name;
         password=pw;
