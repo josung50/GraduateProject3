@@ -16,8 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            android:id="@+id/recyclerViewProject"
-            android:background="@color/background"/>
+            android:id="@+id/recyclerViewProject" />
 
     </LinearLayout>
 

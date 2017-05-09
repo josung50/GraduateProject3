@@ -36,14 +36,6 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
     private Context context;
     private List<ItemDataDesigner> list = new ArrayList<>();
 
-    /* 업로드 디자인 - 리사이클 뷰로 구현 */
-    public String temp[];
-    public String listDB[];
-    public RecyclerView recyclerView2;
-    public Designer2ViewAdapter adapter2;
-    public StaggeredGridLayoutManager linearLayoutManager2;
-    public ArrayList<ItemDataDesigner2> list2 = new ArrayList<>();
-
     public DesignerViewAdapter(Context context, List<ItemDataDesigner> list) {
         this.context = context;
         this.list = list;
@@ -56,13 +48,6 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_designer_cardview, parent, false);
         Holder holder = new Holder(view);
 
-        recyclerView2 = (RecyclerView) view.findViewById(R.id.recyclerViewDesigner2);
-        recyclerView2.setHasFixedSize(true);
-        adapter2 = new Designer2ViewAdapter(context, list2);
-        linearLayoutManager2 = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
-        recyclerView2.setLayoutManager(linearLayoutManager2);
-        recyclerView2.setAdapter(adapter2);
-
         return holder;
     }
 
@@ -72,7 +57,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
     * */
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
-        // 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 자기소개 내용 , 분야 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수 , URI::SEQ
+        // 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 분야 , 자기소개 내용 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수 , URI::SEQ
         // 각 위치에 문자열 세팅
 
         int itemposition = position;
@@ -86,21 +71,39 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         holder.URIset = list.get(itemposition).URIset; // 업로드 디자인 URI 집합
         Log.i("URIset2", "value : " + holder.URIset + " " + list.get(itemposition).URIset);
 
+        /* Folding in (content) */
+        Picasso.with(context).load("http://113.198.210.237:80/"+list.get(itemposition).profileimgURI).fit().into(holder.profileimg_in);
+        holder.content_in.setText(list.get(itemposition).content_in);
+        holder.field_in.setText((list.get(itemposition).field));
+
         /* 펼칠 때 업로드 내용을 받아와 펼친다. (리사이클 뷰로 구현) */
         holder.fc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String temp2[];
-                Log.i("URIset" , "value :" + holder.URIset);
                 String temp[] = split(holder.URIset,"::");
                 for(int i =0; i<temp.length; i++){
-                    temp2 = split(temp[i],"&"); // seq&title&uri
-                    list2.add(new ItemDataDesigner2(temp2[0],temp2[1],temp2[2]));
+                    Log.i("tempvalue" , "value :" + temp[i]);
+                    if( i >= 4)
+                        break;
+                    else {
+                        temp2 = split(temp[i], "&"); // seq&title&uri
+                        switch (i) {
+                            case 0:
+                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload1);
+                                break;
+                            case 1:
+                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload2);
+                                break;
+                            case 2:
+                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload3);
+                                break;
+                            case 3:
+                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload4);
+                                break;
+                        }
+                    }
                 }
-                adapter2 = new Designer2ViewAdapter(context, list2);
-                linearLayoutManager2 = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
-                recyclerView2.setLayoutManager(linearLayoutManager2);
-                recyclerView2.setAdapter(adapter2);
                 holder.fc.toggle(false);
             }
         });
@@ -115,7 +118,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
 
     // ViewHolder는 하나의 View를 보존하는 역할을 한다
     public class Holder extends RecyclerView.ViewHolder{
-        // 순서대로 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 자기소개 내용 , 분야 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수
+        // 순서대로 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 분야 , 자기소개 내용 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수
         public String designerseq;
         public String profileimgURI;
         public TextView nickName;
@@ -125,6 +128,17 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         public TextView likeCount;
         public String URIset;
         public FoldingCell fc;
+
+        /* Folding in (content) */
+        public TextView nickName_in;
+        public TextView content_in;
+        public ImageView profileimg_in;
+        public TextView field_in;
+        public ImageView upload1;
+        public ImageView upload2;
+        public ImageView upload3;
+        public ImageView upload4;
+        public ImageView arrow;
 
         ImageView imageView;
 
@@ -137,6 +151,17 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
             uploadCount = (TextView) view.findViewById(R.id.uploadCount_designer_cardview);
             viewCount = (TextView) view.findViewById(R.id.viewCount_desginer_cardview);
             likeCount = (TextView) view.findViewById(R.id.likeCount_designer_cardview);
+
+            /* Folding in (content) */
+            nickName_in = (TextView) view.findViewById(R.id.nickName_designer_cardview_in);
+            field_in = (TextView) view.findViewById(R.id.field_designer_cardview_in);
+            content_in = (TextView) view.findViewById(R.id.content_designer_cardview_in);
+            profileimg_in = (ImageView) view.findViewById(R.id.profileimg_designer_cardview_in);
+            upload1 = (ImageView) view.findViewById(R.id.upload1_designer_cardview_in);
+            upload2 = (ImageView) view.findViewById(R.id.upload2_designer_cardview_in);
+            upload3 = (ImageView) view.findViewById(R.id.upload3_designer_cardview_in);
+            upload4 = (ImageView) view.findViewById(R.id.upload4_designer_cardview_in);
+            arrow = (ImageView) view.findViewById(R.id.arrow_designer_cardview_in);
         }
     }
 
