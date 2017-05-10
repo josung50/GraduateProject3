@@ -61,7 +61,8 @@
         android:layout_alignBottom="@+id/fab3"
         android:layout_toStartOf="@+id/fab3"
         android:layout_marginBottom="11dp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:textStyle="bold"/>
 
     <TextView
         android:text="주제 삭제"
@@ -72,7 +73,8 @@
         android:layout_toStartOf="@+id/fab2"
         android:layout_marginBottom="11dp"
         android:gravity="center"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:textStyle="bold"/>
 
     <TextView
         android:text="주제 추가"
@@ -83,7 +85,8 @@
         android:visibility="invisible"
         android:layout_alignBottom="@+id/fab4"
         android:layout_toStartOf="@+id/fab4"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

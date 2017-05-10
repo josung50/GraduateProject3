@@ -45,6 +45,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import javax.security.auth.Subject;
+
 import static com.example.josungryong.graduateproject3.Login.preferences;
 
 /**
@@ -58,14 +60,16 @@ public class ProjectInfo extends AppCompatActivity {
     private StaggeredGridLayoutManager linearLayoutManager;
     private ArrayList<ItemDataProjectInfo> list = new ArrayList<>(); // 리사이클 ( 카드 뷰 ) 를 위한 list
 
+    /* 스피너 & 주제 관련 변수 */
+    private static Spinner ProjectSpinner;
     private TextView SubjectTitle; // 주제 표기
+    private String Subject_seq_correct; // 수정 할 주제 seq
+    private String response; // 주제 삭제 - 성공은 TRUE , 실패는 FALSE 반환
 
     private Boolean isFabOpen = false; // Fab 세팅
     private FloatingActionButton fab1, fab2, fab3, fab4; // fab1 -> + , fab2 -> , fab3 -> , fab4 ->
     private TextView textSubjectAdd, textSubjectCorrect, textSubjectDelete;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
-
-    private static Spinner ProjectSpinner;
 
     private ArrayList<String> SpinnerList = new ArrayList<String>();
     private String SubjectName = null; // 주제 추가에 쓰이는 변수
@@ -78,7 +82,7 @@ public class ProjectInfo extends AppCompatActivity {
     private String[] SubjectInfotemp; // listSubjectInfoDB를 끊어서 스플릿 받는 변수
     private String PROJ_SEQ; // 프로젝트 SEQ를 받는다.
     private String[] Member_Seq_Group; // 프로젝트에 속한 멤버들의 seq
-    private String SUBJ_SEQ;
+    private String SUBJ_SEQ; // 프로젝트 주제 SEQ
     private static ArrayAdapter<String> Subjectadapter; // 스피너 어댑터
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -92,7 +96,7 @@ public class ProjectInfo extends AppCompatActivity {
 
         // 프로젝트 SEQ를 받아온다.
         Intent intent = getIntent();
-        PROJ_SEQ = "PROJ_SEQ=" + intent.getStringExtra("PROJ_SEQ");
+        PROJ_SEQ = intent.getStringExtra("PROJ_SEQ");
         Log.i("Member_Seq_Group" , "Value : " + intent.getStringExtra("MEMBER_SEQ_GROUP"));
         Member_Seq_Group = split2(intent.getStringExtra("MEMBER_SEQ_GROUP"));
         Log.i("Member_Seq_Group" , "Value : " + Member_Seq_Group[1]); // M 부터 잘리기 때문에 1부터 인덱스가 시작한다.
@@ -161,39 +165,146 @@ public class ProjectInfo extends AppCompatActivity {
                 animateFAB();
                 break;
             case R.id.fab2: // 주제 삭제
+                if(CheckMemberOfProject(Member_Seq_Group)) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ProjectInfo.this);
+                    alertBuilder.setTitle("주제 삭제");
+                    // List Adapter 생성
+                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice);
+                    for (int i = 1; i < listSubjectDB.length; i++) {
+                        Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
+                        adapter.add(Subjecttemp[1]);
+                    }
+                    alertBuilder.setPositiveButton("선택", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    alertBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss(); // 닫기
+                        }
+                    });
+                    // Adapter 셋팅
+                    alertBuilder.setAdapter(adapter,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    final int id) {
+                                    final EditText name = new EditText(getApplicationContext());
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(ProjectInfo.this);
+                                    alert.setTitle("선택한 주제 : " + adapter.getItem(id) + "\n정말 삭제 하시겠습니까?");
+                                    alert.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Subject_seq_correct = FindSubjectSeq(adapter.getItem(id));
+                                            Subjectadapter.clear();
+                                            new HttpTaskSubjectDelete().execute();
+                                        }
+                                    });
+
+                                    alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss(); // 닫기
+                                        }
+                                    });
+                                    alert.show();
+                                }
+                            });
+                    alertBuilder.show();
+                    //Toast.makeText(this,"그룹 멤버가 맞습니다.",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    //Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.fab3: // 주제 수정
-                if(CheckMemberOfProject(Member_Seq_Group))
-                    Toast.makeText(this,"그룹 멤버가 맞습니다.",Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                if(CheckMemberOfProject(Member_Seq_Group)) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ProjectInfo.this);
+                    alertBuilder.setTitle("주제 수정");
+                    // List Adapter 생성
+                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice);
+                    for (int i = 1; i < listSubjectDB.length; i++) {
+                        Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
+                        adapter.add(Subjecttemp[1]);
+                    }
+                    alertBuilder.setPositiveButton("선택", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    alertBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss(); // 닫기
+                        }
+                    });
+                    // Adapter 셋팅
+                    alertBuilder.setAdapter(adapter,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    final int id) {
+                                    final EditText name = new EditText(getApplicationContext());
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(ProjectInfo.this);
+                                    alert.setView(name);
+                                    alert.setTitle("선택한 주제 : " + adapter.getItem(id));
+                                    alert.setPositiveButton("수정", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Subject_seq_correct = FindSubjectSeq(adapter.getItem(id));
+                                            SubjectName = name.getText().toString();
+                                            Subjectadapter.clear();
+                                            new HttpTaskSubjectCorrect().execute();
+                                            //flagSpinner = 1;
+                                            //SpinnerAdd(); // 주제 추가 완료 버튼을 누르면 spinner 새로 set
+                                        }
+                                    });
+
+                                    alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss(); // 닫기
+                                        }
+                                    });
+                                    alert.show();
+                                }
+                            });
+                    alertBuilder.show();
+                    //Toast.makeText(this,"그룹 멤버가 맞습니다.",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    //Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.fab4: // 주제 추가 - dialog를 통해 구현
-                    // 프로젝트 생성자 혹은 그룹원만 가능하므로 일단 주석처리
-                /*
-                final EditText name = new EditText(this);
-                AlertDialog.Builder alert = new AlertDialog.Builder(ProjectInfo.this);
-                alert.setView(name);
-                alert.setTitle("주제 추가");
-                alert.setPositiveButton("추가", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        SubjectName = name.getText().toString();
-                        flagSpinner = 1;
-                        SpinnerAdd(); // 주제 추가 완료 버튼을 누르면 spinner 새로 set
-                    }
-                });
+                if(CheckMemberOfProject(Member_Seq_Group)){
+                    //Toast.makeText(this,"그룹 멤버가 맞습니다.",Toast.LENGTH_LONG).show();
+                    final EditText name = new EditText(this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ProjectInfo.this);
+                    alert.setView(name);
+                    alert.setTitle("주제 추가");
+                    alert.setPositiveButton("추가", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SubjectName = name.getText().toString();
+                            Subjectadapter.clear();
+                            new HttpTaskSubjectAdd().execute();
+                            //flagSpinner = 1;
+                            //SpinnerAdd(); // 주제 추가 완료 버튼을 누르면 spinner 새로 set
+                        }
+                    });
 
-                alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss(); // 닫기
-                        flagSpinner = 0;
-                    }
-                });
-
-                alert.show();
-                */
+                    alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss(); // 닫기
+                        }
+                    });
+                    alert.show();
+                }
+                else{
+                    //Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }
@@ -211,13 +322,19 @@ public class ProjectInfo extends AppCompatActivity {
             fab2.setClickable(false);
             fab3.setClickable(false);
             fab4.setClickable(false);
+            textSubjectAdd.startAnimation(fab_close);
+            textSubjectCorrect.startAnimation(fab_close);
+            textSubjectDelete.startAnimation(fab_close);
             isFabOpen = false;
             Log.d("Raj", "close");
         } else {
             fab1.startAnimation(rotate_forward);
             textSubjectAdd.startAnimation(fab_open);
+            textSubjectAdd.bringToFront();
             textSubjectCorrect.startAnimation(fab_open);
+            textSubjectCorrect.bringToFront();
             textSubjectDelete.startAnimation(fab_open);
+            textSubjectDelete.bringToFront();
             fab2.startAnimation(fab_open);
             fab3.startAnimation(fab_open);
             fab4.startAnimation(fab_open);
@@ -227,20 +344,6 @@ public class ProjectInfo extends AppCompatActivity {
             isFabOpen = true;
             Log.d("Raj", "open");
         }
-    }
-
-    // 주제 추가 완료시 (flag == 1 이면 spinner 새로 추가 )
-    public void SpinnerAdd() {
-        if (flagSpinner == 1) {
-            SpinnerList.add(SubjectName);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, SpinnerList);
-            ProjectSpinner.setAdapter(adapter);
-            Log.i("SpinnerValue" , " SpinnerValue: " + adapter.getItem(0));
-            // DB에 추가된 주자를 insert 한다. //
-        } else {
-            return;
-        }
-
     }
 
     /**
@@ -289,7 +392,7 @@ public class ProjectInfo extends AppCompatActivity {
                 String urlPath = "http://58.142.149.131/grad/Grad_project_list_subject.php";
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
-                String data = PROJ_SEQ;
+                String data = "PROJ_SEQ="+PROJ_SEQ;
 
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
@@ -341,7 +444,7 @@ public class ProjectInfo extends AppCompatActivity {
                 Subjectadapter.add(Subjecttemp[1]);
             }
             ProjectSpinner.setAdapter(Subjectadapter);
-            PROJ_SEQ = null;
+            //PROJ_SEQ = null;
 
             super.onPostExecute(value);
         }
@@ -352,18 +455,21 @@ public class ProjectInfo extends AppCompatActivity {
         }
     }
 
-    // PHP DB insert 쿼리를 보내는 class (주제추가)
-    // 주제 추가 인서트 통신
+    // 주제 추가 인서트 통신 PHP DB insert 쿼리를 보내는 class (주제추가)
     public class HttpTaskSubjectAdd extends AsyncTask<String, Void, String> {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try {
 
-                String urlPath = "http://58.142.149.131/grad/Grad_project_list_subject.php";
+                String urlPath = "http://58.142.149.131/grad/Grad_project_subject_function.php";
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
-                String data = "ADD";
+                String data = "EXE_COMMAND=INSERT";
+                data +="&PROJECT_SEQ="+PROJ_SEQ;
+                data +="&TITLE="+SubjectName;
+                data +="&REGI_MEMBER_SEQ="+preferences.getString("MEMBERSEQ","");
+                Log.i("subjectname","value:" + data);
 
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
@@ -408,7 +514,8 @@ public class ProjectInfo extends AppCompatActivity {
         //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
         //ui는 여기서 변경
         protected void onPostExecute(String value) { // 스피너 불러오기
-
+            new HttpTaskSubject().execute();
+            /*
             ProjectSpinner = (Spinner) findViewById(R.id.ProjectSpinner);
             Subjectadapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, SpinnerList);
             for (int i = 1; i < listSubjectDB.length; i++) {
@@ -416,8 +523,161 @@ public class ProjectInfo extends AppCompatActivity {
                 Subjectadapter.add(Subjecttemp[1]);
             }
             ProjectSpinner.setAdapter(Subjectadapter);
-            PROJ_SEQ = null;
+            //PROJ_SEQ = null;
             super.onPostExecute(value);
+            */
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    // 주제 수정 통신
+    public class HttpTaskSubjectCorrect extends AsyncTask<String, Void, String> {
+        /* Bitmap bitmap , String image는 전역변수 */
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            try {
+
+                String urlPath = "http://58.142.149.131/grad/Grad_project_subject_function.php";
+
+                // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
+                String data = "EXE_COMMAND=CORRECT";
+                data +="&PROJECT_SUBJ_SEQ="+Subject_seq_correct;
+                data +="&TITLE="+SubjectName;
+                Log.i("subjectname","value:" + data);
+
+                URL url = new URL(urlPath);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                //추가 할 내용 - 서버 on/off 검사
+
+                // 문자열 전송
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String CheckNull = "0";
+                String line = null;
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                CheckNull = sb.toString();
+
+                if (sb.toString() != "") {
+                    listSubjectDB = sb.toString().split("<br>");
+                    return sb.toString();
+                } else {
+                    return null;
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //오류시 null 반환
+            return null;
+        }
+
+        //asyonTask 3번째 인자와 일치 매개변수값 -> doInBackground 리턴값이 전달됨
+        //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
+        //ui는 여기서 변경
+        protected void onPostExecute(String value) { // 스피너 불러오기
+            new HttpTaskSubject().execute();
+            /*
+            ProjectSpinner = (Spinner) findViewById(R.id.ProjectSpinner);
+            Subjectadapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, SpinnerList);
+            for (int i = 1; i < listSubjectDB.length; i++) {
+                Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
+                Subjectadapter.add(Subjecttemp[1]);
+            }
+            ProjectSpinner.setAdapter(Subjectadapter);
+            //PROJ_SEQ = null;
+            super.onPostExecute(value);
+            */
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    // 주제 삭제 통신
+    public class HttpTaskSubjectDelete extends AsyncTask<String, Void, String> {
+        /* Bitmap bitmap , String image는 전역변수 */
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            try {
+                String urlPath = "http://58.142.149.131/grad/Grad_project_subject_function.php";
+
+                // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
+                String data = "EXE_COMMAND=DELETE";
+                data +="&PROJECT_SUBJ_SEQ="+Subject_seq_correct;
+                Log.i("subjectname","value:" + data);
+
+                URL url = new URL(urlPath);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                //추가 할 내용 - 서버 on/off 검사
+
+                // 문자열 전송
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                StringBuilder sb = new StringBuilder();
+                String CheckNull = "0";
+                String line = null;
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                // 삭제 - TRUE , 실패 - FALSE //
+                response = sb.toString();
+
+                CheckNull = sb.toString();
+
+                if (sb.toString() != "") {
+                    listSubjectDB = sb.toString().split("<br>");
+                    return sb.toString();
+                } else {
+                    return null;
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //오류시 null 반환
+            return null;
+        }
+
+        //asyonTask 3번째 인자와 일치 매개변수값 -> doInBackground 리턴값이 전달됨
+        //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
+        //ui는 여기서 변경
+        protected void onPostExecute(String value) { // 스피너 불러오기 , 삭제처리
+            if(response.equals("TRUE")) {
+                Toast.makeText(ProjectInfo.this, "해당 주제를 삭제했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.equals("FALSE")){
+                Toast.makeText(ProjectInfo.this, "해당 주제에 내용이 있어 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            response = null;
+            new HttpTaskSubject().execute();
         }
 
         @Override
@@ -461,6 +721,7 @@ public class ProjectInfo extends AppCompatActivity {
                 Log.i("testvalue", "value : " + sb.toString());
                 CheckNull = sb.toString();
 
+                listSubjectInfoDB = null;
                 if (sb.toString() != "") {
                     listSubjectInfoDB = sb.toString().split("<br>");
                     return sb.toString();
@@ -481,13 +742,21 @@ public class ProjectInfo extends AppCompatActivity {
         //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
         //ui는 여기서 변경
         protected void onPostExecute(String value) { // 스피너 불러오기
-
-            list = createContactsList(listSubjectInfoDB.length);
-            adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
-            linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(adapterCardview);
-
+            list.clear();
+            if(listSubjectInfoDB != null ) {
+                list = createContactsList(listSubjectInfoDB.length);
+                adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
+                linearLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapterCardview);
+            }
+            else { // 주제에 해당하는 내용이 없으면 빈 화면 보여준다.
+                Toast.makeText(getApplicationContext(),"해당 주제에 내용이 없습니다.",Toast.LENGTH_SHORT).show();
+                adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
+                linearLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapterCardview);
+            }
             super.onPostExecute(value);
         }
 
@@ -508,7 +777,7 @@ public class ProjectInfo extends AppCompatActivity {
         ArrayList<ItemDataProjectInfo> contacts = new ArrayList<ItemDataProjectInfo>();
         for (int i = 1; i < numContacts; i++) {
             SubjectInfotemp = split(listSubjectInfoDB[i]); // 제작자(올린사람) / 사진경로 / 제목 / work_seq / member_seq(올린사람) / 댓글 수 / 좋아요 수
-                                                             //     0                    1        2        3           4                  5            6
+                                                                //     0                    1        2        3           4                  5            6
             contacts.add(new ItemDataProjectInfo(SubjectInfotemp[1],SubjectInfotemp[2],SubjectInfotemp[0],SubjectInfotemp[5],SubjectInfotemp[6],PROJ_SEQ,SubjectInfotemp[3],SubjectInfotemp[4])); // 썸네일 URL / 제목 / 올린 사람 / 코멘트 수 / 좋아요 수 / 프로젝트 seq / 워크 seq / 멤버_seq
         }
         return contacts;
@@ -530,5 +799,18 @@ public class ProjectInfo extends AppCompatActivity {
                 return true;
             }
         return false;
+    }
+
+
+    // 주제 삭제 , 수정에서 내가 선택한 주제의 seq를 반환해주는 함수 //
+    private String FindSubjectSeq(String choice_subject) {
+        String temp[];
+        for (int i = 1; i < listSubjectDB.length; i++) {
+             temp = split(listSubjectDB[i]); // seq / 주제 <BR>
+            if(choice_subject.equals(temp[1])){
+                return temp[0];
+            }
+        }
+        return "false";
     }
 }

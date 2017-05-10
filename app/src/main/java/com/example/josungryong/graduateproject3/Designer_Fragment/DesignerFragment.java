@@ -3,9 +3,13 @@ package com.example.josungryong.graduateproject3.Designer_Fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,11 +54,10 @@ public class DesignerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_designer, container, false);
 
         //CODE="CODE=";
         //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_designer, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewDesigner);
         recyclerView.setHasFixedSize(true);
         adapter = new DesignerViewAdapter(getActivity(), list);

@@ -4,11 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +38,8 @@ import java.util.ArrayList;
  * Created by josungryong on 2017-03-23.
  */
 
-public class DesignInfo extends Activity {
+public class DesignInfo extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private String DESIGN_WORK_SEQ;
     private String RESISTER_SEQ;
@@ -55,9 +63,33 @@ public class DesignInfo extends Activity {
     private Intent intent;
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_designinfo);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designinfo);
+
+        /* Nav */
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_designinfo);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_designinfo);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_designinfo);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         // 디자인SEQ와 올린사람 SEQ를 가져온다.
         Intent intent = getIntent();
@@ -85,6 +117,30 @@ public class DesignInfo extends Activity {
         DesignInfo_resistername = (TextView) findViewById(R.id.designinfo_resistername);
         DesignInfo_likenumber = (TextView) findViewById(R.id.designinfo_likenumber);
         DesignInfo_commentnumber = (TextView) findViewById(R.id.designinfo_commentnumber);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera_designinfo) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery_designinfo) {
+
+        } else if (id == R.id.nav_slideshow_designinfo) {
+
+        } else if (id == R.id.nav_manage_designinfo) {
+
+        } else if (id == R.id.nav_share_designinfo) {
+
+        } else if (id == R.id.nav_send_designinfo) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_designinfo);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     // PHP 디자인에 해당하는 파일 불러오는 통신 class
