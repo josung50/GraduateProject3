@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * Created by hyeeeeeiny on 2017. 3. 30..
@@ -11,10 +13,35 @@ import android.view.View;
 
 public class join4 extends AppCompatActivity {
 
+    String id;//넘어온 아이디 변수
+    String password;//비밀번호
+    ImageView imgview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join4);
+
+
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");//join3에서 넘어온 아이디 받기(넘어온데이터 저장)
+        String pw=intent.getStringExtra("pw");//join3에서 넘어온 비번 받기
+        String nick=intent.getStringExtra("nickname");
+        String sec1=intent.getStringExtra("section1");
+        String sec2=intent.getStringExtra("section2");
+        String residence=intent.getStringExtra("residence");
+        //Bitmap
+
+//        imgview=(ImageView) findViewById(R.id.cc);
+
+        Toast.makeText(getApplicationContext(),name,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),pw,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),nick,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),sec1,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),sec2,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),residence,Toast.LENGTH_LONG).show();
+
+
     }
 
     public void onClick(View v){

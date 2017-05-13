@@ -59,7 +59,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="17dp"
             android:background="@android:color/background_light"
-            android:hint="password" />
+            android:hint="password"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/Login"
@@ -72,8 +73,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:background="#fbe6c234"
-            android:text="로그인"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:text="로그인" />
 
 
     </LinearLayout>
@@ -85,16 +86,17 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="29dp"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true">
 
         <Button
-            android:id="@+id/join"
+            android:id="@+id/Join"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/join" />
+            android:layout_weight="0.09"
+            android:background="@drawable/join"
+            android:onClick="onClick" />
 
         <Button
             android:id="@+id/FacBookLoginButton"

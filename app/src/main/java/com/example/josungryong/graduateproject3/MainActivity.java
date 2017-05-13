@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -110,8 +113,42 @@ public class MainActivity extends AppCompatActivity
         selfinfo.setText(preferences.getString("SELFINFO",""));
         imgurl.setImageBitmap(getPic(preferences.getString("IMGURL","")));
         Log.i("URLINFO" , "Value : " + "http://113.198.210.237:80/" + preferences.getString("IMGURL",""));
+        //searchbar
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        // 검색 버튼을 가져온다.
+        MenuItem searchButton = menu.findItem(R.id.action_search);
+        // 검색버튼을 클릭했을 때 SearchView를 가져온다.
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchButton);
+        // 검색 힌트를 설정한다.
+        searchView.setQueryHint("검색어를 입력하세요");
+        // SearchView를 검색 가능한 위젝으로 설정한다.
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            /**
+             * 검색 버튼을 클릭했을 때 동작하는 이벤트
+             * * @param s : 입력된 검색어
+             * * @return
+             */
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.putExtra("query", s);
+                startActivity(intent);
+                return false;
+            }
+            /** * 검색어를 입력할 때 동작하는 이
+             * @param s
+             * * @return */
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+
+        });
         return true;
+
     }
 
     @Override

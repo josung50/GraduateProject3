@@ -42,11 +42,11 @@
 
 
                 <EditText
-                    android:id="@+id/editText6"
+                    android:id="@+id/nick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/next"
-                    android:layout_alignEnd="@+id/next"
+                    android:layout_above="@+id/next2"
+                    android:layout_alignEnd="@+id/next2"
                     android:layout_marginBottom="12dp"
                     android:ems="10"
                     android:hint="닉네임"
@@ -56,11 +56,10 @@
                     android:id="@+id/nickname_confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="29dp"
-                    android:onClick="onClick"
+                    android:onClick="nickname"
                     android:text="닉네임 중복 확인"
-                    android:layout_alignBottom="@+id/editText6" />
+                    android:layout_alignBottom="@+id/nick"
+                    android:layout_toEndOf="@+id/nick" />
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -75,7 +74,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/spinner"
-                    android:layout_alignEnd="@+id/editText6"
+                    android:layout_alignEnd="@+id/nick"
                     android:layout_alignTop="@+id/spinner" />
 
                 <ImageView
@@ -83,23 +82,23 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_alignParentTop="true"
-                    android:layout_alignStart="@+id/editText6"
+                    android:layout_alignStart="@+id/nick"
                     android:layout_marginStart="11dp"
                     app:srcCompat="@mipmap/ic_launcher" />
 
                 <Button
-                    android:id="@+id/next"
+                    android:id="@+id/next2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="22dp"
                     android:layout_marginStart="137dp"
-                    android:onClick="onClick"
+                    android:onClick="next2"
                     android:text="다음" />
 
                 <Button
-                    android:id="@+id/profile"
+                    android:id="@+id/profile_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
