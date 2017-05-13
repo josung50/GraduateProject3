@@ -149,7 +149,7 @@ public class join2 extends AppCompatActivity {
           // Intent intent = new Intent(join1.this, join2.class);// 모든 조건이 만족되면 다음 액티비티로 넘어감
             intent.putExtra("name",id); // 아이디(중복체크 다된 아이디)를 다음 액티비티로 넘김.
             intent.putExtra("pw",password);//비번을 다음 액티비티로 넘김
-            intent.putExtra("uri",mImageCaptureUri);
+           // intent.putExtra("uri",mImageCaptureUri);
             intent.putExtra("nickname",nick); //다음액티비티로 닉네임 넘김
             startActivity(intent);
         }

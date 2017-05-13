@@ -199,11 +199,11 @@ public class join3 extends AppCompatActivity {
         id= intent.getStringExtra("name");//join2에서 넘어온 아이디 받기(넘어온데이터 저장)
         password=intent.getStringExtra("pw");//join2에서 넘어온 비번 받기
         nick=intent.getStringExtra("nickname");//join2에서 넘어온 닉네임 받기(스트링)
-       uri = intent.getStringExtra("URI");
+       //uri = intent.getStringExtra("URI");
 
       //  Bitmap profile=(Bitmap)intent.getExtras().get("uri");
-        ImageView imgview=(ImageView) findViewById(R.id.img);
-        imgview.setImageURI(Uri.parse(uri));
+       // ImageView imgview=(ImageView) findViewById(R.id.img);
+      //  imgview.setImageURI(Uri.parse(uri));
 
        //Bitmap profile= BitmapFactory.decodeFile(intent.getStringExtra("uri"));
 
