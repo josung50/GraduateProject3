@@ -32,6 +32,7 @@ while($member_check_row = mysqli_fetch_array($include_check_query)){
         $_INCLUDE_IN_PROJECT = "YES";
     }
 }
+# 로그인한 유저가 프로젝트에 속해있을 경우, 최상단에 해당 사용자의 정보를 보여줌.
 if($_INCLUDE_IN_PROJECT == "YES") {
     $login_user_info_query = mysqli_query($link,"select mem_deprcali.seq, mem_deprcali.uname, mem_deprcali.image_url, mem_deprcali.category_name, mem_deprcali.comments,
 	mem_deprcali.U_count, mem_deprcali.Received_like, R_viewed.View_count
@@ -76,7 +77,7 @@ from
         echo"$inner_row[thumb_uri]::";
     }
 }
-
+# 프로젝트에 속해있는 멤버의 리스트를 보여줌.
 $project_member_list_query = mysqli_query($link, "select *
 from
 	(select mem_deprcali.seq, mem_deprcali.uname, mem_deprcali.image_url, mem_deprcali.category_name, mem_deprcali.comments,
