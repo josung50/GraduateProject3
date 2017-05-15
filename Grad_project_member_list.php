@@ -23,9 +23,6 @@ $_LOGIN_MEMBER_SEQ = urldecode("MEMBER_SEQ");
 
 $_INCLUDE_IN_PROJECT = "NO";
 
-$_PROJECT_SEQ = 4;
-$_LOGIN_MEMBER_SEQ = 17;
-
 $include_check_query = mysqli_query($link, "select * from t_project_member where t_project_member.project_seq = $_PROJECT_SEQ");
 while($member_check_row = mysqli_fetch_array($include_check_query)){
     if($member_check_row[member_seq] == $_LOGIN_MEMBER_SEQ){
