@@ -32,9 +32,7 @@ echo"$_DESIGN_WORK_SEQ#";
 echo"$_MEMBER_SEQ#";
 echo"$_LIKE_STATUS#";
 
-echo"여긴아닐거고";
 if($_DESIGN_WORK_SEQ != "NULL"){
-    echo"설마여기서멈춤?";
     if($_LIKE_STATUS == "\(CHECKED\)"){
         echo"싫어졌어요 ㅡㅡ";
         $cancel_like_query = mysqli_query($link, "delete from t_design_work_like
