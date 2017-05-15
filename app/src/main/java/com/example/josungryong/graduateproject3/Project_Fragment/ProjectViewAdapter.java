@@ -58,11 +58,11 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
         int itemposition = position;
         holder.titleText.setText(list.get(itemposition).title);
         holder.masterText.setText(list.get(itemposition).master);
+        holder.materseq = list.get(itemposition).masterseq;
         holder.membernumberText.setText(list.get(itemposition).membernumber);
         holder.filenumberText.setText(list.get(itemposition).filenumber);
         holder.URI=list.get(itemposition).URI;
 
-        //holder.imageView.setImageBitmap(getPic(holder.URI));
         Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
 
         holder.projectseq=list.get(itemposition).projectseq;
@@ -76,6 +76,7 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
                 Intent intent = new Intent(v.getContext(), ProjectInfo.class);
                 intent.putExtra("PROJ_SEQ" , holder.projectseq);
                 intent.putExtra("MEMBER_SEQ_GROUP" , holder.memberSeqGroup);
+                intent.putExtra("MASTER_SEQ" , holder.materseq);
                 Log.i("Member_Seq_Group" , "Value : " + holder.memberSeqGroup);
                 v.getContext().startActivity(intent);
             }
@@ -93,6 +94,7 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
     public class Holder extends RecyclerView.ViewHolder{
         public TextView titleText;
         public TextView masterText;
+        public String materseq;
         public TextView membernumberText;
         public TextView filenumberText;
         public String URI;
@@ -108,35 +110,5 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
             filenumberText = (TextView) view.findViewById(R.id.filenumber_project_cardview);
             imageView = (ImageView) view.findViewById(R.id.imageView_project_cardview);
         }
-    }
-
-    // URL을 통해 이미지를 서버로 부터 불러온다. //
-    public Bitmap getPic(String imagePath) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        HttpURLConnection connection = null;
-        String imageURL;
-        imageURL = "http://113.198.210.237:80/"+imagePath;
-        Log.e("이미지", imageURL);
-        try {
-            URL url = new URL(imageURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-
-            BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-            Bitmap myBitmap = BitmapFactory.decodeStream(bis);
-
-            Log.e("이미지", "성공" + myBitmap);
-            return myBitmap;
-        } catch (IOException e) {
-            Log.e("이미지" , "실패");
-            e.printStackTrace();
-            return null;
-        }finally{
-            Log.e("이미지","커밋성공");
-            if(connection!=null)connection.disconnect();
-        }//
     }
 }

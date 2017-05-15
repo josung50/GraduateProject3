@@ -2,15 +2,12 @@ package com.example.josungryong.graduateproject3;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,10 +16,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -45,10 +39,22 @@ public class join3 extends AppCompatActivity {
     Spinner section2;//=(Spinner) findViewById((R.id.section2);
     Spinner residence;
 
+
+    EditText presentation;
+
+
     String cate_mark="3";
 
     String id;//넘어온 아이디를 저장할 전역변수
     String password;//넘어온 비번을 저장할 전역변수
+    String uri;//불러온 프로필사진 저장할 전역변수
+    String nick;// 넘어온 닉네임을 저장할 전역변수
+    String sec1;//넘겨줄 카테고리 1
+    String sec2;//넘겨줄 캬테고리 2
+    String Residece;//넘겨줄 거주지
+    String pre;//  넘겨줄 자기소개란
+
+    String mark= "3";//데이터 넘길때 주는 마크 =3
 
     private void populateSpinners() { //나의 카테고리 첫번째 section
         ArrayAdapter<CharSequence> fAdapter;
@@ -65,6 +71,7 @@ public class join3 extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
         fAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         residence.setAdapter(fAdapter);
+
     }
 
     private void populateSubSpinners(int itemNum) {//나의 카테고리 두번째 section
@@ -74,6 +81,7 @@ public class join3 extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
         fAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         section2.setAdapter(fAdapter);
+
     }
 
     private AdapterView.OnItemSelectedListener spinSelectedlistener =
@@ -107,6 +115,48 @@ public class join3 extends AppCompatActivity {
                             populateSubSpinners(R.array.새분야);
                             break;
                     }
+
+
+                    sec1= (String)section1.getSelectedItem();
+
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+
+            };
+    private AdapterView.OnItemSelectedListener sec2Selectedlistener =
+            new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+
+
+                    sec2=(String) section2.getSelectedItem();
+
+
+
+
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+
+            };
+    private AdapterView.OnItemSelectedListener resiSelectedlistener =
+            new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+
+                    Residece=(String) residence.getSelectedItem();
+                    // sec2=(String) section2.getSelectedItem();
+
+
+
+
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -121,7 +171,7 @@ public class join3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join3);
 
-
+        presentation=(EditText)  findViewById(R.id.presentation);//자기소개란
         //Spinner01초기화
         section1 = (Spinner)findViewById(R.id.section1);
         populateSpinners();
@@ -129,46 +179,46 @@ public class join3 extends AppCompatActivity {
         //Spinner02초기화
         section2 = (Spinner)findViewById(R.id.section2);
         populateSubSpinners(R.array.depth1);
-        section1.setOnItemSelectedListener(spinSelectedlistener);
+
+
         residence= (Spinner) findViewById(R.id.residence);
         residenceSpinners();
 
-        ImageView imgview=(ImageView) findViewById(R.id.img);
+        section1.setOnItemSelectedListener(spinSelectedlistener);
+        section2.setOnItemSelectedListener(sec2Selectedlistener);
+        residence.setOnItemSelectedListener(resiSelectedlistener);
+
+
+
+
+
+
+
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");//join2에서 넘어온 아이디 받기(넘어온데이터 저장)
-        String pw=intent.getStringExtra("pw");//join2에서 넘어온 비번 받기
-        String uri = intent.getStringExtra("uri");
-        imgview.setImageURI(Uri.parse(intent.getStringExtra("uri")));
-        Log.i("urivalue" , "value : " + uri);
+
+        id= intent.getStringExtra("name");//join2에서 넘어온 아이디 받기(넘어온데이터 저장)
+        password=intent.getStringExtra("pw");//join2에서 넘어온 비번 받기
+        nick=intent.getStringExtra("nickname");//join2에서 넘어온 닉네임 받기(스트링)
+        //uri = intent.getStringExtra("URI");
+
         //  Bitmap profile=(Bitmap)intent.getExtras().get("uri");
-        /* uri를 file path로 변경
-        Cursor c = getContentResolver().query(Uri.parse(uri),null,null,null,null);
-        c.moveToNext();
-        String path = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-        Uri FilePath = Uri.fromFile(new File(path)); */
+        // ImageView imgview=(ImageView) findViewById(R.id.img);
+        //  imgview.setImageURI(Uri.parse(uri));
+
         //Bitmap profile= BitmapFactory.decodeFile(intent.getStringExtra("uri"));
 
 
         //imgview.setImageBitmap(profile);
-
-        id=name;
-        password=pw;
-
 
     }
 
 
 
 
+    private void insertToDatabase(String id,String password,/*String uri*/String nick,String sec1,String sec2,String pre,String Residence, String mark){
 
-/*
-    private void cate_gory(String id,String mark){//id보내주는 함수
-
-
-        class idcheck extends AsyncTask<String, Void, String> {
-
+        class InsertData extends AsyncTask<String, Void, String>{
             ProgressDialog loading;
-
 
             @Override
             protected void onPreExecute() {
@@ -180,47 +230,39 @@ public class join3 extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-
-                if(id_Result.equals("0"))
-                {
-                    s= "사용가능한 ID 입니다." ;
-                }
-                else if(id_Result.equals("1"))
-                {
-                    s= "이미 존재하는 ID 입니다" ;
-                }
-
-                else if (id_Result.equals("2"))
-                {
-
-                    s="올바른 이메일형식이 아닙니다.";
-                }
-
                 Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             }
 
             @Override
-            protected String doInBackground(String… params) {
+            protected String doInBackground(String... params) {
 
-                try {
-                    String JOIN_ID = (String) params[0];//넘어가는 변수
-                    String MARK = (String) params[1];// 중복체크 마크 1
+                try{
+                    String JOIN_ID = (String)params[0];//넘어가는 변수
+                    String PW = (String)params[1];//넘어가는 변수
+                    // String URI=(String)params[2];
+                    String U_NAME=(String)params[2];
+                    String SEC1=(String)params[3];
+                    String SEC2=(String)params[4];
+                    String PRESENTATION=(String)params[5];
+                    String RESIDENCE=(String)params[6];
+                    String MARK=(String)params[7];
 
 
-                    //  if(!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", JOIN_ID))
+                    String link="http://58.142.149.131/grad/Grad_Join.php";
 
-                    String link = "http://58.142.149.131/grad/Grad_Join.php";
-                    String data = "";
+                    String data  = URLEncoder.encode("JOIN_ID", "UTF-8") + "=" + URLEncoder.encode(JOIN_ID, "UTF-8");//아이디 전달
+                    data += "&" + URLEncoder.encode("PW", "UTF-8") + "=" + URLEncoder.encode(PW, "UTF-8");//비밀번호 전달
+                    //data +="&" + URLEncoder.encode("URI", "UTF-8") + "=" + URLEncoder.encode(URI, "UTF-8");//프로필사진 uri 전달
 
-                    if (!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", JOIN_ID)) {
-                        id_Result="2";
-                        return id_Result;
-                    }
-                    else {
-                        data = URLEncoder.encode("JOIN_ID", "UTF-8") + "=" + URLEncoder.encode(JOIN_ID, "UTF-8");
-                        data += "&" + URLEncoder.encode("MARK", "UTF-8") + "=" + URLEncoder.encode(MARK, "UTF-8");
-                    }
+                    data +="&" + URLEncoder.encode("U_NAME", "UTF-8") + "=" + URLEncoder.encode(U_NAME, "UTF-8");//닉네임전달
+                    data +="&" + URLEncoder.encode("SEC1", "UTF-8") + "=" + URLEncoder.encode(SEC1, "UTF-8");//카테고리1 전달
 
+                    data +="&" + URLEncoder.encode("SEC2", "UTF-8") + "=" + URLEncoder.encode(SEC2, "UTF-8");//카테고리2 전달
+
+                    data +="&" + URLEncoder.encode("PRESENTATION", "UTF-8") + "=" + URLEncoder.encode(PRESENTATION, "UTF-8");//자기소개 전달
+
+                    data +="&" + URLEncoder.encode("RESIDENCE", "UTF-8") + "=" + URLEncoder.encode(RESIDENCE, "UTF-8");//거주지 전달
+                    data +="&" + URLEncoder.encode("MARK", "UTF-8") + "=" + URLEncoder.encode(MARK, "UTF-8");//마크 3
 
 
                     URL url = new URL(link);
@@ -229,7 +271,7 @@ public class join3 extends AppCompatActivity {
                     conn.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                    wr.write(data);
+                    wr.write( data );
                     wr.flush();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -238,15 +280,12 @@ public class join3 extends AppCompatActivity {
                     String line = null;
 
                     // Read Server Response
-                    while ((line = reader.readLine()) != null) {
+                    while((line = reader.readLine()) != null)
+                    {
                         sb.append(line);
                         break;
                     }
-
-                    id_Result = sb.toString();
-
-                    return id_Result;
-
+                    return sb.toString();
 
                 }
                 catch(Exception e){
@@ -256,9 +295,78 @@ public class join3 extends AppCompatActivity {
             }
         }
 
+        InsertData task = new InsertData();
+        task.execute(id,password,/*uri*/nick,sec1,sec2,pre,Residence,mark);
+
+    }
+
+/*
+    private void cate_gory(String id,String mark){//id보내주는 함수
+        class idcheck extends AsyncTask<String, Void, String> {
+            ProgressDialog loading;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(join3.this, "Please Wait", null, true, true);
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                if(id_Result.equals("0"))
+                {
+                    s= "사용가능한 ID 입니다." ;
+                }
+                else if(id_Result.equals("1"))
+                {
+                    s= "이미 존재하는 ID 입니다" ;
+                }
+                else if (id_Result.equals("2"))
+                {
+                    s="올바른 이메일형식이 아닙니다.";
+                }
+                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+            }
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    String JOIN_ID = (String) params[0];//넘어가는 변수
+                    String MARK = (String) params[1];// 중복체크 마크 1
+                    //  if(!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", JOIN_ID))
+                    String link = "http://58.142.149.131/grad/Grad_Join.php";
+                    String data = "";
+                    if (!Pattern.matches("^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$", JOIN_ID)) {
+                        id_Result="2";
+                        return id_Result;
+                    }
+                    else {
+                        data = URLEncoder.encode("JOIN_ID", "UTF-8") + "=" + URLEncoder.encode(JOIN_ID, "UTF-8");
+                        data += "&" + URLEncoder.encode("MARK", "UTF-8") + "=" + URLEncoder.encode(MARK, "UTF-8");
+                    }
+                    URL url = new URL(link);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(data);
+                    wr.flush();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    // Read Server Response
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    id_Result = sb.toString();
+                    return id_Result;
+                }
+                catch(Exception e){
+                    return new String("Exception: " + e.getMessage());
+                }
+            }
+        }
         idcheck task = new idcheck();
         task.execute(id,mark);
-
     }
 */
 
@@ -267,10 +375,36 @@ public class join3 extends AppCompatActivity {
     //}
 
     public void next(View v){
+
+        pre= presentation.getText().toString();//자기소개란
+
+        // sec1=section1.
+        if(sec1.equals("전체") )// 카테고리 선택하지 않을 경우
+        {
+            Toast.makeText(getApplicationContext(),"카데고리를 선택해주세요!.",Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        if(pre.length()==0){
+            Toast.makeText(getApplicationContext(),"자기소개란을 입력해주세요",Toast.LENGTH_SHORT).show();
+            return;
+
+
+        }
+
+        if(Residece.equals("전체")){
+            Toast.makeText(getApplicationContext(),"거주지를 선택해주세요",Toast.LENGTH_SHORT).show();
+            return;
+
+
+        }
+
+
+        insertToDatabase(id,password,/*uri*/nick,sec1,sec2,pre,Residece,mark);
         Intent intent = new Intent(join3.this, join4.class);
-        intent.putExtra("name",id); // 아이디(중복체크 다된 아이디)를 다음 액티비티로 넘김.
-        intent.putExtra("pw",password);//비번을 다음 액티비티로 넘김
         startActivity(intent);
+
     }
 
 }

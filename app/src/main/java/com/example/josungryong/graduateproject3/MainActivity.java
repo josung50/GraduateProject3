@@ -33,7 +33,7 @@ import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
 import com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite;
 import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
-import com.example.josungryong.graduateproject3.MyPage.MyPage;
+import com.example.josungryong.graduateproject3.Mypage.Mypage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_alram) {
 
         } else if (id == R.id.nav_mypage) {
-            Intent intent = new Intent(MainActivity.this, MyPage.class);
+            Intent intent = new Intent(MainActivity.this, Mypage.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_group) {
@@ -237,6 +237,7 @@ public class MainActivity extends AppCompatActivity
     public void TabClick(View v) {
         switch (v.getId()) {
             case R.id.DesignButton:
+                ProjectButton.setTextSize(15);
                 DesignButton.setVisibility(View.INVISIBLE);
                 DesignSpinner.setVisibility(View.VISIBLE);
                 DesignerButton.setVisibility(View.VISIBLE);
@@ -297,7 +298,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
     // fragment 교체 애니메이션을 위한 현재 프레그먼트 찾기 //
-    public int leftORrightFR(int current_position , int after_position ) {
+    public static int leftORrightFR(int current_position , int after_position ) {
         if(current_position > after_position) { // 왼쪽 이동
             return 1;
         }

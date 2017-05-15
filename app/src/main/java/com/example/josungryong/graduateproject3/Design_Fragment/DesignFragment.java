@@ -38,6 +38,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import static com.example.josungryong.graduateproject3.Login.preferences;
 import static com.example.josungryong.graduateproject3.MainActivity.DesignSpinner;
 
 
@@ -58,33 +59,27 @@ public class DesignFragment extends Fragment {
 
     private ViewGroup rootView;
 
-    // 탭 //
-    /*
-    private Spinner design_spinner;
-    private TextView design_all;
-    private TextView design_passion;
-    private TextView design_commucation;
-    private TextView design_craft;
-    private TextView design_space;
-    private TextView design_entertainment;
-    private TextView design_new;
-    private TextView design_product;
-    private Button design_write;
-    */
+    public String where; // mypage에서 온 fragment인지 , 메인의 tab에서 온 fragment인지 판단.
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        DesignSpinner.setSelection(0);
-        CODE="CODE=";
-        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        //CODE="CODE=";
-        //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        /* 마이페이지 , 메인액티비티 중 어느 곳에서 호출 되었는지 를 표기 */
+        if(getArguments() != null) {
+            where = getArguments().getString("WHERE");
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        else {
+            where = "";
+            DesignSpinner.setSelection(0);
+            CODE="CODE=";
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
 
         rootView = (ViewGroup)inflater.inflate(R.layout.fragment_design, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewDesign);
         recyclerView.setHasFixedSize(true);
+        list.clear();
         adapter = new DesignViewAdapter(getActivity(), list);
         linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -135,122 +130,23 @@ public class DesignFragment extends Fragment {
 
             }
         });
-
-        // 탭 //
-        /*
-        design_spinner = (Spinner) rootView.findViewById(R.id.design_spinner);
-        ArrayAdapter<CharSequence> adapter_spinner = ArrayAdapter.createFromResource(getContext(), R.array.design_spinner,android.R.layout.simple_spinner_dropdown_item);
-        adapter_spinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        design_spinner.setAdapter(adapter_spinner);
-        design_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        design_all = (TextView) rootView.findViewById(R.id.design_all);
-        design_passion = (TextView) rootView.findViewById(R.id.design_passion);
-        design_product = (TextView) rootView.findViewById(R.id.design_product);
-        design_commucation = (TextView) rootView.findViewById(R.id.design_commucation);
-        design_craft = (TextView) rootView.findViewById(R.id.design_craft);
-        design_space = (TextView) rootView.findViewById(R.id.design_space);
-        design_entertainment = (TextView) rootView.findViewById(R.id.design_entertainment);
-        design_new = (TextView) rootView.findViewById(R.id.design_new);
-        design_write = (Button) rootView.findViewById(R.id.design_write);
-
-        design_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_passion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=001";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_product.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=002";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_commucation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=003";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_craft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=004";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_space.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=005";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_entertainment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=006";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        // 자연 추가하기..
-        design_new.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CODE = "CODE=008";
-                new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        });
-        design_write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                //alert.setView(name);
-                alert.setTitle("어디서 디자인을 가져올까?");
-                alert.setPositiveButton("카메라", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                alert.setNeutralButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                alert.setNegativeButton("갤러리", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getActivity(), DesignWrite.class);
-                        startActivity(intent);
-                    }
-                });
-                alert.show();
-            }
-        });
-        */
-
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+                /* 마이페이지 , 메인액티비티 중 어느 곳에서 호출 되었는지 를 표기 */
+        if(getArguments() != null) {
+            where = getArguments().getString("WHERE");
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        else {
+            where = "";
+            DesignSpinner.setSelection(0);
+            CODE="CODE=";
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     // PHP 검색 쿼리 보내는 class
@@ -258,59 +154,175 @@ public class DesignFragment extends Fragment {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
-            try{
-                String urlPath = "http://58.142.149.131/grad/Grad_design_list_cate.php";
-                Log.i("urlPat" , "value:" + urlPath);
+            if(where.equals("MYPAGE_LIKE")) { // fragment가 mypage의 "관심 디자인"에서 호출 됨 - seq를 전송해야 한다.
+                try{
+                    String urlPath = "http://58.142.149.131/grad/Grad_mypage.php";
+                    Log.i("urlPat" , "value:" + urlPath);
 
-                // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
-                String data = CODE;
+                    String data ="MENU=likeDesign";
+                    data += "&MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
 
-                URL url = new URL(urlPath);
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                //추가 할 내용 - 서버 on/off 검사
+                    //추가 할 내용 - 서버 on/off 검사
 
-                // 문자열 전송
-                wr.write(data);
-                wr.flush();
+                    // 문자열 전송
+                    Log.i("datavaluelike" , "value:" + data);
+                    wr.write(data);
+                    wr.flush();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-                StringBuilder sb = new StringBuilder();
-                String CheckNull = "0";
-                String line = null;
+                    StringBuilder sb = new StringBuilder();
+                    String CheckNull = "0";
+                    String line = null;
 
-                while((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                CheckNull = sb.toString();
-                Log.d("testquerydesign", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
-
-                if(sb.toString() != "") {
-                    listDB = sb.toString().split("<br>");
-                    //Log.d("listDB??" , "listDB:"+listDB);
-
-                    for (int i = 1; i < listDB.length; i++) {
-                        temp = split(listDB[i]); // 제작자seq / 디자인카드 SEQ /제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
-                                                //          0         1        2        3           4           5
-                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
+                    while((line = reader.readLine()) != null) {
+                        sb.append(line);
                     }
-                    return sb.toString();
-                }
-                else {
-                    return null;
-                }
 
-            }catch(UnsupportedEncodingException e){
-                e.printStackTrace();
-            }catch(IOException e){
-                e.printStackTrace();
+                    CheckNull = sb.toString();
+                    Log.d("mypage_like", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+
+                    if(sb.toString() != "") {
+                        listDB = sb.toString().split("<br>");
+                        //Log.d("listDB??" , "listDB:"+listDB);
+
+                        for (int i = 1; i < listDB.length; i++) {
+                            temp = split(listDB[i]); // 제작자seq / 디자인카드 SEQ /제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 / 좋아요 유무 \(CHECKED\) , \(UNCHECKED\)<br>
+                                                    //          0         1          2        3           4           5                 6
+                            Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + temp[5] + " " + temp[6]);
+                        }
+                        return sb.toString();
+                    }
+                    else {
+                        return null;
+                    }
+
+                }catch(UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                //오류시 null 반환
+                return null;
             }
-            //오류시 null 반환
-            return null;
+
+            else if(where.equals("MYPAGE_UPLOAD")) { // fragment가 mypage의 "내가 최근에 등록한 디자인"에서 호출 됨 - seq를 전송해야 한다.
+                try{
+                    String urlPath = "http://58.142.149.131/grad/Grad_mypage.php";
+                    Log.i("urlPat" , "value:" + urlPath);
+
+                    String data ="MENU=uploadDesign";
+                    data += "&MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
+
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    //추가 할 내용 - 서버 on/off 검사
+
+                    // 문자열 전송
+                    Log.i("mypage_upload_data" , "value : " + data);
+                    wr.write(data);
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String CheckNull = "0";
+                    String line = null;
+
+                    while((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+
+                    CheckNull = sb.toString();
+                    Log.d("mypage_upload", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 / 좋아요 유무 <br>
+
+                    if(sb.toString() != "") {
+                        listDB = sb.toString().split("<br>");
+                        //Log.d("listDB??" , "listDB:"+listDB);
+
+                        for (int i = 1; i < listDB.length; i++) {
+                            temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 / 좋아요 유무 <br>
+                                                    //          0         1             2        3           4           5              6
+                            Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
+                        }
+                        return sb.toString();
+                    }
+                    else {
+                        return null;
+                    }
+
+                }catch(UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                //오류시 null 반환
+                return null;
+            }
+
+            else { // fragment가 mainactivity에서 호출 됨 - 탭 번호에 따른 값만 받으면 됨
+                try{
+                    String urlPath = "http://58.142.149.131/grad/Grad_design_list_cate.php";
+                    Log.i("urlPat" , "value:" + urlPath);
+
+                    String data = CODE;
+                    data += "&MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
+
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    //추가 할 내용 - 서버 on/off 검사
+
+                    // 문자열 전송
+                    wr.write(data);
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String CheckNull = "0";
+                    String line = null;
+
+                    while((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+
+                    CheckNull = sb.toString();
+                    Log.d("testquerydesign", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+
+                    if(sb.toString() != "") {
+                        listDB = sb.toString().split("<br>");
+                        //Log.d("listDB??" , "listDB:"+listDB);
+
+                        for (int i = 1; i < listDB.length; i++) {
+                            temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 / 좋아요 유무 <br>
+                                                    //          0         1             2        3           4           5              6
+                            Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5] + " " + temp[6]);
+                        }
+                        return sb.toString();
+                    }
+                    else {
+                        return null;
+                    }
+
+                }catch(UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                //오류시 null 반환
+                return null;
+            }
         }
 
         //asyonTask 3번째 인자와 일치 매개변수값 -> doInBackground 리턴값이 전달됨
@@ -347,9 +359,9 @@ public class DesignFragment extends Fragment {
     public ArrayList<ItemDataDesign> createContactsList(int numContacts) {
         ArrayList<ItemDataDesign> contacts = new ArrayList<ItemDataDesign>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 <br>
-                                    //          0         1             2        3           4           5
-            contacts.add(new ItemDataDesign(temp[1],temp[0],temp[2],temp[4],temp[5],temp[3]));
+            temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 / 좋아요 유무 <br>
+                                    //          0         1             2        3           4           5              6
+            contacts.add(new ItemDataDesign(temp[1],temp[0],temp[2],temp[4],temp[5],temp[3] , temp[6]));
         }
         return contacts;
     }

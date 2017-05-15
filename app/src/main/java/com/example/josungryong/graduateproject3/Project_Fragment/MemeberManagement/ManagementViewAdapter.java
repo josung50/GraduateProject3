@@ -1,13 +1,9 @@
-package com.example.josungryong.graduateproject3.Designer_Fragment;
+package com.example.josungryong.graduateproject3.Project_Fragment.MemeberManagement;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.StrictMode;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,24 +15,22 @@ import com.example.josungryong.graduateproject3.R;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.josungryong.graduateproject3.Login.preferences;
+
 /**
- * Created by josungryong on 2017-03-12.
+ * Created by josungryong on 2017-05-15.
  */
 
-public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapter.Holder> {
+public class ManagementViewAdapter extends RecyclerView.Adapter<ManagementViewAdapter.Holder> {
     private Context context;
-    private List<ItemDataDesigner> list = new ArrayList<>();
+    private List<ItemDataManagement> list = new ArrayList<>();
 
-    public DesignerViewAdapter(Context context, List<ItemDataDesigner> list) {
+    public ManagementViewAdapter(Context context, List<ItemDataManagement> list) {
         this.context = context;
         this.list = list;
     }
@@ -45,7 +39,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
     // row layout을 화면에 뿌려주고 holder에 연결
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_designer_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_management_cardview, parent, false);
         Holder holder = new Holder(view);
 
         return holder;
@@ -72,6 +66,37 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         Picasso.with(context).load("http://113.198.210.237:80/"+list.get(itemposition).profileimgURI).fit().into(holder.profileimg_in);
         holder.content_in.setText(list.get(itemposition).content_in);
         holder.field_in.setText((list.get(itemposition).field));
+
+        holder.PROJ_SEQ = list.get(itemposition).PROJ_SEQ;
+
+        /* 탈퇴 버튼 보여주기
+        if(holder.designerseq.equals(preferences.getString("MEMBERSEQ",""))) {
+            holder.out.setVisibility(View.VISIBLE);
+            holder.out.bringToFront();
+        }*/
+
+        /*
+        holder.out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            alert.setTitle("정말 탈퇴 하시겠습니까?");
+            alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    new HttptaskOUT().execute(holder.PROJ_SEQ);
+                }
+            });
+            alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss(); // 닫기
+                }
+            });
+            alert.show();
+            }
+        });
+        */
 
         /* 펼칠 때 업로드 내용을 받아와 펼친다. (리사이클 뷰로 구현) */
         holder.fc.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +150,9 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         public TextView likeCount;
         public String URIset;
         public FoldingCell fc;
+        public TextView out;
+
+        public String PROJ_SEQ;
 
         /* Folding in (content) */
         public TextView nickName_in;
@@ -141,24 +169,25 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
 
         public Holder(View view){
             super(view);
-            fc = (FoldingCell) view.findViewById(R.id.folding_cell);
-            nickName = (TextView) view.findViewById(R.id.nickName_designer_cardview);
-            imageView = (ImageView) view.findViewById(R.id.imageView_designer_cardview);
-            field = (TextView) view.findViewById(R.id.field_designer_cardview);
-            uploadCount = (TextView) view.findViewById(R.id.uploadCount_designer_cardview);
-            viewCount = (TextView) view.findViewById(R.id.viewCount_desginer_cardview);
-            likeCount = (TextView) view.findViewById(R.id.likeCount_designer_cardview);
+            fc = (FoldingCell) view.findViewById(R.id.folding_cell_management);
+            nickName = (TextView) view.findViewById(R.id.nickName_management_cardview);
+            imageView = (ImageView) view.findViewById(R.id.imageView_management_cardview);
+            field = (TextView) view.findViewById(R.id.field_management_cardview);
+            uploadCount = (TextView) view.findViewById(R.id.uploadCount_management_cardview);
+            viewCount = (TextView) view.findViewById(R.id.viewCount_management_cardview);
+            likeCount = (TextView) view.findViewById(R.id.likeCount_management_cardview);
+            out = (TextView) view.findViewById(R.id.out_management_cardview);
 
             /* Folding in (content) */
-            nickName_in = (TextView) view.findViewById(R.id.nickName_designer_cardview_in);
-            field_in = (TextView) view.findViewById(R.id.field_designer_cardview_in);
-            content_in = (TextView) view.findViewById(R.id.content_designer_cardview_in);
-            profileimg_in = (ImageView) view.findViewById(R.id.profileimg_designer_cardview_in);
-            upload1 = (ImageView) view.findViewById(R.id.upload1_designer_cardview_in);
-            upload2 = (ImageView) view.findViewById(R.id.upload2_designer_cardview_in);
-            upload3 = (ImageView) view.findViewById(R.id.upload3_designer_cardview_in);
-            upload4 = (ImageView) view.findViewById(R.id.upload4_designer_cardview_in);
-            arrow = (ImageView) view.findViewById(R.id.arrow_designer_cardview_in);
+            nickName_in = (TextView) view.findViewById(R.id.nickName_management_cardview_in);
+            field_in = (TextView) view.findViewById(R.id.field_management_cardview_in);
+            content_in = (TextView) view.findViewById(R.id.content_management_cardview_in);
+            profileimg_in = (ImageView) view.findViewById(R.id.profileimg_management_cardview_in);
+            upload1 = (ImageView) view.findViewById(R.id.upload1_management_cardview_in);
+            upload2 = (ImageView) view.findViewById(R.id.upload2_management_cardview_in);
+            upload3 = (ImageView) view.findViewById(R.id.upload3_management_cardview_in);
+            upload4 = (ImageView) view.findViewById(R.id.upload4_management_cardview_in);
+            arrow = (ImageView) view.findViewById(R.id.arrow_management_cardview_in);
         }
     }
 
@@ -168,3 +197,4 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         return temp2;
     }
 }
+

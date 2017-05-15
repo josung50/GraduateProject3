@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.josungryong.graduateproject3.LikeHttp;
 import com.example.josungryong.graduateproject3.R;
 import com.squareup.picasso.Picasso;
 
@@ -55,7 +56,7 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
         // 각 위치에 문자열 세팅
-        int itemposition = position;
+        final int itemposition = position;
         if(list.get(itemposition).title.toString().length()>=15) {
             String temp;
             temp = list.get(itemposition).title.toString().substring(0,12) + "...";
@@ -71,9 +72,13 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.viewText.setText(list.get(itemposition).view);
         holder.resisterseq = list.get(itemposition).resisterseq;
         holder.designseq = list.get(itemposition).designseq;
+        holder.likechecked = list.get(itemposition).likecheck;
 
         //holder.imageView.setImageBitmap(getPic(holder.URI));
         Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).fit().into(holder.imageView);
+
+        if(list.get(itemposition).likecheck.equals("\\(CHECKED\\)")){
+            holder.like.setImageResource(R.drawable.like_after); }
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +86,29 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
                 Intent intent = new Intent(v.getContext(), DesignInfo.class);
                 intent.putExtra("DESIGN_WORK_SEQ" , holder.designseq);
                 intent.putExtra("RESISTER_SEQ", holder.resisterseq);
+                intent.putExtra("THUMBNAIL" , "http://113.198.210.237:80/" + holder.URI);
+                intent.putExtra("TITLE" , holder.titleText.toString());
+                intent.putExtra("LIKE" , holder.likechecked);
+                intent.putExtra("POSITION" , itemposition);
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("likechecked2" , "value : " + holder.likechecked);
+                new LikeHttp().execute("DESIGN",holder.designseq,holder.likechecked);
+                if(holder.likechecked.equals("\\(CHECKED\\)")) {
+                    holder.like.setImageResource(R.drawable.like_before);
+                    holder.likechecked = "\\(UNCHECKED\\)";
+                    list.get(itemposition).likecheck = "\\(UNCHECKED\\)";
+                }
+                else {
+                    holder.like.setImageResource(R.drawable.like_after);
+                    holder.likechecked = "\\(CHECKED\\)";
+                    list.get(itemposition).likecheck = "\\(CHECKED\\)";
+                }
             }
         });
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
@@ -103,6 +130,8 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         public String resisterseq;
         ImageView imageView;
         public String URI;
+        public ImageView like;
+        public String likechecked;
 
         public Holder(View view){
             super(view);
@@ -110,6 +139,7 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
             imageView = (ImageView) view.findViewById(R.id.imageView_design_cardview);
             resisterText = (TextView) view.findViewById(R.id.resisterater_design_cardview);
             viewText = (TextView) view.findViewById(R.id.view_design_cardview);
+            like = (ImageView) view.findViewById(R.id.like_design_cardview);
         }
     }
 }

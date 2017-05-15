@@ -3,34 +3,24 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera_designinfo"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_like_designinfo"
+            android:icon="@drawable/like_after"
             android:title="Import" />
         <item
-            android:id="@+id/nav_gallery_designinfo"
-            android:icon="@drawable/ic_menu_gallery"
+            android:id="@+id/nav_comment_designinfo"
+            android:icon="@drawable/arrow"
             android:title="Gallery" />
         <item
-            android:id="@+id/nav_slideshow_designinfo"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage_designinfo"
-            android:icon="@drawable/ic_menu_manage"
+            android:id="@+id/nav_view_designinfo"
+            android:icon="@drawable/view"
             android:title="Tools" />
+        <item
+            android:id="@+id/nav_contact_designinfo"
+            android:icon="@drawable/email"
+            android:title="Contact" />
+        <item
+            android:id="@+id/nav_tag_designinfo"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="#image #image #image #image #image #image #image #image #image #image #image #image #image #image #image #image #image #image #image #image #image " />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share_designinfo"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send_designinfo"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>

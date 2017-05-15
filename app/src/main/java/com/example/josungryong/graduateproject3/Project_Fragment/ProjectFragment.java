@@ -26,6 +26,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import static com.example.josungryong.graduateproject3.Login.preferences;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,12 +49,20 @@ public class ProjectFragment extends Fragment {
     // 탭 //
     private Button project_write;
 
+    private String where;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        CODE="CODE=";
-        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if(getArguments() != null) {
+            where = getArguments().getString("WHERE");
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        else {
+            where = "";
+            CODE="CODE=";
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
 
         rootView = (ViewGroup)inflater.inflate(R.layout.fragment_project, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewProject);
@@ -75,55 +85,112 @@ public class ProjectFragment extends Fragment {
         /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
-            try{
-                String urlPath = "http://58.142.149.131/grad/Grad_project_list.php";
-                Log.i("urlPat" , "value:" + urlPath);
+            Log.i("wherevalue" , "value : " + where);
 
-                // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
-                String data = CODE;
+            if(where.equals("MYPAGE_PROJECT")){ // 마이페이지에서 프로젝트 프래그먼트 호출
+                try{
+                    String urlPath = "http://58.142.149.131/grad/Grad_mypage.php";
+                    Log.i("urlPat" , "value:" + urlPath);
 
-                URL url = new URL(urlPath);
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
+                    String data = "MENU=myProject";
+                    data +="&MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
 
-                //추가 할 내용 - 서버 on/off 검사
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                // 문자열 전송
-                wr.write(data);
-                wr.flush();
+                    //추가 할 내용 - 서버 on/off 검사
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    // 문자열 전송
+                    wr.write(data);
+                    wr.flush();
 
-                StringBuilder sb = new StringBuilder();
-                String CheckNull = "0";
-                String line = null;
+                    Log.i("datavalue" , "value :" + data);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-                while((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
+                    StringBuilder sb = new StringBuilder();
+                    String CheckNull = "0";
+                    String line = null;
 
-                CheckNull = sb.toString();
-
-                if(sb.toString() != "") {
-                    listDB = sb.toString().split("<br>");
-                    //Log.d("listDB??" , "listDB:"+listDB);
-
-                    for (int i = 1; i < listDB.length; i++) {
-                        temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ / 그룹 멤버 전원 SEQ<br>
-                                                //          0         1                     2        3          4       5                   6
-                        Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5] + " " + temp[6]);
+                    while((line = reader.readLine()) != null) {
+                        sb.append(line);
                     }
-                    return sb.toString();
+
+                    CheckNull = sb.toString();
+
+                    if(sb.toString() != "") {
+                        listDB = sb.toString().split("<br>");
+                        Log.d("listDBmypage" , "listDB:"+listDB);
+
+                        for (int i = 1; i < listDB.length; i++) {
+                            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ / 그룹 멤버 전원 SEQ<br>
+                                                    //          0         1                     2        3          4       5                   6                   7
+                        }
+                        return sb.toString();
+                    }
+                    else {
+                        return null;
+                    }
+
+                }catch(UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
                 }
-                else {
-                    return null;
+            }
+            else{ // 메인액티비티에서 프래그먼트 호출
+                try{
+                    String urlPath = "http://58.142.149.131/grad/Grad_project_list.php";
+                    Log.i("urlPat" , "value:" + urlPath);
+
+                    // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
+                    String data = CODE;
+
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    //추가 할 내용 - 서버 on/off 검사
+
+                    // 문자열 전송
+                    wr.write(data);
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String CheckNull = "0";
+                    String line = null;
+
+                    while((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+
+                    CheckNull = sb.toString();
+
+                    if(sb.toString() != "") {
+                        listDB = sb.toString().split("<br>");
+                        //Log.d("listDB??" , "listDB:"+listDB);
+
+                        for (int i = 1; i < listDB.length; i++) {
+                            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ / 그룹 멤버 전원 SEQ<br>
+                                                    //          0         1                     2                   3          4       5                   6            7
+                        }
+                        return sb.toString();
+                    }
+                    else {
+                        return null;
+                    }
+
+                }catch(UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
                 }
 
-            }catch(UnsupportedEncodingException e){
-                e.printStackTrace();
-            }catch(IOException e){
-                e.printStackTrace();
             }
             //오류시 null 반환
             return null;
@@ -169,9 +236,11 @@ public class ProjectFragment extends Fragment {
     public ArrayList<ItemDataProject> createContactsList(int numContacts) {
         ArrayList<ItemDataProject> contacts = new ArrayList<ItemDataProject>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 썸네일경로 / 멤버 수 // 파일 수 / 고유 seq  / 멤버들의 전원 SEQ<BR>
-                                    //     0                    1           2               3           4       5           6
-            contacts.add(new ItemDataProject(temp[2],temp[0], temp[1] , temp[3] , temp[4] , temp[5] , temp[6])); // 썸네일 경로 , 프로젝트 이름, 프로젝즈 제작자 , 멤버 수 , 파일 수 순 // 고유 seq(프로젝트) 는 변수에만 저장 추가적으로 그룹 멤버들의 SEQ
+            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버 수 // 파일 수 / 고유 seq  / 멤버들의 전원 SEQ<BR>
+                                    //     0                    1           2                   3           4               5          6            7
+            contacts.add(new ItemDataProject(temp[0], temp[1] , temp[2], temp[3], temp[4] , temp[5] , temp[6] , temp[7]));
+            Log.i("projectinfovalue" , "value : " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5] + " " + temp[6] + " " + temp[7]);
+            // 썸네일 경로 , 프로젝트 이름, 프로젝즈 제작자 , 제작자 seq , 멤버 수 , 파일 수 순 // 고유 seq(프로젝트) 는 변수에만 저장 추가적으로 그룹 멤버들의 SEQ
         }
         return contacts;
     }

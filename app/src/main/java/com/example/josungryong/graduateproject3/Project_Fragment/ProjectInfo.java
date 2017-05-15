@@ -30,6 +30,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
+import com.example.josungryong.graduateproject3.Project_Fragment.MemeberManagement.Management;
 import com.example.josungryong.graduateproject3.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -67,8 +69,9 @@ public class ProjectInfo extends AppCompatActivity {
     private String response; // 주제 삭제 - 성공은 TRUE , 실패는 FALSE 반환
 
     private Boolean isFabOpen = false; // Fab 세팅
-    private FloatingActionButton fab1, fab2, fab3, fab4; // fab1 -> + , fab2 -> , fab3 -> , fab4 ->
-    private TextView textSubjectAdd, textSubjectCorrect, textSubjectDelete;
+    // fab1 -> +(버튼 활성화) , fab2 -> 주제삭제 , fab3 -> 주제수정 , fab4 -> 주제추가 , fab5 -> 멤버관리
+    private FloatingActionButton fab1, fab2, fab3, fab4, fab5;
+    private TextView textSubjectAdd, textSubjectCorrect, textSubjectDelete, textMemeberManagement;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
 
     private ArrayList<String> SpinnerList = new ArrayList<String>();
@@ -84,10 +87,7 @@ public class ProjectInfo extends AppCompatActivity {
     private String[] Member_Seq_Group; // 프로젝트에 속한 멤버들의 seq
     private String SUBJ_SEQ; // 프로젝트 주제 SEQ
     private static ArrayAdapter<String> Subjectadapter; // 스피너 어댑터
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+    private String MASTER_SEQ; // 프로젝트 생성자 seq (멤버관리에 대한 권한 가지고 있다.)
     private GoogleApiClient client;
 
     @Override
@@ -96,10 +96,11 @@ public class ProjectInfo extends AppCompatActivity {
 
         // 프로젝트 SEQ를 받아온다.
         Intent intent = getIntent();
+        MASTER_SEQ = intent.getStringExtra("MASTER_SEQ");
         PROJ_SEQ = intent.getStringExtra("PROJ_SEQ");
         Log.i("Member_Seq_Group" , "Value : " + intent.getStringExtra("MEMBER_SEQ_GROUP"));
         Member_Seq_Group = split2(intent.getStringExtra("MEMBER_SEQ_GROUP"));
-        Log.i("Member_Seq_Group" , "Value : " + Member_Seq_Group[1]); // M 부터 잘리기 때문에 1부터 인덱스가 시작한다.
+        Log.i("Member_Seq_Group2" , "Value : " + Member_Seq_Group[1]); // M 부터 잘리기 때문에 1부터 인덱스가 시작한다.
 
         new HttpTaskSubject().execute(); // 스피너를 셋팅 (주제 셋팅)
 
@@ -109,10 +110,12 @@ public class ProjectInfo extends AppCompatActivity {
         textSubjectAdd = (TextView) findViewById(R.id.textSubjectAdd);
         textSubjectCorrect = (TextView) findViewById(R.id.textSubjectCorrect);
         textSubjectDelete = (TextView) findViewById(R.id.textSubjectDelete);
+        textMemeberManagement = (TextView) findViewById(R.id.textMemeberManagement);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);
         fab3 = (FloatingActionButton) findViewById(R.id.fab3);
         fab4 = (FloatingActionButton) findViewById(R.id.fab4);
+        fab5 = (FloatingActionButton) findViewById(R.id.fab5);
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
@@ -215,7 +218,7 @@ public class ProjectInfo extends AppCompatActivity {
                     //Toast.makeText(this,"그룹 멤버가 맞습니다.",Toast.LENGTH_LONG).show();
                 }
                 else {
-                    //Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"프로젝트 멤버가 아닙니다." , Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.fab3: // 주제 수정
@@ -273,7 +276,7 @@ public class ProjectInfo extends AppCompatActivity {
                     //Toast.makeText(this,"그룹 멤버가 맞습니다.",Toast.LENGTH_LONG).show();
                 }
                 else {
-                    //Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"프로젝트 멤버가 아닙니다." , Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.fab4: // 주제 추가 - dialog를 통해 구현
@@ -303,9 +306,20 @@ public class ProjectInfo extends AppCompatActivity {
                     alert.show();
                 }
                 else{
-                    //Toast.makeText(this,"그룹 멤버가 아닙니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"프로젝트 멤버가 아닙니다." , Toast.LENGTH_LONG).show();
                 }
                 break;
+            case R.id.fab5: // 멤버 관리
+                if(CheckMemberOfProject(Member_Seq_Group)) {
+                    Intent intent = new Intent(ProjectInfo.this, Management.class);
+                    intent.putExtra("PROJ_SEQ", PROJ_SEQ);
+                    intent.putExtra("MASTER_SEQ", MASTER_SEQ);
+                    startActivity(intent);
+                    break;
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"프로젝트 멤버가 아닙니다." , Toast.LENGTH_LONG).show();
+                }
         }
     }
 
@@ -316,15 +330,19 @@ public class ProjectInfo extends AppCompatActivity {
             textSubjectAdd.startAnimation(fab_close);
             textSubjectCorrect.startAnimation(fab_close);
             textSubjectDelete.startAnimation(fab_close);
+            textMemeberManagement.startAnimation(fab_close);
             fab2.startAnimation(fab_close);
             fab3.startAnimation(fab_close);
             fab4.startAnimation(fab_close);
+            fab5.startAnimation(fab_close);
             fab2.setClickable(false);
             fab3.setClickable(false);
             fab4.setClickable(false);
+            fab5.setClickable(false);
             textSubjectAdd.startAnimation(fab_close);
             textSubjectCorrect.startAnimation(fab_close);
             textSubjectDelete.startAnimation(fab_close);
+            textMemeberManagement.startAnimation(fab_close);
             isFabOpen = false;
             Log.d("Raj", "close");
         } else {
@@ -335,12 +353,16 @@ public class ProjectInfo extends AppCompatActivity {
             textSubjectCorrect.bringToFront();
             textSubjectDelete.startAnimation(fab_open);
             textSubjectDelete.bringToFront();
+            textMemeberManagement.startAnimation(fab_open);
+            textMemeberManagement.bringToFront();
             fab2.startAnimation(fab_open);
             fab3.startAnimation(fab_open);
             fab4.startAnimation(fab_open);
+            fab5.startAnimation(fab_open);
             fab2.setClickable(true);
             fab3.setClickable(true);
             fab4.setClickable(true);
+            fab5.setClickable(true);
             isFabOpen = true;
             Log.d("Raj", "open");
         }
@@ -384,11 +406,9 @@ public class ProjectInfo extends AppCompatActivity {
 
     // PHP 검색 쿼리 보내는 class (주제를 보여준다.)
     public class HttpTaskSubject extends AsyncTask<String, Void, String> {
-        /* Bitmap bitmap , String image는 전역변수 */
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
             try {
-
                 String urlPath = "http://58.142.149.131/grad/Grad_project_list_subject.php";
 
                 // 내가 보낼 데이터 (쿼리, SUBSEQ 전역변수, switch 에서 정해준다.)
@@ -791,7 +811,6 @@ public class ProjectInfo extends AppCompatActivity {
 
     public Boolean CheckMemberOfProject(String[] group) {
         preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
-        Log.i("memberseqvalue" , "Value : " + group[2] + " " + preferences.getString("MEMBERSEQ",""));
         Log.i("memberseqvalue" , "Value : " + group.length);
         for(int i=1; i<group.length; i++)
             if( group[i].equals(preferences.getString("MEMBERSEQ","") )) {

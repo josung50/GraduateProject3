@@ -14,14 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.Comment;
+import com.example.josungryong.graduateproject3.LikeHttp;
 import com.example.josungryong.graduateproject3.R;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -38,11 +43,11 @@ import java.util.ArrayList;
  * Created by josungryong on 2017-03-23.
  */
 
-public class DesignInfo extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class DesignInfo extends AppCompatActivity {
 
     private String DESIGN_WORK_SEQ;
     private String RESISTER_SEQ;
+    private String LIKE_CHECKED;
 
     private RecyclerView recyclerView;
     private DesignInfoViewAdapter adapterCardview;
@@ -59,17 +64,11 @@ public class DesignInfo extends AppCompatActivity
     private TextView DesignInfo_resistername; // 등록한 사람
     private TextView DesignInfo_likenumber; // 좋아요 수
     private TextView DesignInfo_commentnumber; // 코멘트 수
-
-    private Intent intent;
+    private ImageView DesignInfo_like;
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_designinfo);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -77,24 +76,11 @@ public class DesignInfo extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designinfo);
 
-        /* Nav */
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_designinfo);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_designinfo);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_designinfo);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
         // 디자인SEQ와 올린사람 SEQ를 가져온다.
         Intent intent = getIntent();
         DESIGN_WORK_SEQ = intent.getStringExtra("DESIGN_WORK_SEQ");
         RESISTER_SEQ = intent.getStringExtra("RESISTER_SEQ");
+        LIKE_CHECKED = intent.getStringExtra("LIKE");
 
         // 이미지 출력
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDesignInfo);
@@ -117,30 +103,11 @@ public class DesignInfo extends AppCompatActivity
         DesignInfo_resistername = (TextView) findViewById(R.id.designinfo_resistername);
         DesignInfo_likenumber = (TextView) findViewById(R.id.designinfo_likenumber);
         DesignInfo_commentnumber = (TextView) findViewById(R.id.designinfo_commentnumber);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera_designinfo) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery_designinfo) {
-
-        } else if (id == R.id.nav_slideshow_designinfo) {
-
-        } else if (id == R.id.nav_manage_designinfo) {
-
-        } else if (id == R.id.nav_share_designinfo) {
-
-        } else if (id == R.id.nav_send_designinfo) {
-
+        DesignInfo_like = (ImageView) findViewById(R.id.like_designinfo);
+        Log.i("likevalue" , "value : " + LIKE_CHECKED);
+        if(LIKE_CHECKED.equals("\\(CHECKED\\)")) {
+            DesignInfo_like.setImageResource(R.drawable.like_after);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_designinfo);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     // PHP 디자인에 해당하는 파일 불러오는 통신 class
@@ -226,13 +193,15 @@ public class DesignInfo extends AppCompatActivity
                 adapterCardview = new DesignInfoViewAdapter(getApplicationContext(), list);
 
                 DesignInfo_title.setText(listDesignInfoDB[1]);
-                DesignInfo_view.setText(listDesignInfoDB[3]);
+                DesignInfo_view.setText("조회수 : " + listDesignInfoDB[3]);
                 DesignInfo_content.setText(listDesignInfoDB[4]);
+                //DesignInfo_content.setText("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd123123");
+                DesignInfo_content.setMovementMethod(ScrollingMovementMethod.getInstance());
                 DesignInfo_resisttime.setText(listDesignInfoDB[5]);
                 DesignInfo_tag.setText(listDesignInfoDB[6]);
                 DesignInfo_resistername.setText(listDesignInfoDB[8]);
                 DesignInfo_likenumber.setText(listDesignInfoDB[9]);
-                DesignInfo_commentnumber.setText(listDesignInfoDB[10]);
+                DesignInfo_commentnumber.setText("댓글 : " + listDesignInfoDB[10] + "개");
                 // commit
 
                 // 추가작업.. 익셉션 처리해 줄것
@@ -272,11 +241,21 @@ public class DesignInfo extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.designinfo_commentnumber:
+                Intent intent;
                 intent = new Intent(DesignInfo.this, Comment.class);
                 intent.putExtra("WHERE","DESIGNINFO");
                 intent.putExtra("DESIGN_WORK_SEQ" , DESIGN_WORK_SEQ);
                 //Log.i("extravalue" , "value : " + putextra_commentnumber + putextra_likenumber);
                 startActivity(intent);
+                break;
+            case R.id.like_designinfo:
+                new LikeHttp().execute("DESIGN",DESIGN_WORK_SEQ,LIKE_CHECKED);
+                if(LIKE_CHECKED.equals("\\(CHECKED\\)")) {
+                    DesignInfo_like.setImageResource(R.drawable.like_before);
+                }
+                else {
+                    DesignInfo_like.setImageResource(R.drawable.like_after);
+                }
                 break;
         }
     }

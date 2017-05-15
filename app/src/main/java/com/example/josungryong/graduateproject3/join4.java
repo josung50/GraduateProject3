@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -16,12 +18,14 @@ public class join4 extends AppCompatActivity {
     String id;//넘어온 아이디 변수
     String password;//비밀번호
     ImageView imgview;
+    Button tomain;//메인으로가는버튼
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join4);
 
-
+        tomain=(Button)  findViewById(R.id.tomain);
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");//join3에서 넘어온 아이디 받기(넘어온데이터 저장)
@@ -36,7 +40,11 @@ public class join4 extends AppCompatActivity {
 
     }
 
-    public void onClick(View v){
+    public void ToMain(View v){
+
+
+        Intent intent = new Intent(join4.this,MainActivity.class);//메인화면으로 이동
+        startActivity(intent);
 
     }
 }

@@ -52,6 +52,19 @@
         android:visibility="invisible"
         android:onClick="onClickFab"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/fab5"
+        android:layout_above="@+id/fab4"
+        android:layout_alignStart="@+id/fab4"
+        android:visibility="invisible"
+        android:onClick="onClickFab"
+        android:layout_marginBottom="22dp" />
+
     <TextView
         android:text="주제 수정"
         android:layout_width="wrap_content"
@@ -85,8 +98,18 @@
         android:visibility="invisible"
         android:layout_alignBottom="@+id/fab4"
         android:layout_toStartOf="@+id/fab4"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="11dp"
         android:textStyle="bold"/>
+
+    <TextView
+        android:text="멤버 관리"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textMemeberManagement"
+        android:layout_alignBottom="@+id/fab5"
+        android:layout_toStartOf="@+id/fab5"
+        android:layout_marginBottom="11dp"
+        android:visibility="invisible" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
