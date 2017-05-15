@@ -17,9 +17,9 @@ if (!$link) {
     exit();
 }
 $_PROJECT_SEQ = "NULL";
-$_PROJECT_SEQ = urldecode("PROJECT_SEQ");
+$_PROJECT_SEQ = urldecode($_POST["PROJECT_SEQ"]);
 $_LOGIN_MEMBER_SEQ = "NULL";
-$_LOGIN_MEMBER_SEQ = urldecode("MEMBER_SEQ");
+$_LOGIN_MEMBER_SEQ = urldecode($_POST["MEMBER_SEQ"]);
 
 $_INCLUDE_IN_PROJECT = "NO";
 
