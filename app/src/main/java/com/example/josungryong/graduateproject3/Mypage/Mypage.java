@@ -90,6 +90,5 @@ public class Mypage extends AppCompatActivity {
         }
         fragmentTransaction.replace(R.id.fragment_container_mypage, fr);
         fragmentTransaction.commit();
-        //commit plz....
     }
 }

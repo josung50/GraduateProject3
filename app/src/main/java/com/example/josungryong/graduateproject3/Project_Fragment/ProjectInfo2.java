@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +55,7 @@ public class ProjectInfo2 extends AppCompatActivity {
     private TextView ProjectInfo2_resisttime; // 등록시간
     private TextView ProjectInfo2_resistername; // 등록한 사람 (제작자)
     private TextView ProjectInfo2_likenumber; // 좋아요 수
-    private Button ProjectInfo2_commentnumber; // 코멘트 수 (댓글 수)
+    private TextView ProjectInfo2_commentnumber; // 코멘트 수 (댓글 수)
     private Button ProjectInfo2_like;
 
     private String putextra_likenumber; // 댓글 창으로 넘기기 위한 변수
@@ -77,8 +78,9 @@ public class ProjectInfo2 extends AppCompatActivity {
         new HttpTaskProjectInfo2Show().execute();
 
         ProjectInfo2_title = (TextView) findViewById(R.id.projectinfo2_title);
-        ProjectInfo2_commentnumber = (Button) findViewById(R.id.projectinfo2_commentnumber);
+        ProjectInfo2_commentnumber = (TextView) findViewById(R.id.projectinfo2_commentnumber);
         ProjectInfo2_content = (TextView) findViewById(R.id.projectinfo2_content);
+        ProjectInfo2_content.setMovementMethod(ScrollingMovementMethod.getInstance());
         ProjectInfo2_resisttime = (TextView) findViewById(R.id.projectinfo2_resisttime);
         ProjectInfo2_resistername = (TextView) findViewById(R.id.projectinfo2_resistername);
         ProjectInfo2_like = (Button) findViewById(R.id.projectinfo2_like);
@@ -174,8 +176,8 @@ public class ProjectInfo2 extends AppCompatActivity {
                 ProjectInfo2_content.setText(listProjectInfo2DB[4]); // 설명 (상세 내용)
                 ProjectInfo2_resisttime.setText(listProjectInfo2DB[5]); // 등록시간
                 ProjectInfo2_resistername.setText(listProjectInfo2DB[0]); // 등록한 사람 (제작자)
-                ProjectInfo2_likenumber.setText(listProjectInfo2DB[7]); // 좋아요 수
-                ProjectInfo2_commentnumber.setText(listProjectInfo2DB[6]); // 코멘트 수 (댓글 수)
+                ProjectInfo2_likenumber.setText("좋아요 : " + listProjectInfo2DB[7]); // 좋아요 수
+                ProjectInfo2_commentnumber.setText("댓글 : " + listProjectInfo2DB[6]); // 코멘트 수 (댓글 수)
 
                 // 추가작업.. 익셉션 처리해 줄것
                 list = createContactsList(listProjectInfo2SEQandURI.length);
@@ -213,7 +215,7 @@ public class ProjectInfo2 extends AppCompatActivity {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.projectinfo2_commentnumber:
+            case R.id.projectinfo2_comment:
                 intent = new Intent(ProjectInfo2.this, Comment.class);
                 intent.putExtra("WHERE","PROJECTINFO2");
                 intent.putExtra("PROJECT_WORK_SEQ" , PROJECT_WORK_SEQ);

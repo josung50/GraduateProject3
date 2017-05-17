@@ -34,4 +34,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
     testCompile 'junit:junit:4.12'
+
+    compile 'gun0912.ted:tedpermission:1.0.2' // 권한 체크 라이브러리
 }

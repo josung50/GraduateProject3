@@ -34,8 +34,8 @@ public class HttptaskADD extends AsyncTask<String, Void, String> {
             // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
             String data = "MENU=JOIN_US";
             data += "&PROJECT_SEQ=" + PROJ_SEQ;
-            data += "&MEMBER_SEQ=" + preferences.getString("MEMBER_SEQ", "");
-            data += "&e-mail=" + NewMemeberID;
+            data += "&MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
+            data += "&ID=" + NewMemeberID;
 
             URL url = new URL(urlPath);
             URLConnection conn = url.openConnection();
@@ -45,6 +45,7 @@ public class HttptaskADD extends AsyncTask<String, Void, String> {
             //추가 할 내용 - 서버 on/off 검사
 
             // 문자열 전송
+            Log.i("datavalueJOIN" , "value : " + data);
             wr.write(data);
             wr.flush();
 
@@ -81,13 +82,13 @@ public class HttptaskADD extends AsyncTask<String, Void, String> {
     //ui는 여기서 변경
     protected void onPostExecute(String value){
         super.onPostExecute(value);
+        Log.i("resultvalue" , "value : " + result);
         if(result.equals("Y")) {
             Toast.makeText(ManagementContext, "멤버추가 완료", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(ManagementContext, "존재하지 않는 아이디입니다.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override

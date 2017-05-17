@@ -119,7 +119,7 @@ public class Management extends AppCompatActivity {
                     for (int i = 1; i < listDB.length; i++) {
                         temp = split(listDB[i] , "a!PJP"); // 순서대로 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 자기소개 내용 , 분야 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수 , SEQ&URI::(uriset)
                                                             //          0                  1                   2                      3               4           5             6       7               8
-                        // 각 속성의 split 값은 a!PJP
+                                                            // 각 속성의 split 값은 a!PJP
                     }
                     return sb.toString();
                 }
@@ -188,7 +188,7 @@ public class Management extends AppCompatActivity {
                 alert.setPositiveButton("추가", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new HttptaskADD().execute(PROJ_SEQ,name.toString());
+                        new HttptaskADD().execute(PROJ_SEQ,name.getText().toString());
                         new HttpTask().execute(); // 새로고침 효과
                     }
                 });
@@ -202,6 +202,10 @@ public class Management extends AppCompatActivity {
                 break;
 
             case R.id.management_delete: // 탈퇴
+                if(MASTER_SEQ.equals(preferences.getString("MEMBERSEQ",""))) {
+                    Toast.makeText(ManagementContext, "프로젝트 장은 탈퇴가 불가능 합니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
                 alert2.setTitle("정말 탈퇴 하시겠습니까?");
                 alert2.setPositiveButton("예", new DialogInterface.OnClickListener() {

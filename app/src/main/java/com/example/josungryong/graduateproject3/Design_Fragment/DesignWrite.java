@@ -1,5 +1,6 @@
 package com.example.josungryong.graduateproject3.Design_Fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.R;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ public class DesignWrite extends Activity {
     public static RecyclerView recyclerView;
     public static DesignWriteViewAdapter adapterCardview;
     public static StaggeredGridLayoutManager linearLayoutManager;
-    public static ArrayList<ItemDataDesignWrite> list = new ArrayList<>(); // 리사이클 ( 카드 뷰 ) 를 위한 list
+    public static ArrayList<ItemDataDesignWrite> list = new ArrayList<>(); // 리사이클 ( 카드 뷰 ) 를 위한 list 여기서는 앨범의 uri를 받아온다.
 
     public static ImageView mainimage; // 선택된 사진을 보여주는 큰 이미지 뷰
     public static ClipData clipData; // 여러장 선택시 uri값을 가지고 있는 변수
@@ -42,6 +45,25 @@ public class DesignWrite extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designwrite);
+
+        /* 퍼미션 체크 */
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(DesignWrite.this, "권한 허가", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(DesignWrite.this, "권한 거부\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("저장장치에 접근하기 위한 권한이 필요합니다.")
+                .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
 
         mainimage = (ImageView) findViewById(R.id.designwrite_selectBigimage);
 

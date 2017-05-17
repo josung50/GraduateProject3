@@ -21,7 +21,7 @@
         <TextView
             android:text="새 게시물"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6"
+            android:id="@+id/designwrite2_back"
             android:elevation="0dp"
             android:layout_gravity="center"
             android:layout_weight="60"
@@ -33,13 +33,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/designwrite2_send"
             android:layout_gravity="right"
             android:layout_weight="20"
             android:gravity="right"
-            android:background="@android:drawable/ic_menu_send" />
+            android:background="@android:drawable/ic_menu_send"
+            android:onClick="onClick"/>
 
     </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/designwrite2_title"
+        android:layout_height="wrap_content"
+        android:hint="디자인 타이틀을 입력하세요." />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -57,17 +64,23 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/designwrite2_edittext"
+            android:id="@+id/designwrite2_content"
             android:hint="설명추가..."
             android:textSize="10dp"/>
     </LinearLayout>
 
-    <EditText
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/textView"
-        android:layout_marginBottom="10dp"
-        android:hint="태그" />
+        android:id="@+id/recyclerViewDesignWrite2_tag"/>
+
+    <Button
+        android:text="태그 추가"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/designwrite2_addtag"
+        android:onClick="onClick"/>
 
     <android.support.v7.widget.RecyclerView
         android:background="@drawable/layout_border_all"

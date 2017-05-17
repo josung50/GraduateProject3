@@ -32,7 +32,7 @@ public class HttptaskOUT extends AsyncTask<String, Void, String> {
             // 내가 보낼 데이터 (쿼리, CODE는 전역변수, switch 에서 정해준다.)
             String data = "MENU=RETIRE";
             data += "&PROJECT_SEQ=" + PROJ_SEQ;
-            data += "&MEMBER_SEQ=" + preferences.getString("MEMBER_SEQ", "");
+            data += "&MEMBER_SEQ=" + preferences.getString("MEMBERSEQ", "");
 
             URL url = new URL(urlPath);
             URLConnection conn = url.openConnection();

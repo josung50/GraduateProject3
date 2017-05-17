@@ -147,7 +147,7 @@ public class DesignerFragment extends Fragment {
                 }
 
                 CheckNull = sb.toString();
-                Log.d("testquerydesigner", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+                Log.d("testquerydesigner", "test:" + sb.toString());
 
                 if(sb.toString() != "") {
                     listDB = sb.toString().split("<br>");

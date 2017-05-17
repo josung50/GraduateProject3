@@ -98,16 +98,19 @@ public class DesignInfo extends AppCompatActivity {
         DesignInfo_title = (TextView) findViewById(R.id.designinfo_title);
         DesignInfo_view = (TextView) findViewById(R.id.designinfo_view);
         DesignInfo_content = (TextView) findViewById(R.id.designinfo_content);
+        DesignInfo_content.setMovementMethod(ScrollingMovementMethod.getInstance()); // 스크롤 가능하게
         DesignInfo_resisttime = (TextView) findViewById(R.id.designinfo_resisttime);
         DesignInfo_tag = (TextView) findViewById(R.id.designinfo_tag);
         DesignInfo_resistername = (TextView) findViewById(R.id.designinfo_resistername);
         DesignInfo_likenumber = (TextView) findViewById(R.id.designinfo_likenumber);
         DesignInfo_commentnumber = (TextView) findViewById(R.id.designinfo_commentnumber);
-        DesignInfo_like = (ImageView) findViewById(R.id.like_designinfo);
+        DesignInfo_like = (ImageView) findViewById(R.id.designinfo_like);
+
         Log.i("likevalue" , "value : " + LIKE_CHECKED);
         if(LIKE_CHECKED.equals("\\(CHECKED\\)")) {
             DesignInfo_like.setImageResource(R.drawable.like_after);
         }
+
     }
 
     // PHP 디자인에 해당하는 파일 불러오는 통신 class
@@ -200,7 +203,7 @@ public class DesignInfo extends AppCompatActivity {
                 DesignInfo_resisttime.setText(listDesignInfoDB[5]);
                 DesignInfo_tag.setText(listDesignInfoDB[6]);
                 DesignInfo_resistername.setText(listDesignInfoDB[8]);
-                DesignInfo_likenumber.setText(listDesignInfoDB[9]);
+                DesignInfo_likenumber.setText("좋아요 : " + listDesignInfoDB[9]);
                 DesignInfo_commentnumber.setText("댓글 : " + listDesignInfoDB[10] + "개");
                 // commit
 
@@ -240,7 +243,7 @@ public class DesignInfo extends AppCompatActivity {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.designinfo_commentnumber:
+            case R.id.designinfo_comment:
                 Intent intent;
                 intent = new Intent(DesignInfo.this, Comment.class);
                 intent.putExtra("WHERE","DESIGNINFO");
@@ -248,7 +251,7 @@ public class DesignInfo extends AppCompatActivity {
                 //Log.i("extravalue" , "value : " + putextra_commentnumber + putextra_likenumber);
                 startActivity(intent);
                 break;
-            case R.id.like_designinfo:
+            case R.id.designinfo_like:
                 new LikeHttp().execute("DESIGN",DESIGN_WORK_SEQ,LIKE_CHECKED);
                 if(LIKE_CHECKED.equals("\\(CHECKED\\)")) {
                     DesignInfo_like.setImageResource(R.drawable.like_before);
