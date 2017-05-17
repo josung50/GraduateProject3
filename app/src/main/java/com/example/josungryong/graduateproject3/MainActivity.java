@@ -1,5 +1,7 @@
 package com.example.josungryong.graduateproject3;
 
+import android.Manifest;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,10 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
@@ -35,12 +40,16 @@ import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragme
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
 import com.example.josungryong.graduateproject3.Mypage.Mypage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
+import com.example.josungryong.graduateproject3.Search.Search_main;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.ramotion.foldingcell.FoldingCell;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static com.example.josungryong.graduateproject3.Login.preferences;
 
@@ -73,21 +82,28 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        //Intent intent = new Intent(MainActivity.this, TestServer.class);
-        //startActivity(intent);
-
-        /*
-        final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
-
-        fc.setOnClickListener(new View.OnClickListener() {
+        /* 권한 설정 */
+        PermissionListener permissionlistener = new PermissionListener() {
             @Override
-            public void onClick(View v) {
-                fc.toggle(false);
+            public void onPermissionGranted() {
+                Toast.makeText(MainActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
             }
-        });
-        */
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(MainActivity.this, "권한 거부\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("저장장치에 접근하기 위한 권한이 필요합니다.")
+                .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
+
 
         // 탭 버튼 //
         ProjectButton = (Button) findViewById(R.id.ProjectButton);
@@ -151,6 +167,33 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        /* 검색 */
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        // 검색 버튼을 가져온다.
+        MenuItem searchButton = menu.findItem(R.id.action_search);
+        // 검색버튼을 클릭했을 때 SearchView를 가져온다.
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchButton);
+        // 검색 힌트를 설정한다.
+        searchView.setQueryHint("검색어를 입력하세요");
+        // SearchView를 검색 가능한 위젝으로 설정한다.
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override // 완료 버튼 눌렀을 때 쿼리를 넘긴다.
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(MainActivity.this, Search_main.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.putExtra("QUERY", IsTag(query));
+                startActivity(intent);
+                return false;
+            }
+
+            @Override // 텍스트 추천 리스트를 띄워준다.
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
         nickname = (TextView) findViewById(R.id.nickname);
         selfinfo = (TextView) findViewById(R.id.selfinfo);
         imgurl = (ImageView) findViewById(R.id.profileimage);
@@ -174,11 +217,13 @@ public class MainActivity extends AppCompatActivity
         switch(id) {
             case R.id.design_write_nav:
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                //alert.setView(name);
                 alert.setTitle("어디서 디자인을 가져올까?");
                 alert.setPositiveButton("카메라", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(), DesignWrite.class);
+                        intent.putExtra("CAMERAORIMG","1");
+                        startActivity(intent);
                     }
                 });
                 alert.setNeutralButton("취소", new DialogInterface.OnClickListener() {
@@ -191,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getApplicationContext(), DesignWrite.class);
+                        intent.putExtra("CAMERAORIMG","2");
                         startActivity(intent);
                     }
                 });
@@ -203,7 +249,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
         if (id == R.id.nav_logout) {
             preferences = getSharedPreferences("login_prefs", MODE_PRIVATE);
@@ -338,5 +384,18 @@ public class MainActivity extends AppCompatActivity
             Log.e("이미지","커밋성공");
             if(connection!=null)connection.disconnect();
         }//
+    }
+
+    public String IsTag(String query) {
+        String[] DeleteSpace = query.split(" "); // 단어 하나만을 인식 (띄어쓰기 기준)
+        String realQuery = DeleteSpace[0]; // 검색어로 사용할 진짜 쿼리
+        /* #이 포함 되면 태그로 인식 */
+        if(realQuery.charAt(0) == '#') { //tag 검색인 경우 (# 포함)
+            return realQuery;
+        }
+
+        else { // tag 검색이 아닌 경우 (# 미포함)
+            return realQuery;
+        }
     }
 }

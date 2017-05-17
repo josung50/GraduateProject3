@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.R;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,13 +38,14 @@ public class DesignWrite extends Activity {
 
     // constant (앨범 불러오는 코드)
     final int PICTURE_REQUEST_CODE = 100;
+    final int CAMERA_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designwrite);
 
-        /* 퍼미션 체크 */
+        /* 퍼미션 체크
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -64,14 +63,26 @@ public class DesignWrite extends Activity {
                 .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있습니다.")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .check();
+                */
 
         mainimage = (ImageView) findViewById(R.id.designwrite_selectBigimage);
 
-        Toast.makeText(this, "포토의 경우 여러 사진을 등록합니다.", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICTURE_REQUEST_CODE);
+        Toast.makeText(this, "포토 혹은 사진의 경우 여러 사진을 등록합니다.", Toast.LENGTH_SHORT).show();
+
+        Intent intent3 = getIntent();
+
+        if(intent3.getStringExtra("CAMERAORIMG").equals("1")) {
+            /* 카메라 호출 */
+            Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent2, CAMERA_REQUEST_CODE);
+        }
+        else if(intent3.getStringExtra("CAMERAORIMG").equals("2")) {
+            /* 앨범 호출 */
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICTURE_REQUEST_CODE);
+        }
 
         // 이미지 출력
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDesignWrite);
@@ -90,7 +101,10 @@ public class DesignWrite extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICTURE_REQUEST_CODE) {
+        if( resultCode == RESULT_CANCELED) { // 취소
+            return; }
+
+        if (requestCode == PICTURE_REQUEST_CODE || requestCode == CAMERA_REQUEST_CODE) {
             //ClipData 또는 Uri를 가져온다
             if( data.getData() == null ) {
                 return;

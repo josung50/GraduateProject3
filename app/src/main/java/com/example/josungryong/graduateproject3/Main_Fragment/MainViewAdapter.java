@@ -107,7 +107,7 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
 
         HttpURLConnection connection = null;
         String imageURL;
-        imageURL = "http://113.198.210.237:80/"+imagePath;
+        imageURL = "http://58.142.149.131:80/"+imagePath;
         Log.e("이미지", imageURL);
         try {
             URL url = new URL(imageURL);
