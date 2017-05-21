@@ -40,6 +40,7 @@ import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragme
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
 import com.example.josungryong.graduateproject3.Mypage.Mypage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
+import com.example.josungryong.graduateproject3.Project_Fragment.ProjectWrite;
 import com.example.josungryong.graduateproject3.Search.Search_main;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity
         fr = new MainFragment();
         selectFragment(fr);
 
-        toolbar.setLogo(R.drawable.iroman1);
+        toolbar.setLogo(R.drawable.logo2);
         setSupportActionBar(toolbar); // 액션바 대신 툴바 적용
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity
         selfinfo.setText(preferences.getString("SELFINFO",""));
         Main_profileimg = getPic(preferences.getString("IMGURL",""));
         imgurl.setImageBitmap(Main_profileimg);
-        Log.i("URLINFO" , "Value : " + "http://113.198.210.237:80/" + preferences.getString("IMGURL",""));
+        //Log.i("URLINFO" , "Value : " + "http://113.198.210.237:80/" + preferences.getString("IMGURL",""));
 
         return true;
     }
@@ -242,6 +243,11 @@ public class MainActivity extends AppCompatActivity
                 });
                 alert.show();
                 return true;
+
+            case R.id.project_write_nav:
+                Intent intent = new Intent(getApplicationContext(), ProjectWrite.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -363,7 +369,7 @@ public class MainActivity extends AppCompatActivity
 
         HttpURLConnection connection = null;
         String imageURL;
-        imageURL = "http://113.198.210.237:80/"+imagePath;
+        imageURL = "http://58.142.149.131/"+imagePath;
         Log.e("이미지", imageURL);
         try {
             URL url = new URL(imageURL);

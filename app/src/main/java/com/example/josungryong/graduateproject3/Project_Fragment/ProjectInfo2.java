@@ -122,7 +122,7 @@ public class ProjectInfo2 extends AppCompatActivity {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
-                Log.i("testvalue" ,"value : " + sb.toString());
+                Log.i("testvalueprojectinfo2" ,"value : " + sb.toString());
                 CheckNull = sb.toString();
 
                 if (sb.toString() != "") {
@@ -162,6 +162,7 @@ public class ProjectInfo2 extends AppCompatActivity {
             //   0       1        2         3               4       5           6           7               8                                       9
             if(listProjectInfo2DB.length < 9) { // SEQ & URI 가 비었을 때를 체크
                 ProjectInfo2_title.setText(listProjectInfo2DB[1]); // 제목
+                listProjectInfo2DB[4] = listProjectInfo2DB[4].replace("ReAdLiNe","\n");
                 ProjectInfo2_content.setText(listProjectInfo2DB[4]); // 설명 (상세 내용)
                 ProjectInfo2_resisttime.setText(listProjectInfo2DB[5]); // 등록시간
                 ProjectInfo2_resistername.setText(listProjectInfo2DB[0]); // 등록한 사람 (제작자)
@@ -173,6 +174,7 @@ public class ProjectInfo2 extends AppCompatActivity {
             }
             else {
                 ProjectInfo2_title.setText(listProjectInfo2DB[1]); // 제목
+                listProjectInfo2DB[4] = listProjectInfo2DB[4].replace("ReAdLiNe","\n");
                 ProjectInfo2_content.setText(listProjectInfo2DB[4]); // 설명 (상세 내용)
                 ProjectInfo2_resisttime.setText(listProjectInfo2DB[5]); // 등록시간
                 ProjectInfo2_resistername.setText(listProjectInfo2DB[0]); // 등록한 사람 (제작자)

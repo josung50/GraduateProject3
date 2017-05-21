@@ -56,7 +56,7 @@ public class LikeHttp extends AsyncTask<String, String, String> {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
-                Log.i("testvalue", "value : " + sb.toString());
+                Log.i("testvaluelike", "value : " + sb.toString());
                 CheckNull = sb.toString();
 
                 if (sb.toString() != "") {

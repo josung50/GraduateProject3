@@ -56,7 +56,7 @@ public class ProjectInfo2ViewAdapter extends RecyclerView.Adapter<ProjectInfo2Vi
         holder.SEQ=list.get(itemposition).SEQ;
 
         //holder.imageView.setImageBitmap(getPic(holder.URI));
-        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).fit().into(holder.imageView);
     }
 
     // 몇개의 데이터를 리스트로 뿌려줘야하는지 반드시 정의해줘야한다

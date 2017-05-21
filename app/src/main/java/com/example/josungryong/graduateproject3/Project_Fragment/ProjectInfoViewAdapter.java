@@ -63,7 +63,7 @@ public class ProjectInfoViewAdapter extends RecyclerView.Adapter<ProjectInfoView
         holder.URI=list.get(itemposition).URI;
 
         //holder.imageView.setImageBitmap(getPic(holder.URI));
-        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).fit().into(holder.imageView);
 
         holder.projectinfoseq=list.get(itemposition).projectinfoseq;
         holder.workseq=list.get(itemposition).workseq;

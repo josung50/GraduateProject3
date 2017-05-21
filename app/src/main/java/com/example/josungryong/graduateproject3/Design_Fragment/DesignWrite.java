@@ -19,7 +19,10 @@ import android.widget.Toast;
 import com.example.josungryong.graduateproject3.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by josungryong on 2017-03-22.
@@ -27,10 +30,12 @@ import java.util.ArrayList;
 
 public class DesignWrite extends Activity {
 
+    public static Activity designwrite;
     public static RecyclerView recyclerView;
     public static DesignWriteViewAdapter adapterCardview;
     public static StaggeredGridLayoutManager linearLayoutManager;
     public static ArrayList<ItemDataDesignWrite> list = new ArrayList<>(); // 리사이클 ( 카드 뷰 ) 를 위한 list 여기서는 앨범의 uri를 받아온다.
+    public static ArrayList<String> Time_FileName = new ArrayList<>(); // 시간 + 파일 이미지
 
     public static ImageView mainimage; // 선택된 사진을 보여주는 큰 이미지 뷰
     public static ClipData clipData; // 여러장 선택시 uri값을 가지고 있는 변수
@@ -44,7 +49,7 @@ public class DesignWrite extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designwrite);
-
+        designwrite = this;
         /* 퍼미션 체크
         PermissionListener permissionlistener = new PermissionListener() {
             @Override

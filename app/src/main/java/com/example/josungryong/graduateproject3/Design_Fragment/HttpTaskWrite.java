@@ -13,8 +13,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import static com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite.Time_FileName;
 import static com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite.list;
 import static com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite2.Write2Context;
 import static com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite2.list_Tag;
@@ -25,10 +28,11 @@ import static com.example.josungryong.graduateproject3.Login.preferences;
  */
 
 public class HttpTaskWrite extends AsyncTask<String, Void, String> {
-    /* Bitmap bitmap , String image는 전역변수 */
+
     protected String doInBackground(String... params) {
         String TITLE = params[0];
         String CONTENTS = params[1];
+        String IMAGE_LIST = params[2];
         String MEMBER_SEQ = preferences.getString("MEMBERSEQ","");
         ArrayList<ItemDataTag> Tag = list_Tag; // 태그
         ArrayList<ItemDataDesignWrite> UriSet = list; // 이미지 URI들
@@ -43,12 +47,7 @@ public class HttpTaskWrite extends AsyncTask<String, Void, String> {
             String data = "TITLE=" + TITLE;
             data += "&CONTENTS=" + CONTENTS;
             data += "&MEMBER_SEQ=" + MEMBER_SEQ;
-            data += "&IMAGE_LIST=";
-            for(int i=0; i<list.size(); i++) { // 이미지 이름을 넣는다.
-                FilePath = ImageUtill.getRealPathFromURI(Write2Context, Uri.parse(list.get(i).URI));
-                FileName = ImageUtill.uploadFileName(FilePath);
-                data += "^" + FileName;
-            }
+            data += "&IMAGE_LIST=" + IMAGE_LIST;
             data += "&TAGS=";
             for(int i=0; i<Tag.size(); i++) {
                 data += "#"+Tag.get(i).text;

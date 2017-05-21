@@ -94,6 +94,9 @@ public class ProjectInfo extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* 초기화 */
+        listSubjectDB = null;
+
         // 프로젝트 SEQ를 받아온다.
         Intent intent = getIntent();
         MASTER_SEQ = intent.getStringExtra("MASTER_SEQ");
@@ -162,6 +165,12 @@ public class ProjectInfo extends AppCompatActivity {
         recyclerView.setAdapter(adapterCardview);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new HttpTaskSubjectShow().execute(); // Http 내부 변수에는 Subjecttemp[0]이 할당. ( 주제에 해당하는 seq를 보낸다. )
+    }
+
     public void onClickFab(View v) {
         switch (v.getId()) {
             case R.id.fab1: // fab 추가 보여주기
@@ -173,9 +182,11 @@ public class ProjectInfo extends AppCompatActivity {
                     alertBuilder.setTitle("주제 삭제");
                     // List Adapter 생성
                     final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice);
-                    for (int i = 1; i < listSubjectDB.length; i++) {
-                        Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
-                        adapter.add(Subjecttemp[1]);
+                    if(listSubjectDB != null) {
+                        for (int i = 1; i < listSubjectDB.length; i++) {
+                            Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
+                            adapter.add(Subjecttemp[1]);
+                        }
                     }
                     alertBuilder.setPositiveButton("선택", new DialogInterface.OnClickListener() {
                         @Override
@@ -227,9 +238,11 @@ public class ProjectInfo extends AppCompatActivity {
                     alertBuilder.setTitle("주제 수정");
                     // List Adapter 생성
                     final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice);
-                    for (int i = 1; i < listSubjectDB.length; i++) {
-                        Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
-                        adapter.add(Subjecttemp[1]);
+                    if(listSubjectDB != null) {
+                        for (int i = 1; i < listSubjectDB.length; i++) {
+                            Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
+                            adapter.add(Subjecttemp[1]);
+                        }
                     }
                     alertBuilder.setPositiveButton("선택", new DialogInterface.OnClickListener() {
                         @Override
@@ -320,6 +333,24 @@ public class ProjectInfo extends AppCompatActivity {
                 else {
                     Toast.makeText(getApplicationContext(),"프로젝트 멤버가 아닙니다." , Toast.LENGTH_LONG).show();
                 }
+        }
+    }
+
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.ADD_projectinfo:
+                if(SUBJ_SEQ != null) {
+                    Intent intent = new Intent(ProjectInfo.this, ProjectWrite2.class);
+                    intent.putExtra("PROJ_SEQ", PROJ_SEQ);
+                    intent.putExtra("MASTER_SEQ", MASTER_SEQ);
+                    intent.putExtra("SUBJ_SEQ", SUBJ_SEQ);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(this, "주제를 먼저 생성해 주세요.", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
@@ -422,6 +453,7 @@ public class ProjectInfo extends AppCompatActivity {
                 //추가 할 내용 - 서버 on/off 검사
 
                 // 문자열 전송
+                Log.i("senddatasubject" , "value : " + data);
                 wr.write(data);
                 wr.flush();
 
@@ -436,7 +468,7 @@ public class ProjectInfo extends AppCompatActivity {
                 }
 
                 CheckNull = sb.toString();
-
+                Log.i("projectsubjectshow", "value : " + sb.toString());
                 if (sb.toString() != "") {
                     listSubjectDB = sb.toString().split("<br>");
                     return sb.toString();
@@ -452,20 +484,20 @@ public class ProjectInfo extends AppCompatActivity {
             //오류시 null 반환
             return null;
         }
-
         //asyonTask 3번째 인자와 일치 매개변수값 -> doInBackground 리턴값이 전달됨
         //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
         //ui는 여기서 변경
         protected void onPostExecute(String value) { // 스피너 불러오기
             ProjectSpinner = (Spinner) findViewById(R.id.ProjectSpinner);
             Subjectadapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, SpinnerList);
-            for (int i = 1; i < listSubjectDB.length; i++) {
-                Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
-                Subjectadapter.add(Subjecttemp[1]);
+            if(listSubjectDB != null  ) {
+                for (int i = 1; i < listSubjectDB.length; i++) {
+                    Subjecttemp = split(listSubjectDB[i]); // seq / 주제 <BR>
+                    Subjectadapter.add(Subjecttemp[1]);
+                }
+                ProjectSpinner.setAdapter(Subjectadapter);
+                //PROJ_SEQ = null;
             }
-            ProjectSpinner.setAdapter(Subjectadapter);
-            //PROJ_SEQ = null;
-
             super.onPostExecute(value);
         }
 

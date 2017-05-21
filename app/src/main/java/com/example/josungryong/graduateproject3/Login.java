@@ -130,7 +130,7 @@ public class Login extends AppCompatActivity {
                 // 문자열 전송
                 wr.write(data);
                 wr.flush();
-
+                Log.i("datavalue", " value:" + data);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
                 StringBuilder sb = new StringBuilder();

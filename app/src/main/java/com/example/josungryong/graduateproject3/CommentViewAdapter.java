@@ -63,7 +63,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         holder.resisttime.setText(list.get(itemposition).resisttime); // 댓글 등록 시간
         //holder.imageView.setImageBitmap(getPic(holder.URI)); // 이미지 붙이기
 
-        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).into(holder.imageView);
 
         // 댓글 작성자 이면 삭제버튼 보이기
         if(preferences.getString("MEMBERSEQ","").equals(holder.resisterseq)) {

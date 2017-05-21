@@ -122,9 +122,8 @@ public class ProjectFragment extends Fragment {
 
                     if(sb.toString() != "") {
                         listDB = sb.toString().split("<br>");
-                        Log.d("listDBmypage" , "listDB:"+listDB);
-
                         for (int i = 1; i < listDB.length; i++) {
+                            Log.d("listDBmypage" , "listDB :"+ listDB[i]);
                             temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ / 그룹 멤버 전원 SEQ<br>
                                                     //          0         1                     2        3          4       5                   6                   7
                         }
@@ -168,6 +167,7 @@ public class ProjectFragment extends Fragment {
                     while((line = reader.readLine()) != null) {
                         sb.append(line);
                     }
+                    Log.i("mainprojectvale" , "value : " + sb.toString());
 
                     CheckNull = sb.toString();
 
@@ -176,6 +176,7 @@ public class ProjectFragment extends Fragment {
                         //Log.d("listDB??" , "listDB:"+listDB);
 
                         for (int i = 1; i < listDB.length; i++) {
+                            Log.i("mainprojectvalue" , "value : " + listDB[i]);
                             temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 생성자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버수 / 파일수 / 프로젝트 고유 SEQ / 그룹 멤버 전원 SEQ<br>
                                                     //          0         1                     2                   3          4       5                   6            7
                         }
@@ -236,7 +237,7 @@ public class ProjectFragment extends Fragment {
     public ArrayList<ItemDataProject> createContactsList(int numContacts) {
         ArrayList<ItemDataProject> contacts = new ArrayList<ItemDataProject>();
         for (int i = 1; i < numContacts; i++) {
-            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버 수 // 파일 수 / 고유 seq  / 멤버들의 전원 SEQ<BR>
+            temp = split(listDB[i]); // 프로젝트 이름 / 프로젝트 제작자 / 프로젝트 생성자 seq / 썸네일경로 / 멤버 수 / 파일 수 / 고유 seq  / 멤버들의 전원 SEQ<BR>
                                     //     0                    1           2                   3           4               5          6            7
             contacts.add(new ItemDataProject(temp[0], temp[1] , temp[2], temp[3], temp[4] , temp[5] , temp[6] , temp[7]));
             Log.i("projectinfovalue" , "value : " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4] + " " + temp[5] + " " + temp[6] + " " + temp[7]);

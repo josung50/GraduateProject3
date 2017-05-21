@@ -75,7 +75,7 @@ public class DesignViewAdapter extends RecyclerView.Adapter<DesignViewAdapter.Ho
         holder.likechecked = list.get(itemposition).likecheck;
 
         //holder.imageView.setImageBitmap(getPic(holder.URI));
-        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).fit().into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).fit().into(holder.imageView);
 
         if(list.get(itemposition).likecheck.equals("\\(CHECKED\\)")){
             holder.like.setImageResource(R.drawable.like_after); }

@@ -70,7 +70,8 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
         holder.viewText.setText(list.get(itemposition).view); // 조회수
 
         //holder.imageView.setImageBitmap(getPic(holder.URI)); // 섬네일 셋팅
-        Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+        //Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).into(holder.imageView);
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
@@ -98,35 +99,5 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
             resisterText = (TextView) view.findViewById(R.id.resisterater_main_cardview);
             viewText = (TextView) view.findViewById(R.id.view_main_cardview);
         }
-    }
-
-    // URL을 통해 이미지를 서버로 부터 불러온다. //
-    public Bitmap getPic(String imagePath) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        HttpURLConnection connection = null;
-        String imageURL;
-        imageURL = "http://58.142.149.131:80/"+imagePath;
-        Log.e("이미지", imageURL);
-        try {
-            URL url = new URL(imageURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-
-            BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-            Bitmap myBitmap = BitmapFactory.decodeStream(bis);
-
-            Log.e("이미지", "성공" + myBitmap);
-            return myBitmap;
-        } catch (IOException e) {
-            Log.e("이미지" , "실패");
-            e.printStackTrace();
-            return null;
-        }finally{
-            Log.e("이미지","커밋성공");
-            if(connection!=null)connection.disconnect();
-        }//
     }
 }
