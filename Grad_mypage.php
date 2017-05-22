@@ -5,7 +5,6 @@
  * Date: 2017-05-03
  * Time: 오후 2:28
  */
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -25,9 +24,9 @@ $_MEMBER_SEQ = "NULL";
 $_MEMBER_SEQ = urldecode($_POST["MEMBER_SEQ"]);
 //변수 새로 할당
 $_LOGIN_MEMBER_SEQ = $_MEMBER_SEQ;
+
 //좋아하는 디자인인지 확인
 $_LIKE_CHECK = "UNCHECKED";
-
 if($_MENU == "uploadDesign") {
     #내가 등록한 디자인 ( 최근 순 )
     # a!PJP로 구분 ( contents 때문 )
@@ -103,41 +102,44 @@ else if($_MENU == "myProject") {
     #순서대로 -> 프로젝트 seq, 프로젝트 이름,프로젝트 생성자 닉네임, 프로젝트 썸네일이미지, 프로젝트 등록 시간, 프로젝트 파일 갯수, 프로젝트 참여 중인 멤버 수
     #프로젝트 이름 # 프로젝트 생성자 # 썸네일 경로 # 멤버수 # 파일수 # 프로젝트 고유 seq # 프로젝트 멤버 전원 seq
     $project_with_user_query = mysqli_query($link, "select * from(
-select * from (select distinct t_project.project_name,t_project.file_url as thumb_uri,t_member.uname, t_project.seq as projectSeq, t_project.register_time
-from t_project,t_project_member,t_member
-where t_member.seq=t_project.owner_seq
-and t_project.del_flag = 'N'
-and t_project.progress_status='P') t1,
-(select t_project_subject.project_seq, count(*) as 'file_count' from t_project_work, t_project_subject
-where t_project_work.project_subject_seq = t_project_subject.seq
-and t_project_work.del_flag = 'N'
-group by t_project_subject.project_seq)t2,
-(select t_project.seq, count(t_project_member.member_seq) as 'mem_count'
-from t_project, t_project_member
-where t_project.seq = t_project_member.project_seq
-group by t_project.seq)t3
-where t2.project_seq = t1.projectSeq
-and t1.projectSeq = t3.seq
-order by t1.projectSeq asc) projectCardInfo,
+select tt1.pproject_seq, tt1.project_name, tt1.thumb_uri, tt1.uname,
+tt1.owner_seq, tt1.register_time, ifnull(tt1.file_count,0) as file_count, ifnull(t3.mem_count, 0) as mem_count from
+	(select * from
+		(select distinct t_project.seq as pproject_seq, t_project.project_name,t_project.file_url as thumb_uri,t_member.uname, t_project.owner_seq, t_project.register_time
+		from t_project,t_project_member,t_member
+		where t_member.seq=t_project.owner_seq
+		and t_project.del_flag = 'N'
+		and t_project.progress_status='P') t1 left outer join
+		(select t_project_subject.project_seq, ifnull(count(*),0) as 'file_count' from t_project_work, t_project_subject
+		where t_project_work.project_subject_seq = t_project_subject.seq
+		and t_project_work.del_flag = 'N'
+		group by t_project_subject.project_seq)t2
+	on t1.pproject_seq = t2.project_seq)tt1 left outer join
+	(select t_project.seq as project_seq, ifnull(count(t_project_member.member_seq),0) as 'mem_count'
+	from t_project, t_project_member
+	where t_project.seq = t_project_member.project_seq
+	group by t_project.seq)t3
+    on tt1.pproject_seq = t3.project_seq
+order by tt1.pproject_seq desc) projectCardInfo,
 (select t_project.seq from t_project_member, t_project
 where t_project_member.project_seq = t_project.seq
 and t_project_member.member_seq = $_MEMBER_SEQ) projectWithUser
-where projectCardInfo.projectSeq = projectWithUser.seq");
+where projectCardInfo.pproject_seq = projectWithUser.seq");
     while($project_row = mysqli_fetch_array($project_with_user_query)){
         echo"<br>";
         echo"$project_row[project_name]#";
         echo"$project_row[uname]#";
+        echo"$project_row[owner_seq]#";
         echo"$project_row[thumb_uri]#";
         echo"$project_row[mem_count]#";
         echo"$project_row[file_count]#";
-        echo"$project_row[projectSeq]#";
-        $member_seq_finding_query = mysqli_query($link, "select member_seq from t_project_member where t_project_member.project_seq = $project_row[projectSeq]");
+        echo"$project_row[pproject_seq]#";
+        $member_seq_finding_query = mysqli_query($link, "select member_seq from t_project_member where t_project_member.project_seq = $project_row[pproject_seq]");
         while($member_finding_row = mysqli_fetch_array($member_seq_finding_query)){
             echo "M$member_finding_row[member_seq]";
         }
     }
 }
-
 /*else if($_MENU == "myGroup") {
     #내가 속한 그룹
     #그룹 이름때문에 a!PJP로 구분
@@ -151,7 +153,6 @@ from(select g.group_name, g.seq
     from t_pgroup g_member
     where g_member.member_seq = $_MEMBER_SEQ
     group by g_member.seq) groupMemberCount on groupInfo.seq = groupMemberCount.seq
-
 ");
     while($group_row = mysqli_fetch_array($group_with_user_query)){
         echo"<br>";

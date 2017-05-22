@@ -13,11 +13,13 @@ if (!$link) {
 $_LOGIN_MEMBER_SEQ = "NULL";
 $_LOGIN_MEMBER_SEQ = urldecode($_POST['MEMBER_SEQ']);
 $_LIKE_CHECK = "UNCHECKED";
+
 $item_count = 0;
-    $query = mysqli_query($link,"select distinct t_design_work.contents,t_design_work.view_cnt,t_design_work.title,t_design_work.thumb_uri,t_design_work.register_time,t_member.uname
+    $query = mysqli_query($link,"select distinct t_design_work.seq, t_design_work.contents,t_design_work.view_cnt,t_design_work.title,t_design_work.thumb_uri,t_design_work.register_time,t_member.uname
  from t_design_work,t_member
  where t_design_work.member_seq=t_member.seq and t_design_work.del_flag='N' ORDER BY register_time DESC;");
     while($row = mysqli_fetch_array($query)) {
+        $_LIKE_CHECK = "UNCHECKED";
         echo "<br>";
         echo "$row[title]#";
         echo "$row[view_cnt]#";

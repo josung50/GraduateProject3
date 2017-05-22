@@ -51,8 +51,8 @@ while($row = mysqli_fetch_array($query))
     echo "$row[category_name]a!PJP";
     echo "$row[comments]a!PJP";
     echo "$row[U_count]a!PJP";
-    echo "$row[Received_like]a!PJP";
     echo "$row[View_count]a!PJP";
+    echo "$row[Received_like]a!PJP";
     $inner_query = mysqli_query($link, "select t_design_work.seq, t_design_work.title, t_design_work.thumb_uri
     from t_design_work where t_design_work.member_seq = $row[seq]");
     while($inner_row = mysqli_fetch_array($inner_query)){
