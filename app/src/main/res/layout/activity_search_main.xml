@@ -23,22 +23,7 @@
             android:layout_weight="3"
             android:gravity="center"
             android:onClick="onClick"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/search_project_tab"
-            android:text="프로젝트"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:onClick="onClick"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/search_designer_tab"
-            android:text="디자이너"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:onClick="onClick"/>
+
     </LinearLayout>
 
     <RelativeLayout

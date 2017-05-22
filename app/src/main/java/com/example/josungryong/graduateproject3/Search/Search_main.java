@@ -22,13 +22,13 @@ import com.example.josungryong.graduateproject3.Search.Project_Search_Fragment.S
 
 public class Search_main extends AppCompatActivity{
 
-    private String query;
+    public static String query;
     private Intent intent;
 
     /* 탭 버튼 */
     private TextView design;
-    private TextView project;
-    private TextView designer;
+    //private TextView project;
+    //private TextView designer;
     private TextView result;
 
     /* 프레그먼트와 이동 애니메이션 */
@@ -42,8 +42,8 @@ public class Search_main extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_main);
         design = (TextView) findViewById(R.id.search_design_tab);
-        project = (TextView) findViewById(R.id.search_project_tab);
-        designer = (TextView) findViewById(R.id.search_designer_tab);
+        //project = (TextView) findViewById(R.id.search_project_tab);
+        //designer = (TextView) findViewById(R.id.search_designer_tab);
         result = (TextView) findViewById(R.id.search_result);
 
         intent = getIntent();
@@ -54,6 +54,7 @@ public class Search_main extends AppCompatActivity{
         selectFragment(fr);
     }
 
+    /*
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
@@ -80,6 +81,7 @@ public class Search_main extends AppCompatActivity{
                 break;
         }
     }
+    */
 
     // fragment 교체 //
     public void selectFragment(Fragment fr) {
