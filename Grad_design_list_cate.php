@@ -22,6 +22,7 @@ $query = mysqli_query($link,"select distinct t_design_work.title, t_design_work.
       from t_design_work,t_design_work_category,t_member
       where t_design_work.member_seq=t_member.seq and t_design_work.del_flag = 'N' and t_design_work.seq=t_design_work_category.design_work_seq and category_code like \"$_CODE%\" ORDER BY t_design_work.register_time DESC;");
 //echo "$_CODE tester";
+$item_count = 0;
 while($row = mysqli_fetch_array($query))
 {
     $_LIKE_CHECK = "UNCHECKED";
@@ -47,6 +48,11 @@ while($row = mysqli_fetch_array($query))
         }
     }
     echo "\($_LIKE_CHECK\)";
+    $item_count++;
+    if ($item_count == 20)
+    {
+        exit();
+    }
 }
 $_CODE = "NULL";
 ?>

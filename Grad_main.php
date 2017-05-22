@@ -33,11 +33,11 @@ $item_count = 0;
             }
         }
         echo "\($_LIKE_CHECK\)";
-        /*$item_count++;
-        if (item_count == 10)
+        $item_count++;
+        if ($item_count == 20)
         {
             exit();
-        }*/
+        }
     }
 
 ?>
