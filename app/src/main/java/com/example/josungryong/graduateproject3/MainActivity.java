@@ -38,6 +38,7 @@ import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
 import com.example.josungryong.graduateproject3.Design_Fragment.DesignWrite;
 import com.example.josungryong.graduateproject3.Designer_Fragment.DesignerFragment;
 import com.example.josungryong.graduateproject3.Main_Fragment.MainFragment;
+import com.example.josungryong.graduateproject3.Message.Message_Main;
 import com.example.josungryong.graduateproject3.Mypage.Mypage;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectFragment;
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectWrite;
@@ -266,7 +267,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             finish();
             // Handle the camera action
-        } else if (id == R.id.nav_alram) {
+        } else if (id == R.id.nav_alram) { // 메세지
+            Intent intent = new Intent(MainActivity.this, Message_Main.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_mypage) {
             Intent intent = new Intent(MainActivity.this, Mypage.class);

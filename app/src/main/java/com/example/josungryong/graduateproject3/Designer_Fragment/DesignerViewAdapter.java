@@ -69,7 +69,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         Log.i("URIset2", "value : " + holder.URIset + " " + list.get(itemposition).URIset);
 
         /* Folding in (content) */
-        Picasso.with(context).load("http://113.198.210.237:80/"+list.get(itemposition).profileimgURI).fit().into(holder.profileimg_in);
+        Picasso.with(context).load("http://58.142.149.131/"+list.get(itemposition).profileimgURI).fit().into(holder.profileimg_in);
         holder.content_in.setText(list.get(itemposition).content_in);
         holder.field_in.setText((list.get(itemposition).field));
 
