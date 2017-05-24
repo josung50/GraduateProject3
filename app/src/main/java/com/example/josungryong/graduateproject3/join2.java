@@ -1,6 +1,8 @@
 package com.example.josungryong.graduateproject3;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,12 +32,12 @@ import java.net.URLEncoder;
  */
 
 public class join2 extends AppCompatActivity {
-
+    public static Activity join2;
 
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
 
-    private Uri mImageCaptureUri;
+    public static Uri mImageCaptureUri_join;
     private ImageView iv_UserPhoto;
     private int id_view;
     private String absoultePath;
@@ -54,7 +56,7 @@ public class join2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join2);
-
+        join2 = this;
         iv_UserPhoto = (ImageView) this.findViewById(R.id.profile);
 
         nickname= (Button) findViewById(R.id.nickname_confirm);
@@ -96,16 +98,16 @@ public class join2 extends AppCompatActivity {
 
         switch (requestCode) {
             case PICK_FROM_ALBUM: {
-                mImageCaptureUri = data.getData();
-                Log.i("imgvalue" , "value : " + mImageCaptureUri);
-                Picasso.with(this).load(mImageCaptureUri).into(iv_UserPhoto);
-                Log.d("SmartWheel", mImageCaptureUri.getPath().toString());
+                mImageCaptureUri_join = data.getData();
+                Log.i("imgvalue" , "value : " + mImageCaptureUri_join);
+                Picasso.with(this).load(mImageCaptureUri_join).fit().into(iv_UserPhoto);
+                Log.d("SmartWheel", mImageCaptureUri_join.getPath().toString());
                 break;
             }
 
             case PICK_FROM_CAMERA: {
-                mImageCaptureUri = data.getData();
-                Picasso.with(this).load(data.getData()).into(iv_UserPhoto);
+                mImageCaptureUri_join = data.getData();
+                Picasso.with(this).load(data.getData()).fit().into(iv_UserPhoto);
                 break;
             }
         }
@@ -132,8 +134,9 @@ public class join2 extends AppCompatActivity {
             // Intent intent = new Intent(join1.this, join2.class);// 모든 조건이 만족되면 다음 액티비티로 넘어감
             intent.putExtra("name",id); // 아이디(중복체크 다된 아이디)를 다음 액티비티로 넘김.
             intent.putExtra("pw",password);//비번을 다음 액티비티로 넘김
-            Log.i("mimageCaptureUri", "value : " + mImageCaptureUri.toString());
-            intent.putExtra("uri",mImageCaptureUri.toString());
+            intent.putExtra("nickname",user_nickname.getText().toString());
+            Log.i("mImageCaptureUri_join", "value : " + mImageCaptureUri_join.toString());
+            intent.putExtra("uri",mImageCaptureUri_join.toString());
             startActivity(intent);
         }
         else if(!nick_Result.equals("0")){

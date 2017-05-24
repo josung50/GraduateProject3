@@ -87,16 +87,16 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
                         temp2 = split(temp[i], "&"); // seq&title&uri
                         switch (i) {
                             case 0:
-                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload1);
+                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload1);
                                 break;
                             case 1:
-                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload2);
+                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload2);
                                 break;
                             case 2:
-                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload3);
+                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload3);
                                 break;
                             case 3:
-                                Picasso.with(context).load("http://113.198.210.237:80/"+temp2[2]).fit().into(holder.upload4);
+                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload4);
                                 break;
                         }
                     }

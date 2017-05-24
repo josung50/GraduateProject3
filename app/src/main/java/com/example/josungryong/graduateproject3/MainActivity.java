@@ -46,6 +46,7 @@ import com.example.josungryong.graduateproject3.Search.Search_main;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -202,8 +203,9 @@ public class MainActivity extends AppCompatActivity
 
         nickname.setText(preferences.getString("MEMBERNICK",""));
         selfinfo.setText(preferences.getString("SELFINFO",""));
-        Main_profileimg = getPic(preferences.getString("IMGURL",""));
-        imgurl.setImageBitmap(Main_profileimg);
+        Picasso.with(this).load("http://58.142.149.131/"+preferences.getString("IMGURL","")).fit().into(imgurl);
+        //Main_profileimg = getPic();
+        //imgurl.setImageBitmap(Main_profileimg);
         //Log.i("URLINFO" , "Value : " + "http://113.198.210.237:80/" + preferences.getString("IMGURL",""));
 
         return true;

@@ -1,74 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.ramotion.foldingcell.FoldingCell
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/folding_cell_group"
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/profileIMG_group_nested_cardview"
+        android:layout_margin="3dp" />
+
+    <TextView
+        android:text="TextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/color_white">
-        ​
-        ​
-
-        <FrameLayout
-            android:id="@+id/cell_content_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recyclerViewGroup_nested" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/cell_title_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_white"
-            android:layout_margin="3dp"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_height="100dp"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    android:id="@+id/thumbnail_group_cardview"
-                    android:layout_width="100dp"
-                    android:layout_margin="3dp" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/name_group_cardview"
-                        android:layout_margin="3dp" />
-
-                    <TextView
-                        android:text="membercount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/membercount_project_cardview" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </FrameLayout>
-        ​
-    </com.ramotion.foldingcell.FoldingCell>
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/name_group_nested_cardview"
+        android:layout_margin="3dp" />
+</LinearLayout>

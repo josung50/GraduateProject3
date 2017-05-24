@@ -46,16 +46,16 @@ public class MessageInViewAdapter extends RecyclerView.Adapter<MessageInViewAdap
 
         // 메세지를 보낸 쪽(왼쪽에 위치)
         if(holder.type.equals("S")) {
-            holder.content_left.setText(list.get(itemposition).content);
-            holder.content_left.setVisibility(View.VISIBLE);
-            holder.time_left.setText(list.get(itemposition).time);
-            holder.time_left.setVisibility(View.VISIBLE);
-        }
-        else {
             holder.content_right.setText(list.get(itemposition).content);
             holder.content_right.setVisibility(View.VISIBLE);
             holder.time_right.setText(list.get(itemposition).time);
             holder.time_right.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.content_left.setText(list.get(itemposition).content);
+            holder.content_left.setVisibility(View.VISIBLE);
+            holder.time_left.setText(list.get(itemposition).time);
+            holder.time_left.setVisibility(View.VISIBLE);
         }
     }
 

@@ -323,6 +323,10 @@ public class ProjectInfo extends AppCompatActivity {
                 }
                 break;
             case R.id.fab5: // 멤버 관리
+                if(SUBJ_SEQ == null) {
+                    Toast.makeText(this, "주제를 먼저 생성해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(CheckMemberOfProject(Member_Seq_Group)) {
                     Intent intent = new Intent(ProjectInfo.this, Management.class);
                     intent.putExtra("PROJ_SEQ", PROJ_SEQ);

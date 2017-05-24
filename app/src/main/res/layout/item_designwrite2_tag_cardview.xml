@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/designwrite2_tag_delete_cardview"
         android:layout_marginLeft="2dp"
-        android:background="@android:drawable/ic_delete"
+        android:background="@drawable/delete"
         android:layout_width="15dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/designwrite2_tag_text_cardview" />

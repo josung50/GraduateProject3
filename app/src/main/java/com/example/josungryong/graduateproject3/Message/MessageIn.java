@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.josungryong.graduateproject3.R;
@@ -33,15 +35,20 @@ public class MessageIn extends AppCompatActivity {
     private String who;
     private String who_seq;
     private TextView who_textview;
+    private EditText message;
+    private TextView send;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messagein);
+
         intent = getIntent();
         who = intent.getStringExtra("WHO");
         who_seq = intent.getStringExtra("WHO_SEQ");
         MessageIn = this;
 
+        message = (EditText) findViewById(R.id.message_messagein);
+        send = (TextView) findViewById(R.id.send_messagein);
         who_textview = (TextView) findViewById(R.id.who_messagein);
         who_textview.setText(who + " 님과 주고 받은 메세지 입니다.");
 
@@ -53,5 +60,15 @@ public class MessageIn extends AppCompatActivity {
         recyclerView_messagein.setAdapter(adapter_messagein);
 
         new HttpTaskMessageInShow().execute(who_seq);
+    }
+
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.send_messagein:
+                new HttpTaskMessageSend().execute(who_seq, message.getText().toString());
+                new HttpTaskMessageInShow().execute(who_seq);
+                break;
+        }
     }
 }

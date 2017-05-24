@@ -41,10 +41,13 @@ public class join4 extends AppCompatActivity {
     }
 
     public void ToMain(View v){
-
-
-        Intent intent = new Intent(join4.this,MainActivity.class);//메인화면으로 이동
+        join1.join1.finish();
+        join2.join2.finish();
+        join3.join3.finish();
+        Intent intent = new Intent(join4.this,Login.class);//메인화면으로 이동
+        Toast.makeText(this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
         startActivity(intent);
+        finish();
 
     }
 }

@@ -5,30 +5,32 @@
     android:background="@color/background"
     android:orientation="vertical"
     android:weightSum="1">
-
-    <TextView
-        android:id="@+id/projectinfo2_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_weight="0.58"
-        android:text="제목"
-        android:textAlignment="center"
-        android:textColor="@color/color_orange"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/projectinfo2_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="0.58"
+            android:text="제목"
+            android:textAlignment="center"
+            android:textColor="@color/color_orange"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/projectinfo2_resistername"
             android:layout_width="0dp"
             android:layout_height="24dp"
-            android:layout_weight="146.42"
             android:layout_marginLeft="15dp"
+            android:layout_weight="146.42"
             android:text="제작자"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -37,8 +39,8 @@
             android:id="@+id/projectinfo2_resisttime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="61.73"
             android:layout_gravity="right"
+            android:layout_weight="61.73"
             android:text="등록시간"
             android:textSize="13dp"
             android:textStyle="italic" />
@@ -47,7 +49,17 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewProjectInfo2"
         android:layout_width="match_parent"
-        android:layout_height="436dp" />
+        android:layout_height="409dp" />
+
+    <TextView
+        android:id="@+id/projectinfo2_content"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:scrollbars="vertical"
+        android:maxHeight="40dp"
+        android:layout_marginTop="10dp"
+        android:text="상세 내용"
+        android:textSize="15dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,8 +119,6 @@
             android:background="#00ff0000"
             android:text="comment"
             android:textSize="12dp"/>
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -117,11 +127,5 @@
         android:background="@color/color_white">
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/projectinfo2_content"
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:layout_marginTop="10dp"
-        android:text="상세 내용"
-        android:textSize="15dp" />
+
 </LinearLayout>

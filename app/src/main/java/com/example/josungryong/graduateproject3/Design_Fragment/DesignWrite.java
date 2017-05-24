@@ -130,10 +130,10 @@ public class DesignWrite extends Activity {
             }
 
             if(clipData != null) {
-                Picasso.with(this).load(list.get(0).URI).into(mainimage); // 기본 mainimage view 셋팅
+                Picasso.with(this).load(list.get(0).URI).fit().into(mainimage); // 기본 mainimage view 셋팅
             }
             else {
-                Picasso.with(this).load(uri.toString()).into(mainimage); // 기본 mainimage view 셋팅
+                Picasso.with(this).load(uri.toString()).fit().into(mainimage); // 기본 mainimage view 셋팅
             }
 
             Log.i("listsize","value:" + list.size());
