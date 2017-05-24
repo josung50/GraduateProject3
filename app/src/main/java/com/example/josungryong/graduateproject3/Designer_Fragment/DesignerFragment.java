@@ -56,8 +56,10 @@ public class DesignerFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = (ViewGroup)inflater.inflate(R.layout.fragment_designer, container, false);
 
-        //CODE="CODE=";
-        //new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        DesignerSpinner.setSelection(0);
+        CODE="CODE=";
+        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewDesigner);
         recyclerView.setHasFixedSize(true);
         adapter = new DesignerViewAdapter(getActivity(), list);

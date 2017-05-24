@@ -2,6 +2,7 @@ package com.example.josungryong.graduateproject3;
 
 import android.Manifest;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,6 +60,9 @@ import static com.example.josungryong.graduateproject3.Login.preferences;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static int CHECK;
+    public static Context MainActivity;
+
     public static Bitmap Main_profileimg;
     private Button ProjectButton; private Button DesignButton; private Button DesignerButton;
 
@@ -85,6 +89,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MainActivity = this;
+        CHECK = 0;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -248,8 +254,14 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.project_write_nav:
-                Intent intent = new Intent(getApplicationContext(), ProjectWrite.class);
-                startActivity(intent);
+                new HttpTaskCheckProjectWrite().execute();
+                if(CHECK == 1) {
+                    Intent intent = new Intent(getApplicationContext() , ProjectWrite.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(this, "디자인을 먼저 등록해주세요.", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -276,13 +288,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_mypage) {
             Intent intent = new Intent(MainActivity.this, Mypage.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_group) {
-
-        } else if (id == R.id.nav_likedesign) {
-
-        } else if (id == R.id.nav_correct) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

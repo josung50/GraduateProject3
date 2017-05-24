@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -61,8 +62,8 @@ public class DesignWrite2 extends Activity {
 
     private ImageView profileimg;
 
-    public String FilePath; // 이미지 절대경로(총 경로)
-    public String FileName; // 절대경로에서 파일명만 스플릿(이미지 이름)
+    private String FilePath; // 이미지 절대경로(총 경로)
+    private String FileName; // 절대경로에서 파일명만 스플릿(이미지 이름)
 
     /* 이미지 통신에 필요한 변수 */
     int serverResponseCode = 0; // 서버 상태 반환 (이미지 통신)
@@ -77,12 +78,15 @@ public class DesignWrite2 extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_designwrite2);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         Write2Context = getApplicationContext();
 
         title = (EditText) findViewById(R.id.designwrite2_title);
         content = (EditText) findViewById(R.id.designwrite2_content);
         profileimg = (ImageView) findViewById(R.id.designwrite2_profileimg);
-        profileimg.setImageBitmap(Main_profileimg);
+        //profileimg.setImageBitmap(Main_profileimg);
+        Picasso.with(this).load("http://58.142.149.131/"+preferences.getString("IMGURL","")).fit().into(profileimg);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDesignWrite2);
         recyclerView.setHasFixedSize(true);
@@ -126,16 +130,17 @@ public class DesignWrite2 extends Activity {
                     Log.i("urilistvalue" , "value : " + FilePath);
                     Log.i("urilistvalue2" , "value : " + FileName);
                     String Time_FileName_temp = CurrentTime() + FileName;
+                    //new HttpTaskImageWrite().execute(FilePath, Time_FileName_temp);
                     uploadFile(FilePath , Time_FileName_temp);
                     IMAGE_LIST += "^" + Time_FileName_temp;
                 }
                 new HttpTaskWrite().execute(title.getText().toString() , content.getText().toString() , IMAGE_LIST);
-
                 Toast.makeText(this, "게시물 작성 완료.", Toast.LENGTH_LONG).show();
                 designwrite.finish();
                 finish();
                 break;
             case R.id.designwrite2_back:
+                finish();
                 break;
             case R.id.designwrite2_addtag: // 태그 추가
                 final EditText name = new EditText(this);
@@ -165,7 +170,7 @@ public class DesignWrite2 extends Activity {
 
     /* 서버로 이미지 파일을 보내는 함수 */
     public int uploadFile(String sourceFileUri , String Time_FileName_temp) {
-        String upLoadServerUri = "http://58.142.149.131/grad/imgUpload.php";
+        String upLoadServerUri = "http://58.142.149.131:80/grad/imgUpload.php";
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;

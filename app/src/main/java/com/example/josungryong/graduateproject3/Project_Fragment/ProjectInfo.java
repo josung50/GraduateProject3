@@ -323,7 +323,7 @@ public class ProjectInfo extends AppCompatActivity {
                 }
                 break;
             case R.id.fab5: // 멤버 관리
-                if(SUBJ_SEQ == null) {
+                if(SubjectTitle.getText().toString().equals("주제를 등록해주세요.")) {
                     Toast.makeText(this, "주제를 먼저 생성해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }

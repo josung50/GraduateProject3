@@ -66,9 +66,8 @@
 
         <activity android:name=".Project_Fragment.MemeberManagement.Management"></activity>
         <activity android:name=".Message.Message_Main"></activity>
-        <activity android:name=".Message.MessageIn"
-            android:windowSoftInputMode="adjustResize"
-            ></activity>
+        <activity android:name=".Message.MessageIn"></activity>
+        <activity android:name=".Designer_Fragment.DesignerIn"></activity>
 
 
         <!--회원가입-->

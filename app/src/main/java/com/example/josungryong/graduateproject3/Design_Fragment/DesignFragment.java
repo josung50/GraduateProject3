@@ -60,6 +60,7 @@ public class DesignFragment extends Fragment {
     private ViewGroup rootView;
 
     public String where; // mypage에서 온 fragment인지 , 메인의 tab에서 온 fragment인지 판단.
+    public String DESIGNER_SEQ; // 디자이너의 업로드 내역을 보여주기 위함.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +68,9 @@ public class DesignFragment extends Fragment {
         /* 마이페이지 , 메인액티비티 중 어느 곳에서 호출 되었는지 를 표기 */
         if(getArguments() != null) {
             where = getArguments().getString("WHERE");
+            if(where.equals("DesignerIn")) {
+                DESIGNER_SEQ = getArguments().getString("DESIGNER_SEQ");
+            }
             new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
         else {
@@ -251,6 +255,63 @@ public class DesignFragment extends Fragment {
                         for (int i = 1; i < listDB.length; i++) {
                             temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 / 좋아요 유무 <br>
                                                     //          0         1             2        3           4           5              6
+                            Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
+                        }
+                        return sb.toString();
+                    }
+                    else {
+                        return null;
+                    }
+
+                }catch(UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                //오류시 null 반환
+                return null;
+            }
+
+            else if(where.equals("DesignerIn")) { // fragment가 mypage의 "내가 최근에 등록한 디자인"에서 호출 됨 - seq를 전송해야 한다.
+                try{
+                    String urlPath = "http://58.142.149.131/grad/Grad_mypage.php";
+                    Log.i("urlPat" , "value:" + urlPath);
+
+                    String data ="MENU=uploadDesign";
+                    data += "&MEMBER_SEQ=" + DESIGNER_SEQ;
+
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    //추가 할 내용 - 서버 on/off 검사
+
+                    // 문자열 전송
+                    Log.i("mypage_upload_data" , "value : " + data);
+                    wr.write(data);
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String CheckNull = "0";
+                    String line = null;
+
+                    while((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+
+                    CheckNull = sb.toString();
+                    Log.d("mypage_upload", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 / 좋아요 유무 <br>
+
+                    if(sb.toString() != "") {
+                        listDB = sb.toString().split("<br>");
+                        //Log.d("listDB??" , "listDB:"+listDB);
+
+                        for (int i = 1; i < listDB.length; i++) {
+                            temp = split(listDB[i]); // 제작자 seq / 디자인카드 SEQ / 제목 / 조회수 / 썸네일경로 / 제작자 ,등록자 / 좋아요 유무 <br>
+                            //          0         1             2        3           4           5              6
                             Log.i("ListTemp" , "value: " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3] + " " + temp[4]);
                         }
                         return sb.toString();

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -61,6 +62,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         holder.resisterseq = list.get(itemposition).resisterseq; // 등록자 seq
         holder.commentseq = list.get(itemposition).commentseq; // 댓글 seq
         holder.resisttime.setText(list.get(itemposition).resisttime); // 댓글 등록 시간
+        holder.where_seq=list.get(itemposition).where_seq; // 어디서 왔는지, 그에 대한 seq (프로젝트_seq ~~ ,, 디자인_seq~~)
         //holder.imageView.setImageBitmap(getPic(holder.URI)); // 이미지 붙이기
 
         Picasso.with(context).load("http://58.142.149.131/"+holder.URI).into(holder.imageView);
@@ -69,7 +71,13 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         if(preferences.getString("MEMBERSEQ","").equals(holder.resisterseq)) {
             holder.deleteButton.setVisibility(View.VISIBLE);
         }
-
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("valuecommentview" , "value : " + holder.where_seq + " " + holder.commentseq);
+                new HttpTaskCommentDelete().execute(holder.where_seq , holder.commentseq);
+            }
+        });
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +108,7 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
         ImageView imageView;
         public String URI;
         public Button deleteButton;
+        public String where_seq;
 
         public Holder(View view){
             super(view);
@@ -110,35 +119,5 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
             imageView = (ImageView) view.findViewById(R.id.comment_profileimg);
             deleteButton = (Button) view.findViewById(R.id.comment_delete);
         }
-    }
-
-    // URL을 통해 이미지를 서버로 부터 불러온다. //
-    public Bitmap getPic(String imagePath) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        HttpURLConnection connection = null;
-        String imageURL;
-        imageURL = "http://113.198.210.237:80/"+imagePath;
-        Log.e("이미지", imageURL);
-        try {
-            URL url = new URL(imageURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-
-            BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-            Bitmap myBitmap = BitmapFactory.decodeStream(bis);
-
-            Log.e("이미지", "성공" + myBitmap);
-            return myBitmap;
-        } catch (IOException e) {
-            Log.e("이미지" , "실패");
-            e.printStackTrace();
-            return null;
-        }finally{
-            Log.e("이미지","커밋성공");
-            if(connection!=null)connection.disconnect();
-        }//
     }
 }

@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.R;
 
@@ -66,8 +67,13 @@ public class MessageIn extends AppCompatActivity {
         int id = v.getId();
         switch (id) {
             case R.id.send_messagein:
+                if(message.getText().toString().equals("")) {
+                    Toast.makeText(MessageIn, "내용이 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 new HttpTaskMessageSend().execute(who_seq, message.getText().toString());
                 new HttpTaskMessageInShow().execute(who_seq);
+                message.setText("");
                 break;
         }
     }

@@ -92,7 +92,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="28dp"
                     android:onClick="ToMain"
-                    android:text="메인페이지로 이동" />
+                    android:text="로그인 화면으로 이동" />
             </RelativeLayout>
 
         </LinearLayout>

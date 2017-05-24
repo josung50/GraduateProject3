@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="100">
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/who_messagein" />
+        android:layout_height="match_parent"
+        android:id="@+id/who_messagein"
+        android:layout_weight="88"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recyclerViewMessageIn"
         android:layout_margin="2dp"
-        android:layout_height="450dp" />
+        android:layout_height="match_parent"
+        android:layout_weight="12"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10">
+        android:weightSum="10"
+        android:layout_weight="10">
 
         <EditText
-            android:text="전송"
             android:layout_height="wrap_content"
             android:id="@+id/message_messagein"
             android:layout_weight="8"
-            android:layout_width="wrap_content" />
+            android:layout_width="wrap_content"
+            android:windowSoftInputMode="adjustResize"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -14,14 +14,16 @@ public class ItemDataComment {
     public String commentseq; // 댓글 seq
     public String resisttime;
     public String URI;
+    public String where_seq; // PROJECT_SEQ=14 .. DESIGN_SEQ=15 등..
 
     // 화면에 표시될 문자열 초기화
-    public ItemDataComment(String commentseq , String resisterseq , String resister , String uri , String content , String resisttime) {
+    public ItemDataComment(String commentseq , String resisterseq , String resister , String uri , String content , String resisttime , String where_seq) {
         this.commentseq = commentseq;
         this.resisterseq = resisterseq;
         this.URI = uri;
         this.content = content;
         this.resisttime = resisttime;
         this.resister = resister;
+        this.where_seq = where_seq;
     }
 }

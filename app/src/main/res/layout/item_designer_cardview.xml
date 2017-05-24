@@ -284,7 +284,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/contactme3"
-                            android:id="@+id/imageView11"
+                            android:id="@+id/contactcme_designer_cardview_in"
                             android:layout_margin="5dp" />
 
                     </LinearLayout>

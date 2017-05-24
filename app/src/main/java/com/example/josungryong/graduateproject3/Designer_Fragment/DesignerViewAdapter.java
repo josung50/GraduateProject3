@@ -1,20 +1,27 @@
 package com.example.josungryong.graduateproject3.Designer_Fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static  com.example.josungryong.graduateproject3.MainActivity.MainActivity;
+import com.example.josungryong.graduateproject3.Design_Fragment.DesignFragment;
+import com.example.josungryong.graduateproject3.MainActivity;
 import com.example.josungryong.graduateproject3.R;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
@@ -104,6 +111,39 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
                 holder.fc.toggle(false);
             }
         });
+
+        holder.contactme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText name = new EditText(MainActivity);
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity);
+                alert.setView(name);
+                alert.setTitle("메세지를 입력하세요.");
+                alert.setPositiveButton("전송", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new HttpTaskSendMessage().execute(holder.designerseq , name.getText().toString());
+                    }
+                });
+
+                alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss(); // 닫기
+                    }
+                });
+                alert.show();
+            }
+        });
+
+        holder.arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DesignerIn.class);
+                intent.putExtra("DESIGNER_SEQ", holder.designerseq);
+                context.startActivity(intent);
+            }
+        });
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }
 
@@ -136,7 +176,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         public ImageView upload3;
         public ImageView upload4;
         public ImageView arrow;
-
+        public ImageView contactme;
         ImageView imageView;
 
         public Holder(View view){
@@ -159,6 +199,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
             upload3 = (ImageView) view.findViewById(R.id.upload3_designer_cardview_in);
             upload4 = (ImageView) view.findViewById(R.id.upload4_designer_cardview_in);
             arrow = (ImageView) view.findViewById(R.id.arrow_designer_cardview_in);
+            contactme = (ImageView) view.findViewById(R.id.contactcme_designer_cardview_in);
         }
     }
 

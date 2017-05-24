@@ -48,7 +48,7 @@ public class Search_main extends AppCompatActivity{
 
         intent = getIntent();
         query = intent.getStringExtra("QUERY");
-        result.setText(query + "에 대한 검색결과 입니다.");
+        result.setText("'" + query + "' 에 대한 검색결과 입니다.");
 
         fr = new SDesignFragment();
         selectFragment(fr);
