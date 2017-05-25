@@ -118,6 +118,22 @@ public class DesignerFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView.removeAllViews();
+        CODE="";
+        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        list.clear();
+        adapter.notifyDataSetChanged();
+        recyclerView.removeAllViews();
+    }
+
     // PHP 검색 쿼리 보내는 class
     public class HttpTask extends AsyncTask<String,Void,String> {
         protected String doInBackground(String... params) {
@@ -158,6 +174,7 @@ public class DesignerFragment extends Fragment {
                     //Log.d("listDB??" , "listDB:"+listDB);
 
                     for (int i = 1; i < listDB.length; i++) {
+                        Log.i("designervalue" , "value : " + listDB[i]);
                         temp = split(listDB[i] , "a!PJP"); // 순서대로 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 자기소개 내용 , 분야 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수 , SEQ&URI::(uriset)
                                                              //          0                  1                   2                      3               4           5             6       7               8
                                                             // 각 속성의 split 값은 a!PJP
@@ -190,7 +207,6 @@ public class DesignerFragment extends Fragment {
             linearLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(adapter);
-
             CODE = null;
             super.onPostExecute(value);
         }
@@ -213,8 +229,13 @@ public class DesignerFragment extends Fragment {
         for (int i = 1; i < numContacts; i++) {
             temp = split(listDB[i] , "a!PJP"); // 순서대로 디자이너 seq , 디자이너 이름 , 디자이너 프로필사진 uri , 자기소개 내용 , 분야 , 올린 게시물 갯수 , 조회수 , 받은 좋아요 수 , SEQ&URI::(uriset)
                                                 //          0                   1               2                       3               4           5               6       7               8
-            Log.i("testquerydesigner2" , "value : " + temp[8]);
-            contacts.add(new ItemDataDesigner(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6],temp[7],temp[8]));
+            if(temp.length <9) { // 업로드 게시물이 없는 경우
+                contacts.add(new ItemDataDesigner(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7], "NOTUPLOAD"));
+            }
+
+            else { // 업로드 게시물이 존재하는 경우
+                contacts.add(new ItemDataDesigner(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7], temp[8]));
+            }
         }
         return contacts;
     }

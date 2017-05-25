@@ -778,6 +778,7 @@ public class ProjectInfo extends AppCompatActivity {
                 CheckNull = sb.toString();
 
                 listSubjectInfoDB = null;
+
                 if (sb.toString() != "") {
                     listSubjectInfoDB = sb.toString().split("<br>");
                     return sb.toString();
@@ -806,7 +807,7 @@ public class ProjectInfo extends AppCompatActivity {
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(adapterCardview);
             }
-            else { // 주제에 해당하는 내용이 없으면 빈 화면 보여준다.
+            else if(listSubjectInfoDB == null) { // 주제에 해당하는 내용이 없으면 빈 화면 보여준다.
                 Toast.makeText(getApplicationContext(),"해당 주제에 내용이 없습니다.",Toast.LENGTH_SHORT).show();
                 adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
                 linearLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);

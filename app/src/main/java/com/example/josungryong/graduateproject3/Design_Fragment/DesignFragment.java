@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 import static com.example.josungryong.graduateproject3.Login.preferences;
 import static com.example.josungryong.graduateproject3.MainActivity.DesignSpinner;
+import static com.example.josungryong.graduateproject3.MainActivity.MainActivity;
 
 
 /**
@@ -61,6 +62,25 @@ public class DesignFragment extends Fragment {
 
     public String where; // mypage에서 온 fragment인지 , 메인의 tab에서 온 fragment인지 판단.
     public String DESIGNER_SEQ; // 디자이너의 업로드 내역을 보여주기 위함.
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        /* 마이페이지 , 메인액티비티 중 어느 곳에서 호출 되었는지 를 표기 */
+        if(getArguments() != null) {
+            where = getArguments().getString("WHERE");
+            if(where.equals("DesignerIn")) {
+                DESIGNER_SEQ = getArguments().getString("DESIGNER_SEQ");
+            }
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        else {
+            where = "";
+            DesignSpinner.setSelection(0);
+            CODE="CODE=";
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,13 +158,10 @@ public class DesignFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
+        recyclerView.removeAllViews();
+        clear();
     }
 
     // PHP 검색 쿼리 보내는 class
@@ -197,6 +214,7 @@ public class DesignFragment extends Fragment {
                         return sb.toString();
                     }
                     else {
+                        listDB = null;
                         return null;
                     }
 
@@ -254,6 +272,7 @@ public class DesignFragment extends Fragment {
                         return sb.toString();
                     }
                     else {
+                        listDB = null;
                         return null;
                     }
 
@@ -385,16 +404,21 @@ public class DesignFragment extends Fragment {
         //ui는 여기서 변경
         protected void onPostExecute(String value){
 
+            if(listDB == null) {
+                Toast.makeText(MainActivity, "디자인이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
             // 추가작업.. 익셉션 처리해 줄것
-            Log.i("ListDB.length.Design", "value:" + listDB.length);
-            //list = createContactsList(10);
-            list = createContactsList(listDB.length);
-            adapter = new DesignViewAdapter(getActivity(), list);
-            linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(adapter);
+            else {
+                Log.i("ListDB.length.Design", "value:" + listDB.length);
+                //list = createContactsList(10);
+                list = createContactsList(listDB.length);
+                adapter = new DesignViewAdapter(getActivity(), list);
+                linearLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapter);
 
-            CODE = null;
+                CODE = null;
+            }
             super.onPostExecute(value);
         }
 
@@ -419,5 +443,10 @@ public class DesignFragment extends Fragment {
             contacts.add(new ItemDataDesign(temp[1],temp[0],temp[2],temp[4],temp[5],temp[3] , temp[6]));
         }
         return contacts;
+    }
+
+    public void clear() {
+        list.clear();
+        adapter.notifyDataSetChanged();
     }
 }

@@ -145,6 +145,11 @@ public class MainActivity extends AppCompatActivity
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProjectButton.setTextSize(15);
+                DesignButton.setVisibility(View.VISIBLE);
+                DesignSpinner.setVisibility(View.INVISIBLE);
+                DesignerButton.setVisibility(View.VISIBLE);
+                DesignerSpinner.setVisibility(View.INVISIBLE);
                 fr = new MainFragment();
                 selectFragment(fr);
             }

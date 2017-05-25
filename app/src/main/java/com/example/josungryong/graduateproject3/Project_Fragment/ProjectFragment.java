@@ -67,6 +67,14 @@ public class ProjectFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        list.clear();
+        adapter.notifyDataSetChanged();
+        recyclerView.removeAllViews();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if(getArguments() != null) {

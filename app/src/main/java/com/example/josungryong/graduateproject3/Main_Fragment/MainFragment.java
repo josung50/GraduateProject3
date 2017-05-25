@@ -176,4 +176,18 @@ public class MainFragment extends Fragment {
         }
         return contacts;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        list.clear();
+        adapter.notifyDataSetChanged();
+        recyclerView.removeAllViews();
+    }
 }

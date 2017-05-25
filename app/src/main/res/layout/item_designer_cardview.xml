@@ -10,9 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/color_white">
+        android:background="@color/color_white"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="2dp">
         ​
         ​
 
@@ -339,15 +340,27 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="267dp"
                         android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/upload"
+                            />
+
                         <TextView
-                            android:text="TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
                             android:id="@+id/uploadCount_designer_cardview"
-                            android:layout_weight="1" />
+                            android:layout_width="71dp"
+                            android:layout_height="wrap_content"
+                            android:text="TextView" />
+
+
+                        <ImageView
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/like"
+                            />
 
                         <TextView
                             android:text="TextView"
@@ -356,6 +369,11 @@
                             android:id="@+id/likeCount_designer_cardview"
                             android:layout_weight="1" />
 
+                        <ImageView
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/view"
+                            />
                         <TextView
                             android:text="TextView"
                             android:layout_width="match_parent"

@@ -85,26 +85,31 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
             @Override
             public void onClick(View v) {
                 String temp2[];
-                String temp[] = split(holder.URIset,"::");
-                for(int i =0; i<temp.length; i++){
-                    Log.i("tempvalue" , "value :" + temp[i]);
-                    if( i >= 4)
-                        break;
-                    else {
-                        temp2 = split(temp[i], "&"); // seq&title&uri
-                        switch (i) {
-                            case 0:
-                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload1);
-                                break;
-                            case 1:
-                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload2);
-                                break;
-                            case 2:
-                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload3);
-                                break;
-                            case 3:
-                                Picasso.with(context).load("http://58.142.149.131/"+temp2[2]).fit().into(holder.upload4);
-                                break;
+                if(holder.URIset.equals("NOTUPLOAD")){
+
+                }
+                else {
+                    String temp[] = split(holder.URIset, "::");
+                    for (int i = 0; i < temp.length; i++) {
+                        Log.i("tempvalue", "value :" + temp[i]);
+                        if (i >= 4)
+                            break;
+                        else {
+                            temp2 = split(temp[i], "&"); // seq&title&uri
+                            switch (i) {
+                                case 0:
+                                    Picasso.with(context).load("http://58.142.149.131/" + temp2[2]).fit().into(holder.upload1);
+                                    break;
+                                case 1:
+                                    Picasso.with(context).load("http://58.142.149.131/" + temp2[2]).fit().into(holder.upload2);
+                                    break;
+                                case 2:
+                                    Picasso.with(context).load("http://58.142.149.131/" + temp2[2]).fit().into(holder.upload3);
+                                    break;
+                                case 3:
+                                    Picasso.with(context).load("http://58.142.149.131/" + temp2[2]).fit().into(holder.upload4);
+                                    break;
+                            }
                         }
                     }
                 }
