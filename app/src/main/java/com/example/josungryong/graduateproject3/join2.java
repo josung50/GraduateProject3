@@ -135,6 +135,10 @@ public class join2 extends AppCompatActivity {
             intent.putExtra("name",id); // 아이디(중복체크 다된 아이디)를 다음 액티비티로 넘김.
             intent.putExtra("pw",password);//비번을 다음 액티비티로 넘김
             intent.putExtra("nickname",user_nickname.getText().toString());
+            if(mImageCaptureUri_join == null) {
+                Toast.makeText(join2, "프로필 이미지를 넣어주세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Log.i("mImageCaptureUri_join", "value : " + mImageCaptureUri_join.toString());
             intent.putExtra("uri",mImageCaptureUri_join.toString());
             startActivity(intent);

@@ -83,17 +83,16 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1"
-        android:layout_marginTop="23dp"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout">
 
         <Button
             android:id="@+id/Join"
             android:layout_width="70dp"
             android:layout_height="100dp"
-            android:layout_marginRight="30dp"
             android:background="@drawable/logi"
-            android:layout_weight="0.18"
+            android:layout_weight="0.2"
             android:onClick="onClick"/>
 
         <Button
@@ -103,7 +102,8 @@
             android:layout_marginLeft="30dp"
             android:background="@drawable/facelog"
             android:onClick="onClick"
-            android:layout_weight="0.09" />
+            android:layout_weight="0.09"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
