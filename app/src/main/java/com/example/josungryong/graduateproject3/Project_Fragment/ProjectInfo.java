@@ -808,7 +808,7 @@ public class ProjectInfo extends AppCompatActivity {
                 recyclerView.setAdapter(adapterCardview);
             }
             else if(listSubjectInfoDB == null) { // 주제에 해당하는 내용이 없으면 빈 화면 보여준다.
-                Toast.makeText(getApplicationContext(),"해당 주제에 내용이 없습니다.",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"해당 주제에 내용이 없습니다.",Toast.LENGTH_SHORT).show();
                 adapterCardview = new ProjectInfoViewAdapter(getApplicationContext(), list);
                 linearLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(linearLayoutManager);

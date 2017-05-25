@@ -71,7 +71,7 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
 
         //holder.imageView.setImageBitmap(getPic(holder.URI)); // 섬네일 셋팅
         //Picasso.with(context).load("http://113.198.210.237:80/"+holder.URI).into(holder.imageView);
-        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).fit().into(holder.imageView);
 
         Log.e("StudyApp", "onBindViewHolder" + itemposition);
     }

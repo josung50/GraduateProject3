@@ -318,6 +318,8 @@ public class DesignFragment extends Fragment {
                     CheckNull = sb.toString();
                     Log.d("mypage_upload", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 / 좋아요 유무 <br>
 
+                    listDB = null;
+
                     if(sb.toString() != "") {
                         listDB = sb.toString().split("<br>");
                         //Log.d("listDB??" , "listDB:"+listDB);

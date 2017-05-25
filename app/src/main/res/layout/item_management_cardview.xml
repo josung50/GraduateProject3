@@ -360,6 +360,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/upload"
+                            android:id="@+id/imageView3" />
+
                         <TextView
                             android:text="TextView"
                             android:layout_width="match_parent"
@@ -367,12 +373,24 @@
                             android:id="@+id/uploadCount_management_cardview"
                             android:layout_weight="1" />
 
+                        <ImageView
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/like"
+                            android:id="@+id/imageView4" />
+
                         <TextView
                             android:text="TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/likeCount_management_cardview"
                             android:layout_weight="1" />
+
+                        <ImageView
+                            android:layout_width="23dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/view"
+                            android:id="@+id/imageView5" />
 
                         <TextView
                             android:text="TextView"

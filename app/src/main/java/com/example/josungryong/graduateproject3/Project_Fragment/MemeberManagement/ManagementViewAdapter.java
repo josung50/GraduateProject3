@@ -54,7 +54,7 @@ public class ManagementViewAdapter extends RecyclerView.Adapter<ManagementViewAd
         int itemposition = position;
         holder.designerseq = list.get(itemposition).designerseq;
         holder.nickName.setText(list.get(itemposition).designerNickName);
-        Picasso.with(context).load("http://113.198.210.237:80/"+list.get(itemposition).profileimgURI).fit().into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+list.get(itemposition).profileimgURI).fit().into(holder.imageView);
         holder.field.setText(list.get(itemposition).field);
         holder.uploadCount.setText(list.get(itemposition).uploadCount);
         holder.viewCount.setText(list.get(itemposition).viewCount);
@@ -63,7 +63,7 @@ public class ManagementViewAdapter extends RecyclerView.Adapter<ManagementViewAd
         Log.i("URIset2", "value : " + holder.URIset + " " + list.get(itemposition).URIset);
 
         /* Folding in (content) */
-        Picasso.with(context).load("http://113.198.210.237:80/"+list.get(itemposition).profileimgURI).fit().into(holder.profileimg_in);
+        Picasso.with(context).load("http://58.142.149.131/"+list.get(itemposition).profileimgURI).fit().into(holder.profileimg_in);
         holder.content_in.setText(list.get(itemposition).content_in);
         holder.field_in.setText((list.get(itemposition).field));
 

@@ -67,6 +67,7 @@ public class DesignerViewAdapter extends RecyclerView.Adapter<DesignerViewAdapte
         int itemposition = position;
         holder.designerseq = list.get(itemposition).designerseq;
         holder.nickName.setText(list.get(itemposition).designerNickName);
+        holder.nickName_in.setText(list.get(itemposition).designerNickName);
         Picasso.with(context).load("http://113.198.210.237:80/"+list.get(itemposition).profileimgURI).fit().into(holder.imageView);
         holder.field.setText(list.get(itemposition).field);
         holder.uploadCount.setText(list.get(itemposition).uploadCount);

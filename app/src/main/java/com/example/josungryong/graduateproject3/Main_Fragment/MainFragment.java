@@ -133,7 +133,7 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getActivity(),"로딩중",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(),"로딩중",Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
 

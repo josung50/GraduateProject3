@@ -63,7 +63,7 @@ public class ProjectViewAdapter extends RecyclerView.Adapter<ProjectViewAdapter.
         holder.filenumberText.setText(list.get(itemposition).filenumber);
         holder.URI=list.get(itemposition).URI;
 
-        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).into(holder.imageView);
+        Picasso.with(context).load("http://58.142.149.131/"+holder.URI).fit().into(holder.imageView);
 
         holder.projectseq=list.get(itemposition).projectseq;
         holder.memberSeqGroup=list.get(itemposition).memberSeqGroup;
