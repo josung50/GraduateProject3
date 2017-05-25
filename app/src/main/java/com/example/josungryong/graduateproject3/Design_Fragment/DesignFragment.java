@@ -140,17 +140,11 @@ public class DesignFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-                /* 마이페이지 , 메인액티비티 중 어느 곳에서 호출 되었는지 를 표기 */
-        if(getArguments() != null) {
-            where = getArguments().getString("WHERE");
-            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-        else {
-            where = "";
-            DesignSpinner.setSelection(0);
-            CODE="CODE=";
-            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     // PHP 검색 쿼리 보내는 class

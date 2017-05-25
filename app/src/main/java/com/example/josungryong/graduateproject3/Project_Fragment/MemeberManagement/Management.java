@@ -110,7 +110,7 @@ public class Management extends AppCompatActivity {
                 }
 
                 CheckNull = sb.toString();
-                Log.d("testquerydesigner", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
+                Log.d("testquerymanagement", "test:" + sb.toString()); // 제목 / 조회수 / 썸네일경로 / 작품설명 / 제작자 넘버 <br>
 
                 if(sb.toString() != "") {
                     listDB = sb.toString().split("<br>");

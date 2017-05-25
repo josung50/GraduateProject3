@@ -3,6 +3,7 @@ package com.example.josungryong.graduateproject3;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.Project_Fragment.ProjectWrite;
 
@@ -16,6 +17,7 @@ import java.net.URLConnection;
 
 import static com.example.josungryong.graduateproject3.Login.preferences;
 import static com.example.josungryong.graduateproject3.MainActivity.CHECK;
+import static com.example.josungryong.graduateproject3.MainActivity.MainActivity;
 
 /**
  * Created by josungryong on 2017-05-25.
@@ -27,7 +29,7 @@ public class HttpTaskCheckProjectWrite extends AsyncTask<String, String, String>
 
             try {
                 String urlPath = "http://58.142.149.131/grad/Grad_project_register_check.php";
-                String data = preferences.getString("MEMBERSEQ","");
+                String data = "MEMBER_SEQ=" + preferences.getString("MEMBERSEQ","");
                 URL url = new URL(urlPath);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -36,6 +38,7 @@ public class HttpTaskCheckProjectWrite extends AsyncTask<String, String, String>
                 //추가 할 내용 - 서버 on/off 검사
 
                 // 문자열 전송
+                Log.i("checkvalue" , "value :" + data);
                 wr.write(data);
                 wr.flush();
 
@@ -74,8 +77,11 @@ public class HttpTaskCheckProjectWrite extends AsyncTask<String, String, String>
         super.onPostExecute(value);
         if(value.equals("CAN")) {
             CHECK = 1;
+            Intent intent = new Intent(MainActivity , ProjectWrite.class);
+            MainActivity.startActivity(intent);
         }
         else {
+            Toast.makeText(MainActivity, "디자인을 먼저 등록해주세요.", Toast.LENGTH_SHORT).show();
             CHECK = 0;
         }
     }

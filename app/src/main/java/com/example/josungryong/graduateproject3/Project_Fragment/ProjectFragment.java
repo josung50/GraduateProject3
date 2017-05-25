@@ -52,6 +52,21 @@ public class ProjectFragment extends Fragment {
     private String where;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView.removeAllViews();
+        if(getArguments() != null) {
+            where = getArguments().getString("WHERE");
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        else {
+            where = "";
+            CODE="CODE=";
+            new HttpTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if(getArguments() != null) {
@@ -72,7 +87,6 @@ public class ProjectFragment extends Fragment {
         linearLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-
         Log.e("Frag", "ProjectFragment:"+recyclerView.getAdapter().getItemCount());
 
         return rootView;
@@ -119,6 +133,7 @@ public class ProjectFragment extends Fragment {
                     }
 
                     CheckNull = sb.toString();
+                    Log.i("sbvalueproject", " value :" + sb.toString());
 
                     if(sb.toString() != "") {
                         listDB = sb.toString().split("<br>");
@@ -130,6 +145,7 @@ public class ProjectFragment extends Fragment {
                         return sb.toString();
                     }
                     else {
+                        listDB = null;
                         return null;
                     }
 
@@ -183,6 +199,7 @@ public class ProjectFragment extends Fragment {
                         return sb.toString();
                     }
                     else {
+                        listDB = null;
                         return null;
                     }
 
@@ -207,7 +224,11 @@ public class ProjectFragment extends Fragment {
         //AsynoTask 는 preExcute - doInBackground - postExecute 순으로 자동으로 실행됩니다.
         //ui는 여기서 변경
         protected void onPostExecute(String value){
-
+            if(listDB == null) {
+                recyclerView.removeAllViews();
+                Toast.makeText(getContext(), "참여하고 있는 프로젝트가 업습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             // 추가작업.. 익셉션 처리해 줄것
             Log.i("ListDB.length.Design", "value:" + listDB.length);
             //list = createContactsList(10);

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.josungryong.graduateproject3.R;
 import com.ramotion.foldingcell.FoldingCell;
@@ -29,6 +30,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import static com.example.josungryong.graduateproject3.MainActivity.DesignerSpinner;
+import static com.example.josungryong.graduateproject3.MainActivity.MainActivity;
 
 
 /**
@@ -36,7 +38,7 @@ import static com.example.josungryong.graduateproject3.MainActivity.DesignerSpin
  */
 public class DesignerFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     private DesignerViewAdapter adapter;
     private StaggeredGridLayoutManager linearLayoutManager;
     private ArrayList<ItemDataDesigner> list = new ArrayList<>();

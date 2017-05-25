@@ -142,6 +142,13 @@ public class MainActivity extends AppCompatActivity
         selectFragment(fr);
 
         toolbar.setLogo(R.drawable.logo2);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fr = new MainFragment();
+                selectFragment(fr);
+            }
+        });
         setSupportActionBar(toolbar); // 액션바 대신 툴바 적용
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -255,13 +262,6 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.project_write_nav:
                 new HttpTaskCheckProjectWrite().execute();
-                if(CHECK == 1) {
-                    Intent intent = new Intent(getApplicationContext() , ProjectWrite.class);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(this, "디자인을 먼저 등록해주세요.", Toast.LENGTH_SHORT).show();
-                }
                 break;
         }
         return super.onOptionsItemSelected(item);
