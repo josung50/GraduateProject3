@@ -63,13 +63,17 @@ switch($_MARK) {
         break;
 
     case "3":
-        $query3 = mysqli_query($link, "select t_category.category_code from where  category_name=\"$_CATE2\"");
+        $query3 = mysqli_query($link, "select t_category.category_code from where category_name=\"$_CATE2\"");
         $row3 = mysqli_fetch_array($query3);
         $query4 = mysqli_query($link, "select seq from t_zip_code where sido=\"$_RESIDENCE\"");
         $row4 = mysqli_fetch_array($query4);
         $NOW_DATE = date("YmdHi");
-        $query5 = mysqli_query($link, " INSERT INTO t_member  (email,passwd,uname,comments,point,sido_seq,register_time,update_time) 
-            VALUES(\"$_JOIN_ID\",\"$_JOIN_PW\",\"$_U_NAME\",\"$_PRESENTATION\",10000,$row4[seq],\"$NOW_DATE\",\"$NOW_DATE\")");
+        if($_URI == NULL){$_URI = "basic.png";}
+        if( $_URI == ''){$_URI = "basic.png";}
+        if($_PRESENTATION == ''){$_URI = "no comments";}
+        if($_PRESENTATION == NULL){$_URI = "no comments";}
+        $query5 = mysqli_query($link, " INSERT INTO t_member(email,passwd,uname,image_url,comments,point,sido_seq,register_time,update_time) 
+            VALUES(\"$_JOIN_ID\",\"$_JOIN_PW\",\"$_U_NAME\",\"/resources/km_upload/user_profile/$_URI\",\"$_PRESENTATION\",10000,$row4[seq],\"$NOW_DATE\",\"$NOW_DATE\")");
         break;
 
 }

@@ -10,36 +10,26 @@ if (!$link) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-$_CODE = "null";
+$_CODE = null;
 $_CODE = urldecode($_POST['CODE']);
+
 //디자이너 고유번호,
-$query = mysqli_query($link,"select mem_deprcali.seq, mem_deprcali.uname, mem_deprcali.image_url, mem_deprcali.category_name, mem_deprcali.comments,
-	mem_deprcali.U_count, mem_deprcali.Received_like, R_viewed.View_count
-from
-	(select * from
-		(select mem_with_Udesign.seq, mem_with_Udesign.uname, mem_with_Udesign.image_url, user_cate.category_name, mem_with_Udesign.comments, mem_with_Udesign.U_count
-		from
-			(select mem.seq, mem.uname, mem.image_url, count(mem.seq) as U_count, mem.comments
-			from t_member mem left outer join t_design_work up_design on mem.seq = up_design.member_seq
-			where up_design.del_flag = 'N'
-			group by mem.seq) mem_with_Udesign,
-			(select t_mc.member_seq, t_mc.category_code, t_c.category_name
-			from t_member_category t_mc, t_category t_c
-			where t_mc.category_code = t_c.category_code
-			and t_mc.category_code like \"$_CODE%\") user_cate
-			where mem_with_Udesign.seq = user_cate.member_seq) mem_deprca left outer join
-			(select td.member_seq, sum(ifnull(tdl.like_count, 0)) as Received_like
-			from t_design_work td left outer join 
-				(select design_work_seq, count(*) as like_count
-				from t_design_work_like
-				group by design_work_seq) tdl on td.seq = tdl.design_work_seq
-			where td.del_flag = 'N'
-			group by member_seq) R_like on R_like.member_seq = mem_deprca.seq) mem_deprcali left outer join
-	(select td.member_seq, sum(td.view_cnt) as View_count
-	from t_design_work td
-	group by td.member_seq) R_viewed on mem_deprcali.seq = R_viewed.member_seq
-	
-");
+$query = mysqli_query($link,"select tinfo.seq, tinfo.uname, tinfo.image_url, tinfo.category_code, tinfo.category_name, tinfo.comments, tuvl.up_count as U_count, tuvl.view_count as View_count, tuvl.like_count as Received_like from 
+(select tm.seq, tm.uname, tm.image_url, ifnull(tcn.category_code, \"008\") as category_code, ifnull(tcn.category_name, \"없음\") as category_name, tm.comments from t_member tm left outer join 
+(select tmc.member_seq, tmc.category_code,ifnull(tc.category_name,\"없음\") as category_name
+from t_member_category tmc left outer join t_category tc on tc.category_code = tmc.category_code) tcn on tcn.member_seq = tm.seq) tinfo, 
+(select tuv.seq, tuv.up_count, tuv.view_count, ifnull(tdlc.like_count, 0) as like_count from
+	(select tdu.seq, tdu.up_count, tv.view_count from 
+		(select t_member.seq, ifnull(up_count,0) as up_count from t_member
+		left outer join (select member_seq, count(seq) as up_count from t_design_work group by member_seq) tdu on t_member.seq = tdu.member_seq) tdu
+	left outer join (select td.seq, sum(ifnull(view_cnt, 0)) as view_count from t_design_work td group by td.seq) tv on tdu.seq = tv.seq) tuv
+left outer join (select td.member_seq, ifnull(sum(tdll.like_count), 0) as like_count
+				from t_design_work td left outer join
+					(select design_work_seq, ifnull(count(tdl.member_seq), 0) as like_count
+					from t_design_work_like tdl
+					group by tdl.design_work_seq) tdll on tdll.design_work_seq = td.seq
+				group by td.member_seq) tdlc on tdlc.member_seq = tuv.seq) tuvl
+where tuvl.seq = tinfo.seq and category_code like \"$_CODE%\"");
 
 //echo "$_CODE tester";
 while($row = mysqli_fetch_array($query))
